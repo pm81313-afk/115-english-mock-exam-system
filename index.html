@@ -1,0 +1,2410 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>115學年度北北基學測聯合模擬考（第3次）｜英文考科互動詳解系統</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+      background-color: #f8fafc;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .word-token {
+      cursor: pointer;
+      border-radius: 3px;
+      transition: background-color 0.15s ease;
+    }
+    .word-token:hover {
+      background-color: #e0e7ff;
+      color: #1e40af;
+    }
+    .evidence-highlight {
+      background-color: #fef08a !important;
+      border-bottom: 2px solid #eab308;
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-weight: 600;
+      color: #713f12;
+      animation: pulse-bg 2s infinite;
+    }
+    @keyframes pulse-bg {
+      0%, 100% { background-color: #fef08a; }
+      50% { background-color: #fde047; }
+    }
+    .user-mark {
+      background-color: #bbf7d0;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      body { background: white; }
+      .split-container { display: block !important; height: auto !important; overflow: visible !important; }
+      .split-pane { width: 100% !important; height: auto !important; overflow: visible !important; border: none !important; }
+    }
+  </style>
+</head>
+<body class="text-slate-800 h-screen flex flex-col overflow-hidden">
+<!-- 頂部導覽列 -->
+<header class="bg-slate-900 text-white shadow-md z-30 no-print flex-shrink-0">
+<div class="max-w-screen-2xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+<!-- 標題與大題切換 -->
+<div class="flex items-center gap-3">
+<div class="bg-indigo-600 p-2 rounded-lg text-white font-bold text-sm flex items-center gap-1.5">
+<i class="fa-solid fa-graduation-cap"></i>
+<span>115北北基模考(三)</span>
+</div>
+<h1 class="font-bold text-base md:text-lg hidden sm:block">英文考科全方位互動詳解</h1>
+</div>
+<!-- 模式切換器 (Mode Switcher) -->
+<div class="flex items-center bg-slate-800 p-1 rounded-lg border border-slate-700 text-xs sm:text-sm">
+<button class="px-3 py-1.5 rounded-md font-medium transition bg-indigo-600 text-white" id="mode-practice" onclick="setMode('practice')">
+<i class="fa-solid fa-bolt mr-1"></i>逐題刷題
+        </button>
+<button class="px-3 py-1.5 rounded-md font-medium transition text-slate-300 hover:text-white" id="mode-exam" onclick="setMode('exam')">
+<i class="fa-solid fa-pen-to-square mr-1"></i>測驗模式
+        </button>
+<button class="px-3 py-1.5 rounded-md font-medium transition text-slate-300 hover:text-white" id="mode-review" onclick="setMode('review')">
+<i class="fa-solid fa-book-open mr-1"></i>純解析模式
+        </button>
+</div>
+<!-- 工具與功能按鈕 -->
+<div class="flex items-center gap-2 text-xs sm:text-sm">
+<button class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 flex items-center gap-1.5 transition" id="btn-highlighter" onclick="toggleHighlighter()" title="選取文字即可劃螢光筆">
+<i class="fa-solid fa-highlighter text-emerald-400"></i>
+<span class="hidden md:inline">螢光筆: 關閉</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 flex items-center gap-1.5 transition" onclick="openModal('bookmarksModal')">
+<i class="fa-solid fa-bookmark"></i>
+<span class="hidden md:inline">錯題與收藏</span>
+<span class="bg-amber-500 text-slate-950 px-1.5 py-0.2 rounded-full text-xs font-bold" id="bookmark-count">0</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-sky-400 flex items-center gap-1.5 transition" onclick="openModal('analyticsModal')">
+<i class="fa-solid fa-chart-pie"></i>
+<span class="hidden md:inline">學習統計</span>
+</button>
+<button class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 flex items-center gap-1.5 transition" onclick="openModal('printModal')">
+<i class="fa-solid fa-print"></i>
+<span class="hidden lg:inline">列印/匯出</span>
+</button>
+</div>
+</div>
+<!-- 第二層：大題導覽與考點篩選 -->
+<div class="bg-slate-800/90 border-t border-slate-700/80 px-4 py-2">
+<div class="max-w-screen-2xl mx-auto flex flex-wrap items-center justify-between gap-2">
+<!-- 大題 Tabs -->
+<div class="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 text-xs sm:text-sm" id="section-tabs">
+<button class="sec-tab px-3 py-1 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-medium whitespace-nowrap" data-sec="all" onclick="selectSection('all')">全部題目 (1-50+非選)</button>
+<button class="sec-tab px-3 py-1 rounded hover:bg-slate-700 text-slate-300 whitespace-nowrap" data-sec="vocab" onclick="selectSection('vocab')">一、詞彙題 (1-10)</button>
+<button class="sec-tab px-3 py-1 rounded hover:bg-slate-700 text-slate-300 whitespace-nowrap" data-sec="cloze" onclick="selectSection('cloze')">二、綜合測驗 (11-20)</button>
+<button class="sec-tab px-3 py-1 rounded hover:bg-slate-700 text-slate-300 whitespace-nowrap" data-sec="fill" onclick="selectSection('fill')">三、文意選填 (21-30)</button>
+<button class="sec-tab px-3 py-1 rounded hover:bg-slate-700 text-slate-300 whitespace-nowrap" data-sec="structure" onclick="selectSection('structure')">四、篇章結構 (31-34)</button>
+<button class="sec-tab px-3 py-1 rounded hover:bg-slate-700 text-slate-300 whitespace-nowrap" data-sec="reading" onclick="selectSection('reading')">五、閱讀測驗 (35-46)</button>
+<button class="sec-tab px-3 py-1 rounded hover:bg-slate-700 text-slate-300 whitespace-nowrap" data-sec="mixed" onclick="selectSection('mixed')">第貳部分、混合題 (47-50)</button>
+<button class="sec-tab px-3 py-1 rounded hover:bg-slate-700 text-slate-300 whitespace-nowrap" data-sec="writing" onclick="selectSection('writing')">第參部分、非選擇題</button>
+</div>
+<!-- 篩選器與測驗交卷 -->
+<div class="flex items-center gap-2 text-xs">
+<select class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-2 py-1" id="filter-difficulty" onchange="applyFilters()">
+<option value="all">所有難度</option>
+<option value="1">★☆☆ 基礎/中偏易</option>
+<option value="2">★★☆ 中等</option>
+<option value="3">★★★ 中偏難/進階</option>
+</select>
+<select class="bg-slate-900 text-slate-200 border border-slate-700 rounded px-2 py-1" id="filter-tag" onchange="applyFilters()">
+<option value="all">所有考點分類</option>
+<option value="名詞辨析">名詞辨析</option>
+<option value="動詞與片語">動詞與片語</option>
+<option value="形容詞與副詞">形容詞與副詞</option>
+<option value="句構與文法">句構與文法</option>
+<option value="語意連貫與轉折">語意連貫與轉折</option>
+<option value="主旨與推論">主旨與推論</option>
+<option value="細節與指代">細節與指代</option>
+</select>
+<button class="hidden bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1 rounded shadow transition" id="submit-exam-btn" onclick="submitExam()">
+<i class="fa-solid fa-check-double mr-1"></i>交卷看成績
+          </button>
+</div>
+</div>
+</div>
+</header>
+<!-- 主體區域：左側題號導覽 + 中間雙欄分割視窗 -->
+<div class="flex-1 flex overflow-hidden">
+<!-- 左側可收合題號快速導覽 (Quiz Navigation Bar) -->
+<aside class="w-64 bg-white border-r border-slate-200 flex flex-col flex-shrink-0 no-print transition-all duration-200" id="quiz-nav-sidebar">
+<div class="p-3 border-b border-slate-100 flex items-center justify-between">
+<span class="font-bold text-xs uppercase tracking-wider text-slate-500">題號快速導覽 (1-50)</span>
+<button class="text-slate-400 hover:text-slate-600 text-xs" onclick="toggleSidebar()">
+<i class="fa-solid fa-angles-left"></i>
+</button>
+</div>
+<!-- 圖例說明 -->
+<div class="px-3 py-2 bg-slate-50 border-b border-slate-100 grid grid-cols-2 gap-1.5 text-[11px] text-slate-600">
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-200 inline-block"></span>未作答</div>
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>答對</div>
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span>答錯</div>
+<div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>已收藏/待複習</div>
+</div>
+<!-- 題號矩陣 -->
+<div class="p-3 overflow-y-auto custom-scroll flex-1 space-y-4" id="nav-grid-container"></div>
+</aside>
+<!-- 側邊欄收合時的展開小按鈕 -->
+<button class="hidden fixed left-0 top-1/2 -translate-y-1/2 z-20 bg-indigo-600 text-white p-2 rounded-r-lg shadow-lg no-print" id="sidebar-open-btn" onclick="toggleSidebar()">
+<i class="fa-solid fa-angles-right"></i>
+</button>
+<!-- 核心雙欄分割視窗 (Split View) -->
+<main class="flex-1 flex flex-col lg:flex-row overflow-hidden split-container bg-slate-50">
+<!-- 左欄：閱讀篇章 / 題組文章 / 語音朗讀與雙語對照 (可獨立滾動) -->
+<section class="w-full lg:w-1/2 h-2/5 lg:h-full overflow-y-auto custom-scroll border-b lg:border-b-0 lg:border-r border-slate-200 bg-white p-4 sm:p-6 split-pane" id="left-passage-pane">
+<div id="passage-container"></div>
+</section>
+<!-- 右欄：題目列表與深度詳解卡片 (可獨立滾動) -->
+<section class="w-full lg:w-1/2 h-3/5 lg:h-full overflow-y-auto custom-scroll p-4 sm:p-6 space-y-6 split-pane" id="right-questions-pane">
+<!-- 提示橫幅 -->
+<div class="bg-indigo-50 border border-indigo-200 rounded-xl p-3 flex items-center justify-between text-xs text-indigo-800 no-print">
+<div class="flex items-center gap-2">
+<i class="fa-solid fa-lightbulb text-indigo-600 text-base"></i>
+<span><strong>互動小貼士：</strong>點擊文章或題目中的任何英文單字可開啟<strong>即時字典與發音</strong>；點擊詳解中的「定位至原文」可在左側文章高亮出處！</span>
+</div>
+</div>
+<!-- 題目容器 -->
+<div class="space-y-6 pb-16" id="questions-container"></div>
+</section>
+</main>
+</div>
+<!-- 點擊查單字浮動字典 (Interactive Dictionary Popover) -->
+<div class="hidden fixed z-50 bg-slate-900 text-white rounded-xl shadow-2xl border border-slate-700 p-4 w-72 no-print transition-opacity" id="dict-popover">
+<div class="flex items-start justify-between border-b border-slate-700 pb-2 mb-2">
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-bold text-lg text-amber-400" id="dict-word">word</h4>
+<span class="text-xs bg-slate-700 px-1.5 py-0.5 rounded text-slate-300" id="dict-pos">n.</span>
+</div>
+<p class="text-xs text-slate-400 font-mono mt-0.5" id="dict-kk">/wɝd/</p>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-7 h-7 rounded-full bg-indigo-600 hover:bg-indigo-500 flex items-center justify-center text-white" onclick="speakWord(document.getElementById('dict-word').innerText)" title="發音">
+<i class="fa-solid fa-volume-high text-xs"></i>
+</button>
+<button class="w-7 h-7 rounded-full hover:bg-slate-800 flex items-center justify-center text-slate-400" onclick="closeDict()">
+<i class="fa-solid fa-xmark"></i>
+</button>
+</div>
+</div>
+<p class="text-sm text-slate-200 leading-relaxed mb-2" id="dict-def">中文釋義</p>
+<div class="text-xs text-slate-400 bg-slate-800/80 p-2 rounded border border-slate-700/60" id="dict-extra"></div>
+</div>
+<!-- 錯題本與收藏庫 Modal -->
+<div class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print" id="bookmarksModal">
+<div class="bg-white rounded-2xl shadow-xl max-w-3xl w-full max-h-[85vh] flex flex-col overflow-hidden">
+<div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+<div class="flex items-center gap-2">
+<i class="fa-solid fa-bookmark text-amber-400"></i>
+<h3 class="font-bold text-lg">我的錯題本與收藏題庫</h3>
+</div>
+<button class="text-slate-400 hover:text-white" onclick="closeModal('bookmarksModal')"><i class="fa-solid fa-xmark text-xl"></i></button>
+</div>
+<div class="p-6 overflow-y-auto custom-scroll flex-1 space-y-4" id="bookmarks-list">
+<!-- 動態渲染 -->
+</div>
+</div>
+</div>
+<!-- 學習數據統計 Modal -->
+<div class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print" id="analyticsModal">
+<div class="bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[85vh] flex flex-col overflow-hidden">
+<div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+<div class="flex items-center gap-2">
+<i class="fa-solid fa-chart-pie text-sky-400"></i>
+<h3 class="font-bold text-lg">學習數據統計與各大題診斷儀表板</h3>
+</div>
+<button class="text-slate-400 hover:text-white" onclick="closeModal('analyticsModal')"><i class="fa-solid fa-xmark text-xl"></i></button>
+</div>
+<div class="p-6 overflow-y-auto custom-scroll flex-1" id="analytics-content">
+<!-- 動態渲染 -->
+</div>
+</div>
+</div>
+<!-- 友善列印 / PDF 匯出 Modal -->
+<div class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 no-print" id="printModal">
+<div class="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden">
+<div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+<h3 class="font-bold text-lg"><i class="fa-solid fa-print mr-2"></i>友善列印與 PDF 匯出</h3>
+<button class="text-slate-400 hover:text-white" onclick="closeModal('printModal')"><i class="fa-solid fa-xmark text-xl"></i></button>
+</div>
+<div class="p-6 space-y-4">
+<p class="text-sm text-slate-600">請選擇您需要的紙本列印或儲存成 PDF 的排版模式：</p>
+<button class="w-full p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-600 text-left flex items-center justify-between transition group" onclick="executePrint('blank')">
+<div>
+<div class="font-bold text-slate-800 group-hover:text-indigo-600">純試卷列印模式（隱藏詳解）</div>
+<div class="text-xs text-slate-500 mt-1">適合重新紙本計時模擬作答、畫線練習</div>
+</div>
+<i class="fa-solid fa-file-lines text-2xl text-slate-400 group-hover:text-indigo-600"></i>
+</button>
+<button class="w-full p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-600 text-left flex items-center justify-between transition group" onclick="executePrint('full')">
+<div>
+<div class="font-bold text-slate-800 group-hover:text-indigo-600">完整題目＋詳解講義模式</div>
+<div class="text-xs text-slate-500 mt-1">展開所有中譯、誘答分析、長難句與單字卡供考前複習</div>
+</div>
+<i class="fa-solid fa-book text-2xl text-slate-400 group-hover:text-indigo-600"></i>
+</button>
+</div>
+</div>
+</div>
+<script>
+    // ==========================================
+    // 1. 內建核心字典庫 (支援點擊查字與語音)
+    // ==========================================
+    const DICT_DB = {
+      "parcel": { kk: "/ˈpɑrsḷ/", pos: "n.", def: "包裹", extra: "同義: package | 搭配: send/deliver a parcel" },
+      "cargo": { kk: "/ˈkɑrɡo/", pos: "n.", def: "（船、飛機裝載的）貨物", extra: "搭配: cargo ship 貨輪" },
+      "bundle": { kk: "/ˈbʌndḷ/", pos: "n.", def: "捆；束；包", extra: "搭配: a bundle of clothes 一捆衣服" },
+      "slender": { kk: "/ˈslɛndɚ/", pos: "adj.", def: "苗條的；修長的；微薄的", extra: "同義: slim, lean | 反義: plump, chubby" },
+      "eloquent": { kk: "/ˈɛləkwənt/", pos: "adj.", def: "雄辯的；口才流利的", extra: "搭配: an eloquent speaker" },
+      "substance": { kk: "/ˈsʌbstəns/", pos: "n.", def: "物質；實質；主旨", extra: "搭配: addictive substance 成癮性物質" },
+      "omit": { kk: "/oˈmɪt/", pos: "v.", def: "省略；刪去；遺漏", extra: "名詞: omission | 同義: leave out, exclude" },
+      "neglect": { kk: "/nɪˈɡlɛkt/", pos: "v./n.", def: "疏忽；忽略；疏於照顧", extra: "同義: ignore, overlook" },
+      "damp": { kk: "/dæmp/", pos: "adj.", def: "潮濕的；微濕的", extra: "同義: moist, humid | 反義: dry" },
+      "stale": { kk: "/stel/", pos: "adj.", def: "（食物）不新鮮的；（空氣）混濁的", extra: "搭配: stale bread 變味的麵包" },
+      "practically": { kk: "/ˈpræktɪklɪ/", pos: "adv.", def: "幾乎；簡直；實際上", extra: "同義: virtually, almost, nearly" },
+      "intuition": { kk: "/ˌɪntjuˈɪʃən/", pos: "n.", def: "直覺；直覺力", extra: "形容詞: intuitive | 搭配: feminine intuition" },
+      "cease": { kk: "/sis/", pos: "v.", def: "停止；終止；結束", extra: "搭配: cease operations 停止營業 | 同義: halt, stop" },
+      "agreeable": { kk: "/əˈɡriəbḷ/", pos: "adj.", def: "宜人的；令人愉快的；欣然同意的", extra: "同義: pleasant, enjoyable" },
+      "frame": { kk: "/frem/", pos: "v.", def: "陷害；栽贓；給…鑲框", extra: "搭配: frame sb. for a crime 栽贓某人犯罪" },
+      "occurrence": { kk: "/əˈkɝəns/", pos: "n.", def: "事件；發生的事；出現", extra: "動詞: occur | 同義: incident, phenomenon" },
+      "clinical": { kk: "/ˈklɪnɪkḷ/", pos: "adj.", def: "臨床的；客觀冷靜的", extra: "搭配: clinical trial 臨床試驗" },
+      "cognitive": { kk: "/ˈkɑɡnətɪv/", pos: "adj.", def: "認知的；認識的", extra: "搭配: cognitive process 認知機制" },
+      "prioritize": { kk: "/praɪˈɔrəˌtaɪz/", pos: "v.", def: "優先處理；按優先順序排列", extra: "名詞: priority 優先事項" },
+      "subsequent": { kk: "/ˈsʌbsɪkwənt/", pos: "adj.", def: "隨後的；後來的；後續的", extra: "同義: following, ensuing | 反義: previous" },
+      "perception": { kk: "/pɚˈsɛpʃən/", pos: "n.", def: "感知；知覺；看法", extra: "動詞: perceive 察覺、看待" },
+      "flickering": { kk: "/ˈflɪkərɪŋ/", pos: "adj.", def: "閃爍的；搖曳的", extra: "動詞: flicker 閃爍" },
+      "psychic": { kk: "/ˈsaɪkɪk/", pos: "adj.", def: "超自然的；通靈的；心靈的", extra: "搭配: psychic powers 超能力" },
+      "debut": { kk: "/deˈbju/", pos: "n./v.", def: "首次亮相；首播；初次登台", extra: "搭配: make one's debut" },
+      "merchandise": { kk: "/ˈmɝtʃənˌdaɪz/", pos: "n.", def: "商品；周邊商品（不可數）", extra: "搭配: themed merchandise 主題周邊" },
+      "nostalgia": { kk: "/nɑˈstældʒə/", pos: "n.", def: "懷舊之情；思鄉病", extra: "形容詞: nostalgic 懷舊的" },
+      "relatable": { kk: "/rɪˈletəbḷ/", pos: "adj.", def: "能引起共鳴的；感同身受的", extra: "動詞: relate 產生共鳴" },
+      "evoke": { kk: "/ɪˈvok/", pos: "v.", def: "喚起；引起（記憶、感情）", extra: "搭配: evoke memories 喚起回憶" },
+      "microbiome": { kk: "/ˌmaɪkroˈbaɪom/", pos: "n.", def: "微生物群系；菌叢", extra: "搭配: gut microbiome 腸道菌叢" },
+      "inflammation": { kk: "/ˌɪnfləˈmeʃən/", pos: "n.", def: "發炎；炎症", extra: "形容詞: inflammatory 發炎性的" },
+      "probiotics": { kk: "/ˌprobaɪˈɑtɪks/", pos: "n.", def: "益生菌", extra: "反義對比: antibiotics 抗生素" },
+      "hospitable": { kk: "/ˈhɑspɪtəbḷ/", pos: "adj.", def: "（環境、氣候）宜人的、適合生存的；好客的", extra: "搭配: a hospitable environment" },
+      "turmoil": { kk: "/ˈtɝmɔɪl/", pos: "n.", def: "動盪；混亂；騷動", extra: "搭配: economic/political turmoil" },
+      "unattainable": { kk: "/ˌʌnəˈtenəbḷ/", pos: "adj.", def: "遙不可及的；無法達到的", extra: "動詞: attain 達成" },
+      "solitary": { kk: "/ˈsɑləˌtɛrɪ/", pos: "adj.", def: "單獨的；孤獨的；獨居的", extra: "名詞: solitude 孤獨" },
+      "adaptive": { kk: "/əˈdæptɪv/", pos: "adj.", def: "適應性的；有適應能力的", extra: "搭配: adaptive coping mechanism" },
+      "extinct": { kk: "/ɪkˈstɪŋkt/", pos: "adj.", def: "已滅絕的；絕種的", extra: "名詞: extinction 滅絕 | de-extinction 物種復活" },
+      "surrogate": { kk: "/ˈsɝəɡɪt/", pos: "n./adj.", def: "代理孕母；替代者；代用的", extra: "搭配: surrogate mother 代理孕母" },
+      "hybrid": { kk: "/ˈhaɪbrɪd/", pos: "n.", def: "混種生物；混合物", extra: "搭配: hybrid car 油電混合車" },
+      "eradicate": { kk: "/ɪˈrædɪˌket/", pos: "v.", def: "根除；消滅；使滅絕", extra: "同義: eliminate, wipe out" },
+      "ploy": { kk: "/plɔɪ/", pos: "n.", def: "策略；手法；把戲", extra: "搭配: a marketing ploy 行銷手法" },
+      "biodiversity": { kk: "/ˌbaɪodaɪˈvɝsətɪ/", pos: "n.", def: "生物多樣性", extra: "搭配: safeguard biodiversity" },
+      "entrust": { kk: "/ɪnˈtrʌst/", pos: "v.", def: "委託；託付", extra: "搭配: entrust A to B 將A託付給B" },
+      "uneventful": { kk: "/ˌʌnɪˈvɛntfəl/", pos: "adj.", def: "平靜無事的；一帆風順的", extra: "反義: eventful 多事的" },
+      "deprivation": { kk: "/ˌdɛprɪˈveʃən/", pos: "n.", def: "匱乏；剝奪；貧困艱苦", extra: "搭配: sleep deprivation 睡眠不足" },
+      "estranged": { kk: "/ɪˈstrendʒd/", pos: "adj.", def: "疏遠的；疏離的", extra: "搭配: grow estranged from 與…漸行漸遠" },
+      "nocturnal": { kk: "/nɑkˈtɝnḷ/", pos: "adj.", def: "夜間活動的；夜行性的", extra: "反義: diurnal 日間活動的" },
+      "pollinator": { kk: "/ˈpɑləˌnetɚ/", pos: "n.", def: "授粉者；傳粉媒介", extra: "動詞: pollinate 授粉" },
+      "fragile": { kk: "/ˈfrædʒḷ/", pos: "adj.", def: "脆弱的；易碎的", extra: "同義: delicate, vulnerable | 反義: sturdy" },
+      "resilience": { kk: "/rɪˈzɪlɪəns/", pos: "n.", def: "韌性；恢復力；適應力", extra: "形容詞: resilient 有韌性的" },
+      "prosperous": { kk: "/ˈprɑspərəs/", pos: "adj.", def: "繁榮的；興盛的；富裕的", extra: "動詞: prosper | 名詞: prosperity" }
+    };
+
+    // ==========================================
+    // 2. 閱讀篇章與題組文章資料庫 (Passages)
+    // ==========================================
+    const PASSAGES = {
+      "vocab": {
+        title: "第一大題：詞彙題（第 1–10 題）",
+        type: "說明與核心單字總覽",
+        bilingual: false,
+        paragraphs: [
+          {
+            en: "Section I: Vocabulary (10 points). Choose the best word to complete each sentence. Click any word in the questions on the right to look up its definition and pronunciation, or review the core vocabulary list below.",
+            zh: "本大題評量考生對高中常用實詞詞彙（名詞、動詞、形容詞、副詞）的構詞、語意邏輯、字詞搭配（Collocation）的理解與運用能力。點擊右側題目中的單字即可發音與查閱詞典。"
+          }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "第 3 題長句拆解",
+            sentence: "Doctors warn [that the painkiller contains a highly addictive substance (that could leave patients dependent on it within weeks)].",
+            breakdown: "【主句】Doctors warn (醫生警告) ＋ 【名詞子句作受詞】that the painkiller contains... substance ＋ 【關係子句修飾 substance】that could leave patients (受詞) dependent on it (受詞補語，處於依賴狀態) within weeks."
+          },
+          {
+            qRef: "第 8 題長句拆解",
+            sentence: "It's hard to find a physical bookstore now, [as so many have been forced to cease operations (due to competition from online sellers)].",
+            breakdown: "【主句】It (虛主詞) is hard to find a physical bookstore now (真主詞) ＋ 【原因副詞子句】as (因為) so many have been forced to cease operations ＋ 【介系詞片語表原因】due to competition from online sellers."
+          }
+        ]
+      },
+      "cloze_11_15": {
+        title: "第二大題：綜合測驗（第 11–15 題題組）— 巴德爾—邁因霍夫現象（頻率錯覺）",
+        type: "科普心理學篇章",
+        bilingual: true,
+        audioSentences: [
+          { time: "00:00", en: "Have you ever heard a new song or learned a new word, and suddenly it seems that you're hearing or seeing it everywhere?", zh: "你是否曾經聽到一首新歌或學到一個新單字，然後突然覺得它無所不在？" },
+          { time: "00:08", en: "You might be tempted to call it (11) a curious coincidence, or even interpret it as some sign from the universe, but there's actually a term for this occurrence: the Baader-Meinhof phenomenon.", zh: "你可能會想把這種情況稱為一個奇特的巧合，甚至解讀為宇宙傳來的某種徵兆，但其實這種現象有一個專門術語：「巴德爾—邁因霍夫現象」。", evId: "ev-11" },
+          { time: "00:21", en: "The name can be traced back to 1994, when someone noticed the German far-left group \"Baader-Meinhof\" mentioned twice within a single day shortly after first hearing of it.", zh: "這個名稱可追溯到 1994 年，當時有人第一次聽說德國極左派組織「巴德爾—邁因霍夫」後，竟在同一天內又聽見了這個名稱兩次。" },
+          { time: "00:33", en: "He wrote in to a newspaper, many others related, and the unusual label (12) stuck. Now, the Baader-Meinhof phenomenon has a more clinical term: frequency illusion.", zh: "他把這件事投書報社分享，許多人也有同感，這個特別的名稱便就此流傳開來了。現在巴德爾—邁因霍夫現象還有一個較學術的名稱：頻率錯覺。", evId: "ev-12" },
+          { time: "00:45", en: "Two cognitive processes are at work in creating the illusion. The first is selective attention: the brain's tendency to focus on something newly learned and (13) tune out everything else.", zh: "這種錯覺的形成涉及兩個認知機制。第一是「選擇性注意」，也就是大腦傾向專注於新學到的事物，同時忽略掉其他所有事物。", evId: "ev-13" },
+          { time: "00:58", en: "Once it enters our awareness, the brain prioritizes it even though it has always been there. Confirmation bias then strengthens this effect.", zh: "一旦某件事進入我們的意識，大腦便會優先關注它，儘管它一直都存在。接著，「確認偏誤」則進一步強化這種效果。" },
+          { time: "01:08", en: "As we expect to see the new thing more often, each (14) subsequent sighting confirms our belief that the world is suddenly filled with what has caught our eye.", zh: "當我們預期某件事會更頻繁出現時，每一次後續的目擊都會強化我們「世界突然充滿了引起我們注意的事物」的信念。", evId: "ev-14" },
+          { time: "01:20", en: "The Baader-Meinhof phenomenon may grow troubling if left unchecked. For instance, a newly diagnosed patient may over-report symptoms they have always had.", zh: "若放任不管，巴德爾—邁因霍夫現象可能會造成困擾。例如，新確診的病患可能會過度回報自己一直都有的症狀。" },
+          { time: "01:31", en: "To be frank, (15) there's no way to turn off this mechanism, as it is a part of how the brain operates. But understanding this can remind us that our perception is rarely objective.", zh: "坦白說，根本沒有辦法關閉這個機制，因為它是大腦運作方式的一部分。但理解這一點能夠提醒我們：我們的感知鮮少是客觀的。", evId: "ev-15" },
+          { time: "01:44", en: "Next time the world seems to echo back what you've just learned, pause: the frequency hasn't changed. Your attention has.", zh: "下次當世界似乎在回應你剛剛學到的事物時，請停下來想想：頻率並沒有改變，改變的是你的注意力。" }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "第 3 段核心長難句解構",
+            sentence: "[As we expect to see the new thing more often], each subsequent sighting confirms our belief [that the world is suddenly filled with (what has caught our eye)].",
+            breakdown: "【時間/原因副詞子句】As we expect to see... more often (當我們預期更常看見新事物時) ＋ 【主句】each subsequent sighting (主詞：每次後續的目擊) confirms (動詞) our belief (受詞) ＋ 【同位語名詞子句】that the world is suddenly filled with... (說明 belief 的內容) ＋ 【複合關係代名詞子句】what has caught our eye (= the thing that has caught our eye，吸引我們目光的事物)。"
+          }
+        ]
+      },
+      "cloze_16_20": {
+        title: "第二大題：綜合測驗（第 16–20 題題組）— 《怪奇物語》(Stranger Things) 的文化魅力",
+        type: "影視文化評論",
+        bilingual: true,
+        audioSentences: [
+          { time: "00:00", en: "Flickering lights, a missing child, a strange girl with psychic powers, and a terrifying monster that shouldn't exist.", zh: "閃爍的燈光、失蹤的孩子、一個擁有超能力的奇怪女孩，以及一頭不該存在的恐怖怪物。" },
+          { time: "00:09", en: "From its very first episode, Stranger Things puts viewers (16) on edge, and never quite lets them relax again.", zh: "《怪奇物語》從第一集起就讓觀眾神經緊繃，之後也從未讓他們真正放鬆過。", evId: "ev-16" },
+          { time: "00:18", en: "Since its debut on Netflix in July 2016, the show has grown into one of the most talked-about television series in recent memory, inspiring fan theories, themed merchandise, and a cultural obsession that few shows (17) have ever achieved.", zh: "自 2016 年 7 月在 Netflix 首播以來，這部劇已成為近年來討論度最高的電視影集之一，激發了無數粉絲理論、主題周邊商品，以及幾乎沒有其他影集曾達到的文化狂熱。", evId: "ev-17" },
+          { time: "00:35", en: "So what explains its extraordinary appeal? The ingredients are many. Masterful '80s nostalgia, a loveable cast, genuinely terrifying monsters, and a beating heart of friendship and loyalty, skillfully woven into every episode, all (18) play their part.", zh: "那麼，究竟是什麼造就了它非凡的吸引力呢？原因很多。精湛的 80 年代懷舊元素、討喜的演員陣容、真正令人恐懼的怪物，以及貫穿每一集、巧妙融合其中的友誼與忠誠，全都發揮了各自的作用。", evId: "ev-18" },
+          { time: "00:52", en: "Stranger Things is set in a world that feels instantly familiar and deeply relatable. Hawkins, the town where all the stories take place, looks like every small American town.", zh: "《怪奇物語》所呈現的世界既熟悉又令人感同身受。故事發生地霍金斯鎮，看起來就像每一座普通的美國小鎮。" },
+          { time: "01:04", en: "The electronic soundtrack, the warm visuals, and the deliberate (19) references to some beloved films and novels that audiences would immediately recognize, like E.T., The Goonies, and the works of Stephen King, work together to evoke a fond childhood memory for viewers young and old.", zh: "電子樂風的配樂、溫暖的視覺風格，以及對《E.T.》、《七寶奇謀》與史蒂芬·金作品等觀眾會立刻認出的經典電影與小說的刻意致敬（指涉），共同喚起了不分年齡的觀眾對童年的美好回憶。", evId: "ev-19" },
+          { time: "01:25", en: "At its core, Stranger Things is a story about what it means to grow up. The characters' bonds and stubborn loyalties tap into something universal.", zh: "從本質上來說，《怪奇物語》是一個關於成長的故事。角色之間的情誼與堅定忠誠觸動了人類共通的情感。" },
+          { time: "01:36", en: "When watching the characters fight against evil, audiences root for them as if rooting for old friends. That emotional investment built across multiple seasons is, (20) above all else, what transformed a clever Netflix original into a once-in-a-generation phenomenon.", zh: "當觀眾看著他們與邪惡對抗時，彷彿是在為老朋友加油打氣。在所有成功因素之中，最重要的莫過於這種經過多季累積的情感投入，是它將《怪奇物語》從一部優秀的 Netflix 原創影集，推向了世代級文化現象的地位。", evId: "ev-20" }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "第 18 題分詞構句與主詞判斷",
+            sentence: "[Masterful '80s nostalgia, a loveable cast, genuinely terrifying monsters, and a beating heart of friendship and loyalty], (skillfully woven into every episode), all play their part.",
+            breakdown: "【複合主詞】Masterful '80s nostalgia... and loyalty (四個名詞片語由 and 連接作為複數主詞) ＋ 【過去分詞片語作後位修飾】skillfully woven into every episode (原為 which are skillfully woven...) ＋ 【主要動詞】all play their part (全都扮演各自的角色/發揮作用)。"
+          }
+        ]
+      },
+      "fill_21_30": {
+        title: "第三大題：文意選填（第 21–30 題題組）— 腸腦軸線（Gut-Brain Connection）",
+        type: "生物醫學與健康",
+        bilingual: true,
+        wordBank: "(A) in check   (B) hospitable   (C) nutrition   (D) exchange   (E) present   (F) investigation   (G) arise   (H) enhance   (I) lead   (J) in action",
+        audioSentences: [
+          { time: "00:00", en: "Have you ever had butterflies in your stomach or a sudden urge to go to the bathroom when nervous? If so, you've experienced the gut-brain connection (21) in action [J].", zh: "你是否曾經感到肚子裡有蝴蝶亂飛的感覺（七上八下），或是緊張時突然很想上廁所？如果有的話，那就是你親身體驗到了「腸腦連結」正在發揮作用。", evId: "ev-21" },
+          { time: "00:14", en: "For decades, scientists assumed the gut simply followed the brain's (22) lead [I]. But research now suggests that the trillions of microbes in the digestive tract exert considerable control over the brain as well.", zh: "數十年來，科學家們一直假設腸道只是單純地聽從大腦的引導。然而，現在的研究表明，消化道中數以兆計的微生物其實對大腦也施加了相當大的控制。", evId: "ev-22" },
+          { time: "00:29", en: "These microbes, collectively known as the gut microbiome, do far more than simply help digest food to provide (23) nutrition [C]. Through multiple channels, they constantly interact with the brain.", zh: "這些微生物被統稱為腸道微生物群，它們的功能遠遠不止於單純幫助消化食物以提供營養。透過多個管道，它們不斷地與大腦進行互動。", evId: "ev-23" },
+          { time: "00:43", en: "Most directly, they (24) exchange [D] signals with the brain via the vagus nerve, a physical link between the brain and the gut. These microbes also influence the production of neurotransmitters like serotonin and GABA, both of which assist in the regulation of mood, stress, and memory.", zh: "最直接的是，它們透過迷走神經與大腦交換訊號，這是一條連接大腦與腸道的實體紐帶。這些微生物還會影響血清素和 GABA 等神經傳導物質的生成，而這兩者都有助於調節情緒、壓力和記憶。", evId: "ev-24" },
+          { time: "01:02", en: "Additionally, the microbiome works with the immune system to keep inflammation (25) in check [A], preventing it from interfering with normal brain function.", zh: "此外，微生物群與免疫系統協同工作，抑制發炎反應（使其受到控制），防止其干擾正常的大腦功能。", evId: "ev-25" },
+          { time: "01:13", en: "A balanced microbiome supports healthy brain function; however, when this delicate balance is disrupted, cognitive and emotional problems may (26) arise [G].", zh: "平衡的微生物群能支持健康的大腦功能；然而，當這種脆弱的平衡被破壞時，認知和情感問題就可能隨之產生。", evId: "ev-26" },
+          { time: "01:25", en: "Animal research has shown that mice raised without any gut bacteria tend to be more anxious, less sociable, and more hyperactive, with a reduced ability to learn or remember. Yet after specific probiotics are introduced, they show improved social and cognitive function.", zh: "動物研究表明，在沒有任何腸道細菌的環境下長大的小老鼠，往往更容易焦慮、不愛社交且更加過動，同時學習或記憶的能力也隨之下降。然而，在引入特定的益生菌後，牠們的社交和認知功能都有改善。" },
+          { time: "01:44", en: "Human studies also suggest probiotics' potential for boosting memory and stabilizing mood, but they remain limited in scale and require further (27) investigation [F].", zh: "人體研究也顯示益生菌在增強記憶力和穩定情緒方面具有潛力，但這些研究目前的規模仍然有限，還需要進一步的調查研究。", evId: "ev-27" },
+          { time: "01:56", en: "In contrast, long-term antibiotic use, which can wipe out beneficial bacteria originally (28) present [E] in the gut, has been linked to poorer cognitive performance and mental health issues.", zh: "相反地，長期使用抗生素可能會消滅原本存在於腸道中的有益細菌，這與較差的認知表現和心理健康問題存在著關聯。", evId: "ev-28" },
+          { time: "02:09", en: "To (29) enhance [H] our cognitive and emotional well-being, we can nurture the gut microbiome through simple daily habits.", zh: "為了提升我們的認知和情感健康，我們可以透過每天簡單的習慣來滋養腸道微生物群。", evId: "ev-29" },
+          { time: "02:18", en: "Consuming fiber-rich and fermented foods, getting adequate sleep, and engaging in regular exercise all help create a(n) (30) hospitable [B] environment for beneficial gut bacteria. By taking good care of the gut microbiome, we are investing in both our mental and cognitive health.", zh: "攝取富含纖維的食物和發酵食品、獲得充足的睡眠，以及進行規律的運動，都有助於為有益的腸道細菌創造一個適合生存的環境。藉由好好照顧腸道微生物群，我們就是在對自己的心理和認知健康進行投資。", evId: "ev-30" }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "第 28 題形容詞子句與後位修飾解構",
+            sentence: "In contrast, long-term antibiotic use, [which can wipe out beneficial bacteria (originally present in the gut)], has been linked to poorer cognitive performance...",
+            breakdown: "【主詞】long-term antibiotic use ＋ 【非限定關係子句】which can wipe out beneficial bacteria ＋ 【形容詞片語後位修飾 bacteria】(which are) originally present in the gut (原本存在於腸道中的好菌) ＋ 【主要動詞】has been linked to... (已證實與…有關聯)。"
+          }
+        ]
+      },
+      "structure_31_34": {
+        title: "第四大題：篇章結構（第 31–34 題題組）— Z 世代瘋迷絨毛玩偶（Labubu / Jellycat）背後的社會心理",
+        type: "社會文化與世代觀察",
+        bilingual: true,
+        wordBank: "(A) Loneliness is an equally pressing issue for Gen Z.\n(B) Rather, this trend reflects an adaptive coping mechanism.\n(C) This explanation, however, only captures part of the picture.\n(D) As a result, many Gen Zers have abandoned traditional milestones like homeownership.\n(E) Gen Zers are defining traditional notions of success and social status on their own terms.",
+        audioSentences: [
+          { time: "00:00", en: "Walk into any Gen Zer's bedroom today and you might find shelves lined with collectibles — plushies like Labubu and Jellycat. Clearly, plush toys are no longer just for kids. This trend reflects something deeper about the generation driving it.", zh: "走進今天任何一位 Z 世代年輕人的臥室，你都可能會發現架上擺滿了收藏品——像 Labubu 和 Jellycat 這樣的毛絨玩具。顯然，毛絨玩具不再只是小孩子的專利。這股潮流反映出推動它的這個世代更深層的特質。" },
+          { time: "00:18", en: "On the surface, this phenomenon is fueled by nostalgia. Plush toys offer a rare source of uncomplicated happiness in an overwhelming world. Psychologists interpret this as a form of the \"Peter Pan effect,\" where young adults cling to childhood artifacts to escape the responsibilities of maturity. (31) [C] This explanation, however, only captures part of the picture.", zh: "表面上，這個現象是由懷舊之情所驅動。在一個令人不知所措的世界裡，毛絨玩具提供了一個罕見且單純的快樂泉源。心理學家將其解釋為「彼得潘效應」的一種形式，意即年輕人依戀童年的物件以逃避長大成人所帶來的責任。(31) 然而，這種解釋只捕捉到了部分的事實。", evId: "ev-31" },
+          { time: "00:42", en: "The economic realities facing Gen Z shed further light on this trend. Many feel they cannot afford the kind of adult life they had once imagined. Economic turmoil and skyrocketing costs of living have put immense pressure on them, while footage of war on social media deepens their sense of uncertainty and instability.", zh: "Z 世代面臨的經濟現實，為這股潮流提供了進一步的啟示。許多人覺得自己負擔不起曾經想像過的那種成年人生活。經濟動盪和飆升的生活成本給他們帶來了巨大的壓力，而社群媒體上戰爭的畫面更深化了他們的未知感與不穩定感。" },
+          { time: "01:03", en: "(32) [D] As a result, many Gen Zers have abandoned traditional milestones like homeownership. Rather than saving for goals that now feel unattainable, they redirect their income toward small, manageable sources of happiness.", zh: "(32) 因此，許多 Z 世代年輕人已經放棄了像買房這類的傳統里程碑。相較於為了現在看來遙不可及的目標而儲蓄，他們轉而將收入投向微小、可控的快樂泉源。", evId: "ev-32" },
+          { time: "01:18", en: "(33) [A] Loneliness is an equally pressing issue for Gen Z. For many, buying and collecting plush toys offers unexpected relief from it. By joining online collector communities and attending immersive pop-up events, they transform solitary objects into shared social currency and gain a sense of belonging that modern life often fails to provide.", zh: "(33) 孤獨感對 Z 世代來說是另一個同樣迫切的問題。對許多人而言，購買和收集毛絨玩具為此帶來了意想不到的慰藉。藉由加入線上收藏家社群並參加沉浸式的快閃活動，他們將孤立的物品轉化為共享的社交貨幣，並獲得了現代生活常常無法提供的歸屬感。", evId: "ev-33" },
+          { time: "01:42", en: "The popularity of plushies among Gen Z is not a sign of immaturity. (34) [B] Rather, this trend reflects an adaptive coping mechanism. Faced with uncertainty and pressure, they are finding new ways to experience joy and connection. While these choices may seem childish at times, they reveal a deliberate effort to build meaning in an increasingly unpredictable world.", zh: "毛絨玩具在 Z 世代中的流行並不是不成熟的表現。(34) 相反地，這股潮流反映了一種適應性的應對機制。面對不確定性和壓力，他們正在尋找體驗快樂和連結的新方法。雖然這些選擇有時看起來很幼稚，但它們展現了一種在日益不可預測的世界中，努力建立出意義的刻意嘗試。", evId: "ev-34" }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "第 4 段長難句解構",
+            sentence: "[By joining online collector communities and attending immersive pop-up events], they transform solitary objects into shared social currency and gain a sense of belonging [that modern life often fails to provide].",
+            breakdown: "【方式介系詞片語】By joining... and attending... (藉由加入線上社群與參加沉浸式快閃活動) ＋ 【主詞與對等動詞】they transform A into B (將孤立物件轉化為共享社交貨幣) and gain a sense of belonging (並獲得歸屬感) ＋ 【關係子句】that modern life often fails to provide (現代生活往往無法提供的)。"
+          }
+        ]
+      },
+      "reading_35_38": {
+        title: "第五大題：閱讀測驗（第 35–38 題題組）— 恐狼復活計畫與「保育漂綠」(Conservation-washing)",
+        type: "生物科技與生態保育評論",
+        bilingual: true,
+        audioSentences: [
+          { time: "00:00", en: "[Para 1] Their names are Romulus, Remus and Khaleesi, and they're the first dire wolves to walk the Earth in over 10,000 years — or at least that's what one biotech company would like you to believe.", zh: "【第1段】牠們的名字叫做 Romulus、Remus 和 Khaleesi，而牠們是超過一萬年來第一批再次行走在地球上的恐狼——或者至少，某家生物科技公司希望你這麼相信。" },
+          { time: "00:15", en: "[Para 2] In 2024, Colossal Biosciences announced the births of three dire wolves, extinct since the last ice age. While the young wolves have sparked great hype on social media, what Colossal did is not genuine de-extinction, but a case of conservation-washing.", zh: "【第2段】2024 年，Colossal Biosciences 宣布三隻恐狼誕生。恐狼自上一個冰河時期結束後便已滅絕。雖然這些幼狼在社群媒體上引發極大轟動，但 Colossal 所做的並非真正的物種復活，而是一種保育漂綠行動。" },
+          { time: "00:34", en: "Its scientists extracted dire wolf DNA from ancient fossilized remains. After careful analysis, they isolated a handful of genes by identifying key genetic markers. They then edited those into the genomes of modern grey wolves.", zh: "該公司的科學家從古老化石遺骸中萃取恐狼 DNA。經過仔細分析後，他們透過辨識關鍵基因標記，分離出少數幾個基因。接著，他們把那些（被分離出的基因）編輯進現代灰狼的基因組中。", evId: "ev-36" },
+          { time: "00:50", en: "The modified cells were used to create embryos, which were implanted into surrogate dogs. The pups exhibit some traits of dire wolves: broader shoulders, larger bodies and pale coats.", zh: "經過修改的細胞被用來製造胚胎，再植入代孕犬體內。這些幼狼確實展現出一些恐狼特徵：較寬的肩膀、更大的體型以及淺色毛皮。", evId: "ev-38" },
+          { time: "01:04", en: "Impressive as this technological feat is, these pups are, at best, hybrids. Colossal's claim that it has brought back a once-eradicated species for the first time in human history is misleading. It's simply a ploy of clever marketing and emotional appeal.", zh: "儘管這項科技成就令人印象深刻，但這些幼狼充其量只是混種生物。Colossal 聲稱自己首次在人類歷史上讓一個已滅絕的物種重返世界，這種說法具有誤導性。這不過是一種聰明的行銷手法與情感訴求而已。", evId: "ev-35" },
+          { time: "01:22", en: "[Para 3] Before the dire wolf project, Colossal used a similar technique to engineer a \"wooly mouse\" — a rodent genetically modified to have mammoth-like pelts. As the leading company in the growing de-extinction movement in the US, it promises that its technologies will help restore ecological balance and bring back other extinct creatures.", zh: "【第3段】在恐狼計畫之前，Colossal 曾使用類似技術創造出一種「長毛鼠」——一種經基因改造、長出類似長毛象毛皮的老鼠。作為美國日益壯大的物種復活運動中的領導企業，該公司承諾其技術將有助於恢復生態平衡，並讓其他已滅絕生物重現世間。" },
+          { time: "01:44", en: "Meanwhile, in Europe, a group of startups is applying technology in more grounded, practical ways. For instance, Stream Ocean from Switzerland has developed facial recognition software to monitor fish species, and Germany's Soilytix tracks soil health using environmental DNA. This is where technology can genuinely support biodiversity restoration — not through Frankensteinian genetic manipulations.", zh: "與此同時，在歐洲，一些新創公司正以更務實、更貼近現實的方式運用科技。例如，瑞士的 Stream Ocean 開發臉部辨識軟體來監測魚類物種；德國的 Soilytix 則利用環境 DNA 追蹤土壤健康狀況。這才是科技真正能夠支持生物多樣性復育的方式——而不是透過如同《科學怪人》般的人造基因操弄。", evId: "ev-37" },
+          { time: "02:10", en: "[Para 4] Colossal has broadcast the message that extinction is reversible, but it's not. This may create a dangerous distraction from proven solutions to the biodiversity crisis. The Trump administration has already cited Colossal's claims as an excuse to reduce endangered species protections. While the public marvels at the adorable \"dire-ish\" wolves, biodiversity loss is snowballing. Instead of playing God with long-extinct creatures, humanity's true priority should be to safeguard existing biodiversity and restore what's been damaged.", zh: "【第4段】Colossal 傳遞出滅絕是可逆的這一訊息，但事實並非如此。這種說法可能使大眾忽略那些已被證明有效的生物多樣性危機解決方案。川普政府甚至已引用 Colossal 的主張作為削減瀕危物種保護措施的藉口。當大眾驚嘆於這些可愛的「類恐狼」時，生物多樣性的流失卻正不斷加劇。與其扮演上帝去操弄早已滅絕的生物，人類真正的首要任務應該是保護現存的生物多樣性，並修復已遭破壞的生態系統。" }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "第 2 段讓步倒裝句解構",
+            sentence: "[Impressive as this technological feat is], these pups are, at best, hybrids.",
+            breakdown: "【讓步副詞子句倒裝】Impressive (形容詞補語移至句首) as (= though，雖然) this technological feat (主詞) is (動詞)，正常語序為 Although this technological feat is impressive ＋ 【主句】these pups are, at best (充其量), hybrids."
+          }
+        ]
+      },
+      "reading_39_42": {
+        title: "第五大題：閱讀測驗（第 39–42 題題組）— 1602 年伊莉莎白一世致中國萬曆皇帝的信件奇航",
+        type: "歷史與地理探索",
+        bilingual: true,
+        hasMap: "weymouth",
+        audioSentences: [
+          { time: "00:00", en: "[Para 1] In 1602, Queen Elizabeth I of England wrote a letter to the Emperor of China in the hope of opening up a trade route and starting friendly relations. She entrusted the letter to George Weymouth, who had been hired by the East India Company to seek a northwest passage to the Far East. This was part of England's broader effort to find an alternative trade route to the east, where the Portuguese and Dutch held a strong grip on trade. Weymouth carried the letter in English, accompanied by copies in Latin, Spanish and Italian.", zh: "【第1段】1602 年，英格蘭女王伊莉莎白一世寫了一封信給中國皇帝，希望開闢貿易路線、建立友好關係。她將信交託給喬治·韋茅斯（George Weymouth），此人受僱於東印度公司，負責尋找通往遠東的西北航道。這是英格蘭為尋找東方替代貿易路線所做的廣泛努力之一，當時葡萄牙與荷蘭已牢牢掌控著那片海域的貿易。韋茅斯攜帶的信件以英文書寫，並附有拉丁文、西班牙文與義大利文的副本。" },
+          { time: "00:34", en: "[Para 2] However, the letter did not arrive as planned. Weymouth, with 35 men aboard, set off from Ratcliffe on 2nd May 1602. The westward crossing of the Atlantic was uneventful, but the waters beyond proved far more challenging.", zh: "【第2段】然而，這封信並未如期送達。韋茅斯率領 35 名船員，於 1602 年 5 月 2 日從拉特克利夫出發。橫渡大西洋一路平順，但之後的水域卻遠比預期險峻。" },
+          { time: "00:50", en: "Heavy fog and sheets of ice near southern Greenland blocked their path, but Weymouth pushed further into the narrow channel between Baffin Island and the Ungava Peninsula, convinced that it might open westward into the Pacific. He led the expedition deeper into the channel, but had to turn back before reaching its far end.", zh: "南格陵蘭附近的濃霧與冰層封堵了去路，但韋茅斯仍繼續深入巴芬島（Baffin Island）與溫加瓦半島（Ungava Peninsula）之間的狹窄海峽，深信這條水道或許能向西通往太平洋。他率隊繼續推進，卻在抵達海峽盡頭前不得不折返。", evId: "ev-40" },
+          { time: "01:12", en: "Ultimately, it was ill health that brought the exploration to a halt. On 26th July, with his crew increasingly unwell from the deprivations of the journey, Weymouth called off the voyage and headed for home, arriving back in Dartmouth on 5th September.", zh: "最終，是船員的健康問題迫使探險終止。7 月 26 日，隨著船員因旅途艱困而日益病重，韋茅斯宣布取消航行、啟程返鄉，於 9 月 5 日抵達達特茅斯。", evId: "ev-39" },
+          { time: "01:29", en: "[Para 3] Interestingly, had Weymouth made landfall in China, he might not have been able to deliver the letter to Emperor Wanli. From around 1582, Emperor Wanli had grown estranged from his role. Somehow he felt he no longer belonged on the throne, becoming reluctant to engage in state affairs. The resulting internal power struggles weakened the Empire, which was eventually overthrown by the Manchu people from the north in 1644.", zh: "【第3段】有趣的是，即使韋茅斯真的登陸中國，他也未必能將信件送到萬曆皇帝手中。大約自 1582 年起，萬曆皇帝便逐漸與自己的角色疏離，不知為何覺得自己不再屬於這個皇位，愈來愈不願意處理國政。由此引發的內部權力鬥爭削弱了帝國實力，帝國最終於 1644 年被北方的滿族人推翻。", evId: "ev-41" },
+          { time: "01:58", en: "[Para 4] The letter itself, however, managed to survive. It was later found lining a bran bin on a Lancashire farm. How the letter ended up there has puzzled many. It eventually became the property of the Crosse family, who later passed it to the Lancashire County Record Office. Then in 1984, a copy was finally delivered to China, completing the voyage Her Majesty had intended nearly four centuries earlier.", zh: "【第4段】然而，這封信本身卻奇蹟般地留存了下來。它後來被發現夾在蘭開夏郡一座農場的麩皮儲存桶內作為襯墊。這封信究竟如何流落至此，至今仍是謎。它最終成為克羅斯家族的財產，後由該家族轉交蘭開夏郡檔案室。1984 年，一份副本終於送達中國，完成了女王陛下近四個世紀前就意圖成就的旅程。", evId: "ev-42" }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "第 3 段與過去事實相反之假設語氣倒裝",
+            sentence: "Interestingly, [had Weymouth made landfall in China], he might not have been able to deliver the letter to Emperor Wanli.",
+            breakdown: "【假設語氣條件句省略 if 倒裝】had Weymouth made landfall... (原為 If Weymouth had made landfall in China，與過去事實相反用過去完成式) ＋ 【主句】he might not have been able to deliver... (助動詞過去式 + have + p.p.，表示當時也未必能把信交到萬曆皇帝手中)。"
+          }
+        ]
+      },
+      "reading_43_46": {
+        title: "第五大題：閱讀測驗（第 43–46 題題組）— 非洲「生命之樹」猴麵包樹（Baobab）與夜間授粉者的共生演化",
+        type: "生態與演化生物學",
+        bilingual: true,
+        audioSentences: [
+          { time: "00:00", en: "[Para 1] In Disney's The Lion King, the wise mandrill Rafiki makes his home in a massive, ancient tree. In reality, this is the baobab, an African icon often called the \"Tree of Life,\" for it supports entire ecosystems with its thick, water-storing trunk. Yet, the survival of the baobab itself depends on the partnerships its flowers forge with creatures of the night: bats and moths.", zh: "【第1段】在迪士尼的《獅子王》中，聰明的山魈拉飛奇（Rafiki）在一棵巨大、古老的樹上安家。在現實中，這棵樹就是猴麵包樹（baobab），它是常被稱為「生命之樹」的非洲象徵，因為它粗壯、能儲水的樹幹支撐著整個生態系統。然而，猴麵包樹自身的生存，卻仰賴於其花朵與夜間生物——蝙蝠和飛蛾——所建立的夥伴關係。" },
+          { time: "00:26", en: "[Para 2] Across Africa, the baobab blooms only once a year, and its blossoms open at dusk and fade by dawn. Each night, just a few unfold while the rest wait for their turn. The white blossoms all hang down from the branches like lanterns, guiding their nocturnal pollinators to visit.", zh: "【第2段】在全非洲，猴麵包樹每年只開花一次，而且它的花朵在黃昏時綻放，在黎明前凋謝。每天晚上，只有幾朵花會綻放，其餘的則等待輪到自己的時刻。這些白色的花朵全都從樹枝上像燈籠一樣垂掛下來，引導著夜間的授粉者前來造訪。", evId: "ev-45" },
+          { time: "00:46", en: "[Para 3] To attract specific visitors, baobabs in different regions have developed distinct flowers. In West Africa, the flowers emit a sulfur-like scent to draw the key pollinator: the large straw-colored fruit bat. The flowers here are big, with petals folding back, long stalks, and deep pools of nectar, perfectly suited for the bat to feed while hanging upside down.", zh: "【第3段】為了吸引特定的訪客，不同地區的猴麵包樹已經演化出了截然不同的花朵。在西非，花朵會散發出一種像硫磺一樣的氣味，以吸引關鍵的授粉者：大型的黃毛果蝠。這裡的花朵很大，花瓣向後翻摺、花梗很長，且含有深層的蜜池，非常適合蝙蝠倒掛著進食。", evId: "ev-43" },
+          { time: "01:12", en: "In East Africa, the baobab blossoms are sturdier and more compact, with shorter stalks and less nectar. They have the same irresistible smell that caters to the smaller Egyptian fruit bat, which feeds by grasping the flowers rather than hanging upside down. Further south, the bats vanish entirely and moths take over. A sweet fragrance replaces sulfur to appeal to moths, while the flowers shrink, petals curve back only slightly, and nectar reduces to mere drops.", zh: "在東非，猴麵包樹的花朵比較堅韌且密實，具有較短的花梗以及較少的花蜜。它們散發出一樣讓蝙蝠難以抗拒的氣味，迎合較小型的埃及果蝠，這種蝙蝠會抓住花朵取食，而不是倒掛著進食。再往南走，蝙蝠完全消失了，由飛蛾接管。一種甜美的香氣取代了硫磺味以吸引飛蛾，同時花朵縮小，花瓣僅輕微向後彎曲，花蜜也減少到僅剩幾滴。", evId: "ev-44" },
+          { time: "01:44", en: "[Para 4] Clearly, each baobab has locked its future to a single group of partners. Yet these alliances are surprisingly fragile. After all, it takes thousands of years for the baobab to shape its floral traits. Since birds, bees, and beetles do not pollinate baobab flowers, if climate change or habitat loss causes these bats and moths to disappear, the baobab's reproduction would halt entirely. With no new trees growing, the survival of the species would be threatened. Therefore, protecting the baobab isn't just about saving the \"Tree of Life\"; it's about safeguarding the silent winged creatures of the night — the true Rafikis of the \"Circle of Life.\"", zh: "【第4段】顯然，每種猴麵包樹都將自己的未來與單一的一組夥伴綁定在一起。然而，這些聯盟出乎意料地脆弱。畢竟，猴麵包樹需要花費數千年的時間才能形塑出其花卉特徵。由於鳥類、蜜蜂和甲蟲不會為猴麵包樹的花朵授粉，如果氣候變遷或棲地喪失導致這些蝙蝠和飛蛾消失，猴麵包樹的繁殖將會完全停滯。在沒有新樹生長的情況下，該物種的生存將受到威脅。因此，保護猴麵包樹不僅僅是為了拯救「生命之樹」；更是為了保護那些在夜間默默飛行的有翅生物——它們才是「生命之環」中真正的拉飛奇。", evId: "ev-46" }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "第 4 段雙重條件與因果句解構",
+            sentence: "[Since birds, bees, and beetles do not pollinate baobab flowers], [if climate change or habitat loss causes these bats and moths to disappear], the baobab's reproduction would halt entirely.",
+            breakdown: "【原因副詞子句】Since birds, bees, and beetles do not pollinate... (由於鳥、蜂、甲蟲不會幫猴麵包樹授粉) ＋ 【條件副詞子句】if climate change... causes these bats and moths to disappear (若氣候變遷或棲地喪失導致蝙蝠與飛蛾消失) ＋ 【主句】the baobab's reproduction would halt entirely (猴麵包樹的繁殖將會完全停滯)。"
+          }
+        ]
+      },
+      "mixed_47_50": {
+        title: "第貳部分：混合題（第 47–50 題題組）— Rapa Nui: Echoes of the Moai（拉帕努伊：摩艾的迴響展覽導覽）",
+        type: "博物館展廳導覽手冊",
+        bilingual: true,
+        hasMap: "moai",
+        audioSentences: [
+          { time: "00:00", en: "[Intro] The exhibition Rapa Nui: Echoes of the Moai explores the heritage of the Rapa Nui, a civilization developed on one of the most isolated islands on Earth. The Moai, their iconic stone statues, are only part of their story. The six galleries ahead take you on a journey into their enduring legacy.", zh: "【展覽前言】「拉帕努伊：摩艾的迴響」展覽，深入探索了拉帕努伊人的文化遺產，這是在地球上最孤立（isolated）的島嶼之一所發展出的文明。他們標誌性的石像——摩艾，僅僅是他們故事的一部分。前方的六個展廳將帶您踏上一場旅程，走進他們歷久彌新的傳奇。", evId: "ev-47" },
+          { time: "00:22", en: "[Gallery A. The Navel of the World] The Rapa Nui called their home Te Pito o Te Henua, \"the Navel of the World,\" as it was the very center of their universe. Guided only by instinct, the first Polynesians crossed the vast Pacific and prospered with limited resources. Step closer to a model of a va'a canoe and ancient fishing tools, and discover how they made the island their home.", zh: "【A展廳：世界的肚臍】拉帕努伊人稱他們的家園為「特皮托奧特赫努亞」，意即「世界的肚臍」，因為那是他們宇宙的絕對中心。第一批玻里尼西亞人僅憑藉著直覺，橫渡了廣闊的太平洋，並在有限的資源下繁衍生息（prospered）。走近看一看獨木舟（va'a）的模型與古代捕魚工具，探索他們是如何在這座島嶼上建立家園。" },
+          { time: "00:46", en: "[Gallery B. The Moai Workshop] At the foot of the Rano Raraku volcano, hundreds of Moai still rest unfinished in the earth. How did a stone-age society carve gigantic statues without metal? The quarry landscape, unfinished figures, and stone tools known as toki reveal how a people at the height of their prosperity transformed volcanic rock into monumental works.", zh: "【B展廳：摩艾工作坊】在拉諾拉拉庫火山山腳下，仍有數百座未完工的摩艾石像靜靜躺在泥土中。一個石器時代的社會，在沒有金屬的情況下，是如何雕刻出巨大石像的？採石場的景觀、未完工的石像，以及被稱為「toki」的石製工具，揭示了處於繁榮鼎盛時期（height of their prosperity）的人們，是如何將火山岩轉化為不朽的巨作。", evId: "ev-48" },
+          { time: "01:12", en: "[Gallery C. Guardians of Rapa Nui] In front of you stands a full-scale Moai replica set against an ocean backdrop. Like the originals, it faces inland, watching over the living. The Rapa Nui believed that each Moai carried mana — a sacred spiritual force that protected those before it. But how did an 80-ton giant travel across the island? Look closer and discover how the Moai \"walked.\"", zh: "【C展廳：拉帕努伊的守護者】矗立在您面前的是一座等身比例的摩艾複製品，背景是一片汪洋。就像那些原版石像一樣，它面朝內陸，守望著生者。拉帕努伊人相信每座摩艾都承載著「瑪那（mana）」——一種保護其面前子民的神聖精神力量。但是，一個重達 80 噸的龐然大物究竟是如何在島上移動的？靠近端詳，探索摩艾是如何「行走」的。", evId: "ev-49-c" },
+          { time: "01:38", en: "[Gallery D. Between Two Worlds] What connects the world of the living and the dead? Meet the Moai Kavakava, carved wooden figures representing deceased ancestors. They were often hung in homes as protection against evil. Alongside them are the Rongorongo tablets, which preserved sacred chants sung to connect with ancestors. To this day, the script remains one of the world's undeciphered writings.", zh: "【D展廳：兩個世界之間】是什麼連結了生者與死者的世界？來認識「摩艾卡瓦卡瓦」吧，這些是代表逝去祖先的木雕人像。它們經常被掛在屋內，用以驅邪避凶。與它們並列的是「朗格朗格（Rongorongo）板」，上面保存了為了與祖先連結而吟唱的神聖讚歌。時至今日，這種文字仍是世界上未被破解的書寫系統之一。", evId: "ev-49-d" },
+          { time: "02:04", en: "[Gallery E. The Birdman Cult] After Moai-based beliefs declined in the 16th century, a new religious order emerged to ease tribal conflict. Step into an interactive simulation of the Birdman ritual, where you become a warrior, racing against rivals to retrieve the first sooty tern egg. The winner will be recognized as the divinely chosen leader. Will you be the one?", zh: "【E展廳：鳥人崇拜】在 16 世紀以摩艾為中心的信仰衰落後，一個新的宗教秩序興起，以緩解部落衝突。走進鳥人儀式的互動模擬，在這裡您將化身為一名戰士，與對手相互競爭，爭奪並取回第一顆烏燕鷗的蛋。贏家將被公認為天選的領袖。您會是那個人嗎？", evId: "ev-49-e" },
+          { time: "02:29", en: "[Gallery F. Legacy of Resilience] What does it take to bring a culture back from the edge of collapse? In the 19th century, resources were few and far between. Disease, forced labor, and displacement nearly silenced their culture for good. Yet their story did not end there. Today, the Rapa Nui, guided by their mana, continue to reclaim their language, traditions, and identity.", zh: "【F展廳：韌性的傳承】要付出多少努力，才能將一種文化從崩潰的邊緣拯救回來？在 19 世紀，資源變得極為稀少（few and far between）。疾病、強迫勞動和流離失所幾乎讓他們的文化永遠消聲匿跡。然而，他們的故事並未在那裡畫下句點。今天，拉帕努伊人在「瑪那」的指引下，繼續找回他們的語言、傳統與自我認同。", evId: "ev-50" }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "C 展廳完全倒裝句解構",
+            sentence: "[In front of you] stands [a full-scale Moai replica (set against an ocean backdrop)].",
+            breakdown: "【地方副詞片語移至句首】In front of you ＋ 【不及物動詞】stands ＋ 【主詞】a full-scale Moai replica ＋ 【過去分詞片語後位修飾】set against an ocean backdrop (以海洋為背景設置的)。因為主詞較長且帶有後位修飾，故採用地方副詞倒裝以維持句尾重心平衡。"
+          }
+        ]
+      },
+      "writing": {
+        title: "第參部分：非選擇題（中譯英 & 英文作文）",
+        type: "寫作評分標準、句構拆解與雙範文賞析",
+        bilingual: false,
+        paragraphs: [
+          {
+            en: "Part III: Non-Multiple-Choice Questions (28 points). Section 1: Guided Translation (8 points). Section 2: Essay Writing (20 points) comparing Individual Presentation (Picture A) vs. Group Presentation (Picture B).",
+            zh: "第參部分包含「中譯英（8分）」與「看圖英文作文（20分）」。作文要求根據圖 A（個人獨立準備與上台報告）與圖 B（小組討論分工與共同上台報告），第一段描述並比較兩種報告形式的優點與挑戰，第二段結合個人經驗說明哪一種最有幫助及原因。"
+          }
+        ],
+        sentenceAnalysis: [
+          {
+            qRef: "中譯英第 1 題句構拆解",
+            sentence: "Grammar, [which once played an important role in foreign language teaching], is no longer valued by most language learners now.",
+            breakdown: "【主詞】Grammar ＋ 【非限定關係子句（補充說明文法過去的地位）】which once played an important role in foreign language teaching ＋ 【主要動詞（被動語態）】is no longer valued / emphasized by... (如今已不再受到…重視)。"
+          },
+          {
+            qRef: "中譯英第 2 題句構拆解",
+            sentence: "In fact, [being able to use grammar correctly] can indeed help us communicate effectively and avoid unnecessary misunderstandings.",
+            breakdown: "【轉折詞】In fact / As a matter of fact ＋ 【動名詞片語作主詞】being able to use grammar correctly (能正確使用文法) ＋ 【強調助動詞】can indeed / truly help us ＋ 【對等原形不定詞作受詞補語】(to) communicate effectively and avoid unnecessary misunderstandings."
+          }
+        ]
+      }
+    };
+
+    // ==========================================
+    // 3. 完整 50 題 + 非選題資料庫 (Questions)
+    // ==========================================
+    const QUESTIONS = [
+      // 一、詞彙題 (1-10)
+      {
+        id: 1, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 1, tag: "名詞辨析",
+        stem: "Pearl checked the mailbox every day after placing an order online, and when the ______ finally arrived, she tore it open excitedly.",
+        stemZh: "網購下單後，Pearl 每天都查看信箱，而當包裹終於寄達時，她興奮地把它拆開。",
+        options: [
+          { key: "A", text: "cargo", zh: "貨物（船運、空運的大宗貨物）", reason: "語意不符：cargo 指船隻或飛機運載的大宗貨物，不會寄到家裡的信箱（mailbox）。" },
+          { key: "B", text: "bundle", zh: "捆；一束", reason: "搭配不當：bundle 強調「捆綁在一起的一束物品（如衣服、木柴）」，網購寄達的標準稱呼為 parcel 或 package。" },
+          { key: "C", text: "parcel", zh: "包裹", reason: "正確答案：對應前文的 placing an order online（網購下單）與 checked the mailbox（查看信箱），寄達並拆開的即為「郵包、包裹」。" },
+          { key: "D", text: "luggage", zh: "行李", reason: "語意不符：luggage 指旅行時攜帶的行李箱袋，為不可數名詞。" }
+        ],
+        ans: "C",
+        evidenceText: "題幹關鍵線索：checked the mailbox（查看信箱）、placing an order online（網購下單）、tore it open（撕開包裝）。",
+        vocab: [
+          { word: "parcel", kk: "/ˈpɑrsḷ/", pos: "n.", zh: "包裹", collocation: "express parcel 快遞包裹 / tear open a parcel 拆開包裹" },
+          { word: "cargo", kk: "/ˈkɑrɡo/", pos: "n.", zh: "（船或飛機裝載的）貨物", collocation: "cargo plane 貨機 / cargo ship 貨輪" }
+        ]
+      },
+      {
+        id: 2, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 1, tag: "形容詞與副詞",
+        stem: "Chloe looks surprisingly ______ in that black dress. Is it the color, or has she actually lost some weight?",
+        stemZh: "Chloe 穿那件黑色洋裝看起來出奇地苗條。到底是黑色有修飾效果，還是她真的變瘦了？",
+        options: [
+          { key: "A", text: "superior", zh: "優越的；佔優勢的", reason: "語意不符：superior 指地位、品質較高（常搭配 to），與後文 lost some weight（變瘦）無關。" },
+          { key: "B", text: "eloquent", zh: "口才好的；雄辯的", reason: "語意不符：形容演講或表達流利動人，無法用來修飾穿洋裝的身形外觀。" },
+          { key: "C", text: "expressive", zh: "富表情的；有表現力的", reason: "語意不符：多形容眼神、臉部表情或藝術表現。" },
+          { key: "D", text: "slender", zh: "苗條的；修長的", reason: "正確答案：呼應後句 has she actually lost some weight?（她真的變瘦了嗎？），表示穿黑色洋裝看起來很「苗條（slender）」。" }
+        ],
+        ans: "D",
+        evidenceText: "題幹關鍵線索：in that black dress（穿那件黑洋裝）、lost some weight（減重、變瘦）。",
+        vocab: [
+          { word: "slender", kk: "/ˈslɛndɚ/", pos: "adj.", zh: "苗條的；纖細的（具褒義）", collocation: "a slender figure 苗條的身材 | 同義: slim" },
+          { word: "eloquent", kk: "/ˈɛləkwənt/", pos: "adj.", zh: "雄辯的；有說服力的", collocation: "deliver an eloquent speech 發表動人的演說" }
+        ]
+      },
+      {
+        id: 3, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 2, tag: "名詞辨析",
+        stem: "Doctors warn that the painkiller contains a highly addictive ______ that could leave patients dependent on it within weeks.",
+        stemZh: "醫生警告這種止痛藥含有高度成癮性的物質，可能幾週內就讓病人產生依賴。",
+        options: [
+          { key: "A", text: "composition", zh: "組成；結構；作文", reason: "概念混淆：composition 指整體的「組成結構或成分比例」，而非指稱某一個具體的化學「物質」。" },
+          { key: "B", text: "substance", zh: "物質", reason: "正確答案：a highly addictive substance 為標準醫療與化學搭配，意為「高度成癮性物質」。" },
+          { key: "C", text: "resource", zh: "資源", reason: "語意不符：指自然資源、財力或人力資源。" },
+          { key: "D", text: "presence", zh: "存在；出席", reason: "語意不符：指人或事物的到場或存在狀態。" }
+        ],
+        ans: "B",
+        evidenceText: "題幹關鍵線索：painkiller contains（止痛藥含有）、highly addictive（高度成癮性的）、leave patients dependent on it（讓病患產生依賴）。",
+        vocab: [
+          { word: "substance", kk: "/ˈsʌbstəns/", pos: "n.", zh: "物質；實質", collocation: "toxic/addictive substance 有毒/成癮物質；substance abuse 藥物濫用" },
+          { word: "dependent", kk: "/dɪˈpɛndənt/", pos: "adj.", zh: "依賴的；成癮的", collocation: "be dependent on 對…產生依賴" }
+        ]
+      },
+      {
+        id: 4, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 2, tag: "動詞與片語",
+        stem: "If you prefer a milder flavor, you can ______ the chili powder from the recipe when you make the Thai curry.",
+        stemZh: "如果你偏好較溫和的口味，製作泰式咖哩時，可以省略食譜中的辣椒粉。",
+        options: [
+          { key: "A", text: "withdraw", zh: "撤回；提領（存款）；退出", reason: "語意不符：常用於 withdraw money（領錢）或 withdraw from a competition（退賽）。" },
+          { key: "B", text: "dismiss", zh: "解散；開除；對…不予理會", reason: "語意不符：dismiss 指解僱員工或駁回想法，不與食譜食材搭配。" },
+          { key: "C", text: "neglect", zh: "忽視；疏於照顧", reason: "常見誘答陷阱：neglect 強調「應做卻因粗心、懶惰而沒做（帶有負面失職意味）」；此處是因個人口味偏好而「刻意不加」，不能用 neglect。" },
+          { key: "D", text: "omit", zh: "省略；刪去；不放入", reason: "正確答案：omit A from B 表示「從 B 中省略/略去 A」，符合因喜歡溫和口味（milder flavor）而省去辣椒粉的語境。" }
+        ],
+        ans: "D",
+        evidenceText: "題幹關鍵線索：prefer a milder flavor（偏好溫和口味）、chili powder from the recipe（食譜中的辣椒粉）。",
+        vocab: [
+          { word: "omit", kk: "/oˈmɪt/", pos: "v.", zh: "省略；刪除", collocation: "omit sth. from the list/recipe 從清單/食譜中省略某物" },
+          { word: "neglect", kk: "/nɪˈɡlɛkt/", pos: "v.", zh: "疏忽；疏於照顧", collocation: "neglect one's duty 玩忽職守" }
+        ]
+      },
+      {
+        id: 5, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 2, tag: "形容詞與副詞",
+        stem: "Don't put those clothes into the closet while they are still ______. Otherwise, they may start to smell.",
+        stemZh: "那些衣服還有點濕的時候，不要放進衣櫃裡；否則，它們可能會開始發臭。",
+        options: [
+          { key: "A", text: "damp", zh: "潮濕的；微濕的", reason: "正確答案：衣服還沒完全乾、微濕（damp）時放進衣櫃會產生霉味（start to smell）。" },
+          { key: "B", text: "stale", zh: "（食物）不新鮮的；（空氣）混濁的", reason: "搭配錯誤：stale 多形容麵包、食物變質或空氣不流通，不形容衣服濕度。" },
+          { key: "C", text: "coarse", zh: "粗糙的；粗劣的", reason: "語意不符：形容布料質地粗糙或言行粗魯，與發臭無因果關係。" },
+          { key: "D", text: "rusty", zh: "生鏽的", reason: "搭配錯誤：形容金屬製品生鏽（或技能生疏）。" }
+        ],
+        ans: "A",
+        evidenceText: "題幹關鍵線索：put those clothes into the closet（把衣服放進衣櫃）、start to smell（開始發臭）。",
+        vocab: [
+          { word: "damp", kk: "/dæmp/", pos: "adj.", zh: "潮濕的；微濕的", collocation: "a damp towel 濕毛巾 / cold and damp 又濕又冷" },
+          { word: "stale", kk: "/stel/", pos: "adj.", zh: "不新鮮的；陳腐的", collocation: "stale bread 變乾硬的麵包 / stale air 混濁的空氣" }
+        ]
+      },
+      {
+        id: 6, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 2, tag: "形容詞與副詞",
+        stem: "The English final exam contains 100 multiple-choice questions; it's ______ impossible to finish them all in just one hour!",
+        stemZh: "英文期末考有 100 題選擇題；只花一個小時要全部寫完，幾乎是不可能的！",
+        options: [
+          { key: "A", text: "urgently", zh: "緊急地；迫切地", reason: "語意不符：無法用來修飾 impossible 表達程度。" },
+          { key: "B", text: "practically", zh: "幾乎；簡直；實際上", reason: "正確答案：practically impossible 是極高頻搭配，意為「幾乎不可能（= almost / virtually impossible）」。" },
+          { key: "C", text: "intensively", zh: "密集地；集中地", reason: "語意不符：多修飾訓練或研究（如 study intensively）。" },
+          { key: "D", text: "roughly", zh: "大約；粗略地", reason: "搭配錯誤：roughly 常修飾數量或估計值（如 roughly 100 questions），不修飾絕對形容詞 impossible。" }
+        ],
+        ans: "B",
+        evidenceText: "題幹關鍵線索：100 multiple-choice questions in just one hour、______ impossible（幾乎不可能）。",
+        vocab: [
+          { word: "practically", kk: "/ˈpræktɪklɪ/", pos: "adv.", zh: "幾乎；簡直", collocation: "practically impossible 幾乎不可能 | 同義: virtually" },
+          { word: "roughly", kk: "/ˈrʌflɪ/", pos: "adv.", zh: "大約；粗略地", collocation: "roughly speaking 粗略來說" }
+        ]
+      },
+      {
+        id: 7, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 2, tag: "名詞辨析",
+        stem: "I can't explain how I knew. I just had an ______ that Lily would cancel the date before she even called me.",
+        stemZh: "我無法解釋自己怎麼知道的。在 Lily 還沒打給我之前，我就有一種直覺，覺得她會取消約會。",
+        options: [
+          { key: "A", text: "association", zh: "聯想；關聯；協會", reason: "語意不符：無法呼應前句 I can't explain how I knew（無法解釋怎麼預先知道的）。" },
+          { key: "B", text: "explanation", zh: "解釋；說明", reason: "語意矛盾：前句才說 I can't explain（我無法解釋），後面不會說「我有一個解釋」。" },
+          { key: "C", text: "observation", zh: "觀察；評論", reason: "語意不符：在對方打電話前（before she even called me）並沒有實際觀察到的跡象。" },
+          { key: "D", text: "intuition", zh: "直覺", reason: "正確答案：無法解釋卻能預先知道（can't explain how I knew... before she even called），正是「直覺（intuition）」的定義。" }
+        ],
+        ans: "D",
+        evidenceText: "題幹關鍵線索：I can't explain how I knew（我無法解釋怎麼知道的）、before she even called me。",
+        vocab: [
+          { word: "intuition", kk: "/ˌɪntjuˈɪʃən/", pos: "n.", zh: "直覺", collocation: "have an intuition that... 有種…的直覺" }
+        ]
+      },
+      {
+        id: 8, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 2, tag: "動詞與片語",
+        stem: "It's hard to find a physical bookstore now, as so many have been forced to ______ operations due to competition from online sellers.",
+        stemZh: "如今很難找到實體書店，因為許多書店在網路賣家的競爭下已被迫停止營業。",
+        options: [
+          { key: "A", text: "mend", zh: "修補；修復", reason: "搭配不當：常搭配 mend fences（修補關係）或 mend clothes。" },
+          { key: "B", text: "resume", zh: "恢復；重新開始", reason: "語意相反：resume operations 是「恢復營業」，與「很難找到實體書店」矛盾。" },
+          { key: "C", text: "cease", zh: "停止；終止", reason: "正確答案：cease operations 為正式商業用語，意為「停止營運、歇業」，符合受到網購競爭而倒閉的語境。" },
+          { key: "D", text: "vary", zh: "變化；改變", reason: "語意不符：vary 指產生差異或多樣化。" }
+        ],
+        ans: "C",
+        evidenceText: "題幹關鍵線索：hard to find a physical bookstore now（很難找到實體書店）、forced to ______ operations（被迫停止營業）。",
+        vocab: [
+          { word: "cease", kk: "/sis/", pos: "v.", zh: "停止；終止", collocation: "cease operations 停止營業 / cease fire 停火" },
+          { word: "resume", kk: "/rɪˈzjum/", pos: "v.", zh: "恢復；重新開始", collocation: "resume work/operations 復工/恢復營業" }
+        ]
+      },
+      {
+        id: 9, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 3, tag: "形容詞與副詞",
+        stem: "It was such an ______ day for a picnic, with soft sunshine, a gentle breeze, and clear, cloudless skies.",
+        stemZh: "陽光柔和、微風輕拂，天空晴朗無雲，那真是個非常適合野餐的宜人日子。",
+        options: [
+          { key: "A", text: "available", zh: "可利用的；有空的", reason: "搭配錯誤：available 用於形容物品、資源可取得或人有空檔，不用來形容天氣或日子的舒適度。" },
+          { key: "B", text: "agreeable", zh: "宜人的；令人愉快的", reason: "正確答案：agreeable 除了「贊同的」，常指天氣、環境「宜人的、討喜的（= pleasant）」，呼應後文的柔和陽光與微風。" },
+          { key: "C", text: "eligible", zh: "有資格的；符合條件的", reason: "搭配錯誤：eligible 用於描述人符合法規或申請資格（be eligible for）。" },
+          { key: "D", text: "evident", zh: "明顯的；顯而易見的", reason: "語意不符：形容事實或跡象明顯，不形容天氣特質。" }
+        ],
+        ans: "B",
+        evidenceText: "題幹關鍵線索：for a picnic, with soft sunshine, a gentle breeze, and clear, cloudless skies（風和日麗適合野餐）。",
+        vocab: [
+          { word: "agreeable", kk: "/əˈɡriəbḷ/", pos: "adj.", zh: "宜人的；愜意的；欣然同意的", collocation: "agreeable weather 宜人的天氣" },
+          { word: "eligible", kk: "/ˈɛlɪdʒəbḷ/", pos: "adj.", zh: "有資格的", collocation: "be eligible for a scholarship 有資格申請獎學金" }
+        ]
+      },
+      {
+        id: 10, sec: "vocab", passageKey: "vocab", type: "single", difficulty: 3, tag: "動詞與片語",
+        stem: "The dishonest police officer ______ an innocent man for the robbery by secretly placing stolen jewelry in his apartment.",
+        stemZh: "那名不誠實的警察暗中將贓物珠寶放進一個無辜男子的公寓，藉此栽贓他犯了搶劫罪。",
+        options: [
+          { key: "A", text: "framed", zh: "陷害；栽贓", reason: "正確答案：frame sb. for a crime 為核心熟詞僻義，意為「捏造證據陷害/栽贓某人犯下某罪」，完美對應後文「暗中把贓物放進無辜者公寓」。" },
+          { key: "B", text: "provoked", zh: "激怒；挑釁", reason: "語意不符：provoke 指激起憤怒或挑起衝突。" },
+          { key: "C", text: "suspected", zh: "懷疑", reason: "語意邏輯不符：警察是自己偷偷放贓物進去（secretly placing stolen jewelry），並非單純「懷疑」對方。" },
+          { key: "D", text: "pursued", zh: "追捕；追求", reason: "語意不符：pursue 指追緝嫌犯，無法搭配 for the robbery by secretly placing...。" }
+        ],
+        ans: "A",
+        evidenceText: "題幹關鍵線索：dishonest police officer（不誠實的警察）、innocent man（無辜男子）、by secretly placing stolen jewelry in his apartment（暗中放贓物）。",
+        vocab: [
+          { word: "frame", kk: "/frem/", pos: "v.", zh: "陷害；給…設圈套；鑲框", collocation: "frame an innocent person for robbery 栽贓無辜者搶劫" }
+        ]
+      },
+
+      // 二、綜合測驗 題組一 (11-15)
+      {
+        id: 11, sec: "cloze", passageKey: "cloze_11_15", type: "single", difficulty: 2, tag: "語意連貫與轉折",
+        stem: "You might be tempted to call it (11) ______, or even interpret it as some sign from the universe, but there's actually a term for this occurrence: the Baader-Meinhof phenomenon.",
+        stemZh: "你可能會想把這種情況稱為一個奇特的巧合，甚至解讀為宇宙傳來的某種徵兆，但其實這種現象有一個專門術語：「巴德爾—邁因霍夫現象」。",
+        options: [
+          { key: "A", text: "a shocking revelation", zh: "令人震驚的真相揭露", reason: "語意不符：前文只是說「剛學到新單字或聽到新歌就覺得處處看到它」，並未揭露任何驚人內幕或真相。" },
+          { key: "B", text: "a popular myth", zh: "廣為流傳的迷思", reason: "語意不符：前句描述的是個人的日常體驗，而非一個大家普遍誤信的迷思。" },
+          { key: "C", text: "a curious coincidence", zh: "奇特的巧合", reason: "正確答案：剛學到某件事就覺得到處都遇到它，一般人最直覺的反應就是覺得「真是個奇妙的巧合（coincidence）」。" },
+          { key: "D", text: "an unexpected encounter", zh: "意外的邂逅", reason: "搭配不當：encounter 通常指與某人或某種具體挑戰的相遇，不適合指稱高頻率出現的字詞或歌曲。" }
+        ],
+        ans: "C",
+        evidenceId: "ev-11",
+        evidenceText: "定位點：第 1 段第 1–2 行「learned a new word, and suddenly it seems that you're hearing or seeing it everywhere... interpret it as some sign from the universe」。",
+        vocab: [
+          { word: "coincidence", kk: "/koˈɪnsɪdəns/", pos: "n.", zh: "巧合", collocation: "a curious/pure coincidence 奇特的/純屬巧合" },
+          { word: "revelation", kk: "/ˌrɛvḷˈeʃən/", pos: "n.", zh: "揭露；被揭露的真相", collocation: "a shocking revelation 驚人的揭露" }
+        ]
+      },
+      {
+        id: 12, sec: "cloze", passageKey: "cloze_11_15", type: "single", difficulty: 2, tag: "句構與文法",
+        stem: "He wrote in to a newspaper, many others related, and the unusual label (12) ______.",
+        stemZh: "他把這件事投書報社分享，許多人也有同感，這個特別的名稱便就此流傳開來了。",
+        options: [
+          { key: "A", text: "stuck", zh: "留存下來；沿用（不及物動詞）", reason: "正確答案：主詞是 the unusual label（這個不尋常的稱呼），stick 在此作不及物動詞（過去式 stuck），意為「（名稱、綽號）黏住、定型並廣為流傳（如 the name stuck）」。" },
+          { key: "B", text: "retained", zh: "保留；記住（及物動詞）", reason: "文法錯誤：retain 為及物動詞，後方必須接受詞（如 retain knowledge），若主詞是 label 必須用被動 was retained。" },
+          { key: "C", text: "reserved", zh: "預訂；保留（及物動詞）", reason: "文法與語意錯誤：reserve 為及物動詞，後須接受詞（如 reserve a seat）。" },
+          { key: "D", text: "forwarded", zh: "轉發；轉寄（及物動詞）", reason: "文法與語意錯誤：forward 為及物動詞，後須接受詞。" }
+        ],
+        ans: "A",
+        evidenceId: "ev-12",
+        evidenceText: "定位點：第 2 段第 2–3 行「He wrote in to a newspaper, many others related, and the unusual label stuck.」",
+        vocab: [
+          { word: "stick", kk: "/stɪk/", pos: "v.", zh: "（名稱或說法）留存下來、被廣為沿用", collocation: "The nickname stuck. 這個綽號就這麼叫開了。" }
+        ]
+      },
+      {
+        id: 13, sec: "cloze", passageKey: "cloze_11_15", type: "single", difficulty: 2, tag: "動詞與片語",
+        stem: "The first is selective attention: the brain's tendency to focus on something newly learned and (13) ______ everything else.",
+        stemZh: "第一是「選擇性注意」，也就是大腦傾向專注於新學到的事物，同時忽略掉其他所有事物。",
+        options: [
+          { key: "A", text: "single out", zh: "挑出；特別選出", reason: "語意矛盾：大腦是挑出「新學到的事物」，而不是把「其他所有事物（everything else）」挑出來。" },
+          { key: "B", text: "tune out", zh: "不理睬；對…置之不理；屏蔽", reason: "正確答案：前半句說 focus on something newly learned（專注於新事物），and 後方需填語意相反的動作，tune out everything else 即「屏蔽/忽略其他一切」，完美定義「選擇性注意」。" },
+          { key: "C", text: "pitch in", zh: "合力幫忙；出力", reason: "語意不符：pitch in 為不及物片語，指投入幫忙。" },
+          { key: "D", text: "give in", zh: "讓步；屈服", reason: "語意不符：give in (to...) 指妥協投降。" }
+        ],
+        ans: "B",
+        evidenceId: "ev-13",
+        evidenceText: "定位點：第 3 段第 1–2 行「selective attention: the brain's tendency to focus on something newly learned and tune out everything else.」",
+        vocab: [
+          { word: "tune out", kk: "/tjun aʊt/", pos: "phr.", zh: "屏蔽；不理會；不聽", collocation: "tune out the background noise 忽略背景噪音" },
+          { word: "single out", kk: "/ˈsɪŋɡḷ aʊt/", pos: "phr.", zh: "單獨挑出", collocation: "single out someone for praise 特別點名表揚某人" }
+        ]
+      },
+      {
+        id: 14, sec: "cloze", passageKey: "cloze_11_15", type: "single", difficulty: 3, tag: "形容詞與副詞",
+        stem: "As we expect to see the new thing more often, each (14) ______ sighting confirms our belief that the world is suddenly filled with what has caught our eye.",
+        stemZh: "當我們預期某件事會更頻繁出現時，每一次後續的目擊都會強化我們「世界突然充滿了引起我們注意的事物」的信念。",
+        options: [
+          { key: "A", text: "subsequent", zh: "後續的；隨後的", reason: "正確答案：呼應前句 As we expect to see the new thing more often（預期接下來會更常看到），因此之後每一次「後續的（subsequent）」目擊（sighting）都會印證並強化這個信念。" },
+          { key: "B", text: "automatic", zh: "自動的；無意識的", reason: "搭配不當：sighting（目擊、看見）是發生事件，不是自動化的機械動作。" },
+          { key: "C", text: "dynamic", zh: "動態的；充滿活力的", reason: "語意不符：與時間先後順序及確認偏誤邏輯無關。" },
+          { key: "D", text: "fundamental", zh: "基本的；根本的", reason: "語意不符：日常看見某個字詞並非「根本的目擊」。" }
+        ],
+        ans: "A",
+        evidenceId: "ev-14",
+        evidenceText: "定位點：第 3 段第 4–5 行「As we expect to see the new thing more often, each subsequent sighting confirms our belief...」",
+        vocab: [
+          { word: "subsequent", kk: "/ˈsʌbsɪkwənt/", pos: "adj.", zh: "隨後的；後來的", collocation: "subsequent events 後續事件" }
+        ]
+      },
+      {
+        id: 15, sec: "cloze", passageKey: "cloze_11_15", type: "single", difficulty: 1, tag: "語意連貫與轉折",
+        stem: "To be frank, (15) ______ to turn off this mechanism, as it is a part of how the brain operates.",
+        stemZh: "坦白說，根本沒有辦法關閉這個機制，因為它是大腦運作方式的一部分。",
+        options: [
+          { key: "A", text: "it's never too late", zh: "永遠不嫌晚", reason: "邏輯矛盾：後文說「因為這是大腦運作的一部分（天生機制）」，並不是「現在關掉還不嫌晚」。" },
+          { key: "B", text: "there's a need", zh: "有此需要", reason: "邏輯矛盾：後文轉折說 But understanding this can remind us...，代表我們無法關掉它，只能透過理解它來提醒自己。" },
+          { key: "C", text: "it's worth a try", zh: "值得一試", reason: "邏輯矛盾：天生的大腦運作機制無法說關就關。" },
+          { key: "D", text: "there's no way", zh: "根本沒有辦法；不可能", reason: "正確答案：因為這是大腦運作的基本機制（a part of how the brain operates），所以「根本沒辦法（there's no way）」將其關閉。" }
+        ],
+        ans: "D",
+        evidenceId: "ev-15",
+        evidenceText: "定位點：第 4 段第 2–3 行「To be frank, there's no way to turn off this mechanism, as it is a part of how the brain operates.」",
+        vocab: [
+          { word: "mechanism", kk: "/ˈmɛkəˌnɪzəm/", pos: "n.", zh: "機制；構造", collocation: "defense/coping mechanism 防衛/應對機制" }
+        ]
+      },
+
+      // 二、綜合測驗 題組二 (16-20)
+      {
+        id: 16, sec: "cloze", passageKey: "cloze_16_20", type: "single", difficulty: 2, tag: "動詞與片語",
+        stem: "From its very first episode, Stranger Things puts viewers (16) ______, and never quite lets them relax again.",
+        stemZh: "《怪奇物語》從第一集起就讓觀眾神經緊繃，之後也從未讓他們真正放鬆過。",
+        options: [
+          { key: "A", text: "at a loss", zh: "不知所措；茫然", reason: "語意不符：at a loss 指困惑不知如何是好，無法直接對比後文的 relax（放鬆）。" },
+          { key: "B", text: "on edge", zh: "緊張不安；神經緊繃；坐立難安", reason: "正確答案：後半句 never quite lets them relax again（此後從未讓他們真正放鬆）直接提示空格需填與「放鬆」相反的狀態，put viewers on edge 精準描述懸疑恐怖劇讓觀眾「神經緊繃」。" },
+          { key: "C", text: "on the spot", zh: "當場；使陷入尷尬為難", reason: "片語誤用：put sb. on the spot 指「強迫某人當場做出決定或回答問題使其難堪」。" },
+          { key: "D", text: "at risk", zh: "處於危險之中", reason: "語意不符：看電視劇的觀眾本人並不會「處於生命危險中」。" }
+        ],
+        ans: "B",
+        evidenceId: "ev-16",
+        evidenceText: "定位點：第 1 段第 2 行「puts viewers on edge, and never quite lets them relax again.」",
+        vocab: [
+          { word: "on edge", kk: "/ɑn ɛdʒ/", pos: "phr.", zh: "緊張不安；神經緊繃", collocation: "keep the audience on edge 讓觀眾保持緊張懸疑感" }
+        ]
+      },
+      {
+        id: 17, sec: "cloze", passageKey: "cloze_16_20", type: "single", difficulty: 2, tag: "句構與文法",
+        stem: "...inspiring fan theories, themed merchandise, and a cultural obsession that few shows (17) ______.",
+        stemZh: "…激發了無數粉絲理論、主題周邊商品，以及幾乎沒有其他影集曾達到的文化狂熱。",
+        options: [
+          { key: "A", text: "are most likely to form", zh: "最有可能形成", reason: "邏輯矛盾：most likely（最可能）與先行詞 few shows（極少數影集）語意衝突。" },
+          { key: "B", text: "have hardly become", zh: "幾乎未能成為", reason: "雙重否定陷阱：few shows 本身已是準否定詞（幾乎沒有影集），若再接 hardly 會變成「雙重否定」，且影集（shows）不能「成為（become）」狂熱（obsession）。" },
+          { key: "C", text: "have yet to develop", zh: "尚未能發展出", reason: "雙重否定陷阱：have yet to 意為「尚未（= have not）」，搭配 few shows 會變成「很少有影集尚未發展出這種狂熱（意即大多數影集都已經做到了）」，與原文完全相反！" },
+          { key: "D", text: "have ever achieved", zh: "曾經達到過的", reason: "正確答案：先行詞 few shows（極少數影集）自帶否定語意，後接肯定完成式 have ever achieved，合起來即「幾乎沒有其他影集曾經達到過的文化狂熱」。" }
+        ],
+        ans: "D",
+        evidenceId: "ev-17",
+        evidenceText: "定位點：第 1 段第 4 行「...and a cultural obsession that few shows have ever achieved.」",
+        vocab: [
+          { word: "obsession", kk: "/əbˈsɛʃən/", pos: "n.", zh: "著迷；狂熱；執念", collocation: "a cultural obsession 文化狂熱" }
+        ]
+      },
+      {
+        id: 18, sec: "cloze", passageKey: "cloze_16_20", type: "single", difficulty: 3, tag: "句構與文法",
+        stem: "Masterful '80s nostalgia, a loveable cast, genuinely terrifying monsters, and a beating heart of friendship and loyalty, skillfully woven into every episode, all (18) ______ their part.",
+        stemZh: "精湛的 80 年代懷舊元素、討喜的演員陣容、真正令人恐懼的怪物，以及貫穿每一集、巧妙融合其中的友誼與忠誠，全都發揮了各自的作用。",
+        options: [
+          { key: "A", text: "to play", zh: "不定詞（非謂語動詞）", reason: "句構錯誤：整句話若填 to play 將缺少主要動詞。" },
+          { key: "B", text: "playing", zh: "現在分詞（非謂語動詞）", reason: "句構錯誤：中間的 skillfully woven into every episode 是過去分詞片語修飾前面的四個名詞，空格本身必須是整句的「主要動詞」，不能填分詞 playing。" },
+          { key: "C", text: "play", zh: "現在簡單式複數動詞", reason: "正確答案：主詞為 A, B, C, and D 四項要素組成的複數主詞，且全段以現在簡單式（explains, is set, looks like）描述影集特色，故填原形複數動詞 play。" },
+          { key: "D", text: "played", zh: "過去簡單式動詞", reason: "時態不一致：本段分析影集吸引人的特質皆使用現在簡單式。" }
+        ],
+        ans: "C",
+        evidenceId: "ev-18",
+        evidenceText: "定位點：第 2 段第 2–3 行「Masterful '80s nostalgia... and loyalty, skillfully woven into every episode, all play their part.」",
+        vocab: [
+          { word: "play one's part", kk: "/ple wʌnz pɑrt/", pos: "phr.", zh: "發揮作用；盡一份力；扮演好角色", collocation: "All ingredients play their part." }
+        ]
+      },
+      {
+        id: 19, sec: "cloze", passageKey: "cloze_16_20", type: "single", difficulty: 3, tag: "名詞辨析",
+        stem: "The electronic soundtrack, the warm visuals, and the deliberate (19) ______ to some beloved films and novels that audiences would immediately recognize, like E.T., The Goonies, and the works of Stephen King, work together to evoke a fond childhood memory...",
+        stemZh: "電子樂風的配樂、溫暖的視覺風格，以及對《E.T.》、《七寶奇謀》與史蒂芬·金作品等觀眾會立刻認出的經典電影與小說的刻意致敬（指涉），共同喚起了童年美好回憶…",
+        options: [
+          { key: "A", text: "references", zh: "提及；指涉；引用（常搭配介系詞 to）", reason: "正確答案：references to + 經典作品，表示劇中刻意「提及、引用、向…致敬」觀眾耳熟能詳的經典電影與小說。" },
+          { key: "B", text: "promotion", zh: "宣傳；促銷；升遷", reason: "語意不符：一部 2016 年的影集並不是為了幫 80 年代老電影做商業促銷。" },
+          { key: "C", text: "contributions", zh: "貢獻；捐獻", reason: "邏輯倒置：是《E.T.》等經典啟發了《怪奇物語》，而非《怪奇物語》對那些老電影做出貢獻。" },
+          { key: "D", text: "expansion", zh: "擴張；擴充", reason: "語意與搭配不符：expansion 不搭配 to beloved films。" }
+        ],
+        ans: "A",
+        evidenceId: "ev-19",
+        evidenceText: "定位點：第 2 段第 4–6 行「...and the deliberate references to some beloved films and novels that audiences would immediately recognize...」",
+        vocab: [
+          { word: "reference", kk: "/ˈrɛfərəns/", pos: "n.", zh: "提及；指涉；參考", collocation: "make a deliberate reference to 刻意提及/致敬…" }
+        ]
+      },
+      {
+        id: 20, sec: "cloze", passageKey: "cloze_16_20", type: "single", difficulty: 3, tag: "語意連貫與轉折",
+        stem: "That emotional investment built across multiple seasons is, (20) ______, what transformed a clever Netflix original into a once-in-a-generation phenomenon.",
+        stemZh: "在所有成功因素之中，最重要的莫過於這種經過多季累積的情感投入，是它將《怪奇物語》從一部優秀的 Netflix 原創影集，推向了世代級文化現象的地位。",
+        options: [
+          { key: "A", text: "in due time", zh: "到了適當的時候；假以時日", reason: "語意不符：in due time 指時間到了自然會發生，但此處是在總結眾多成功因素中哪一項最關鍵。" },
+          { key: "B", text: "against all odds", zh: "儘管困難重重；排除萬難", reason: "語意不符：主詞是「情感投入（emotional investment）」，並非描述克服逆境的過程。" },
+          { key: "C", text: "above all else", zh: "最重要的是；高於其他一切", reason: "正確答案：作者前文列舉了懷舊、怪獸、配樂等多種因素，最後一段點出核心（At its core），強調「情感投入」是「高於其他所有因素、最重要（above all else）」的關鍵。" },
+          { key: "D", text: "for the time being", zh: "暫時；眼下", reason: "語意不符：成為世代級現象（once-in-a-generation phenomenon）是歷史定位，而非「暫時」狀態。" }
+        ],
+        ans: "C",
+        evidenceId: "ev-20",
+        evidenceText: "定位點：第 3 段最後一句「That emotional investment built across multiple seasons is, above all else, what transformed...」",
+        vocab: [
+          { word: "above all else", kk: "/əˈbʌv ɔl ɛls/", pos: "phr.", zh: "最重要的是；勝過其他一切", collocation: "Value honesty above all else." }
+        ]
+      },
+
+      // 三、文意選填 (21-30)
+      {
+        id: 21, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 2, tag: "動詞與片語",
+        stem: "Have you ever had butterflies in your stomach or a sudden urge to go to the bathroom when nervous? If so, you've experienced the gut-brain connection (21) ______.",
+        stemZh: "如果有的話，那就是你親身體驗到了「腸腦連結」正在發揮作用。",
+        options: [
+          { key: "J", text: "(J) in action", zh: "正在運作中；發揮作用", reason: "正確答案：experience sth. in action 意為「親身體驗某機制正在實際運作/發揮作用」，對應前句緊張時胃部七上八下或想上廁所的生理反應。" },
+          { key: "A", text: "(A) in check", zh: "受到控制/抑制", reason: "語意不符：緊張想上廁所是腸腦連結「發作/運作」，而非受到抑制。" },
+          { key: "E", text: "(E) present", zh: "存在的；在場的", reason: "語意不自然：experience the connection in action 為道地英文慣用語。" },
+          { key: "I", text: "(I) lead", zh: "引導；帶領", reason: "詞性與結構不合：connection 後方不單獨接名詞 lead。" }
+        ],
+        ans: "J",
+        evidenceId: "ev-21",
+        evidenceText: "定位點：第 1 段第 2 行「you've experienced the gut-brain connection in action.」",
+        vocab: [
+          { word: "in action", kk: "/ɪn ˈækʃən/", pos: "phr.", zh: "在運作中；在活動中", collocation: "see the theory in action 看到理論實際運作" }
+        ]
+      },
+      {
+        id: 22, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 1, tag: "名詞辨析",
+        stem: "For decades, scientists assumed the gut simply followed the brain's (22) ______.",
+        stemZh: "數十年來，科學家們一直假設腸道只是單純地聽從大腦的引導。",
+        options: [
+          { key: "I", text: "(I) lead", zh: "引導；指揮（名詞）", reason: "正確答案：所有格 brain's 後需接名詞，follow someone's lead 為固定片語，意為「聽從某人的指揮、跟隨某人的引導」。" },
+          { key: "C", text: "(C) nutrition", zh: "營養", reason: "語意不符：不能說跟隨大腦的營養。" },
+          { key: "F", text: "(F) investigation", zh: "調查；研究", reason: "語意不符：腸道不會跟隨大腦的調查。" },
+          { key: "D", text: "(D) exchange", zh: "交換", reason: "語意不符。" }
+        ],
+        ans: "I",
+        evidenceId: "ev-22",
+        evidenceText: "定位點：第 1 段第 2–3 行「scientists assumed the gut simply followed the brain's lead.」",
+        vocab: [
+          { word: "follow one's lead", kk: "/ˈfɑlo wʌnz lid/", pos: "phr.", zh: "聽從某人的引導；效法某人", collocation: "The gut simply followed the brain's lead." }
+        ]
+      },
+      {
+        id: 23, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 1, tag: "名詞辨析",
+        stem: "These microbes, collectively known as the gut microbiome, do far more than simply help digest food to provide (23) ______.",
+        stemZh: "這些微生物被統稱為腸道微生物群，它們的功能遠遠不止於單純幫助消化食物以提供營養。",
+        options: [
+          { key: "C", text: "(C) nutrition", zh: "營養", reason: "正確答案：及物動詞 provide 後缺名詞受詞，消化食物（digest food）最基本的目的就是提供「營養（nutrition）」。" },
+          { key: "F", text: "(F) investigation", zh: "研究；調查", reason: "語意不符：消化食物與提供研究無關。" },
+          { key: "I", text: "(I) lead", zh: "引導", reason: "語意不符。" },
+          { key: "H", text: "(H) enhance", zh: "提升（動詞）", reason: "詞性錯誤：provide 後需接名詞。" }
+        ],
+        ans: "C",
+        evidenceId: "ev-23",
+        evidenceText: "定位點：第 2 段第 1–2 行「help digest food to provide nutrition.」",
+        vocab: [
+          { word: "nutrition", kk: "/njuˈtrɪʃən/", pos: "n.", zh: "營養；營養學", collocation: "provide adequate nutrition 提供充足營養" }
+        ]
+      },
+      {
+        id: 24, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 1, tag: "動詞與片語",
+        stem: "Most directly, they (24) ______ signals with the brain via the vagus nerve, a physical link between the brain and the gut.",
+        stemZh: "最直接的是，它們透過迷走神經與大腦交換訊號，這是一條連接大腦與腸道的實體紐帶。",
+        options: [
+          { key: "D", text: "(D) exchange", zh: "交換（及物動詞）", reason: "正確答案：主詞 they 後接動詞與受詞 signals，且搭配介系詞 with the brain，exchange signals with... 即「與…交換訊號（雙向溝通）」。" },
+          { key: "G", text: "(G) arise", zh: "出現；產生（不及物動詞）", reason: "文法錯誤：arise 為不及物動詞，後面不能直接加受詞 signals。" },
+          { key: "H", text: "(H) enhance", zh: "增強；提升", reason: "搭配錯誤：enhance 不與 with the brain 連用表達雙向傳遞。" },
+          { key: "E", text: "(E) present", zh: "存在的", reason: "語意與搭配不符。" }
+        ],
+        ans: "D",
+        evidenceId: "ev-24",
+        evidenceText: "定位點：第 2 段第 2–3 行「Most directly, they exchange signals with the brain via the vagus nerve...」",
+        vocab: [
+          { word: "exchange", kk: "/ɪksˈtʃendʒ/", pos: "v./n.", zh: "交換；交流", collocation: "exchange signals/ideas with sb. 與某人交換訊號/想法" }
+        ]
+      },
+      {
+        id: 25, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 2, tag: "動詞與片語",
+        stem: "Additionally, the microbiome works with the immune system to keep inflammation (25) ______, preventing it from interfering with normal brain function.",
+        stemZh: "此外，微生物群與免疫系統協同工作，抑制發炎反應，防止其干擾正常的大腦功能。",
+        options: [
+          { key: "A", text: "(A) in check", zh: "受到控制；受到抑制", reason: "正確答案：keep + 受詞 (inflammation) + in check 為重要片語，意為「使發炎反應受到控制/抑制」，因此才能「防止它干擾正常腦部功能（preventing it from interfering...）」。" },
+          { key: "J", text: "(J) in action", zh: "運作中", reason: "語意相反：若讓發炎持續發作（in action），就會干擾大腦功能。" },
+          { key: "E", text: "(E) present", zh: "存在的", reason: "語意相反：免疫系統不會設法「保持發炎存在」。" },
+          { key: "B", text: "(B) hospitable", zh: "適合生存的", reason: "語意不符。" }
+        ],
+        ans: "A",
+        evidenceId: "ev-25",
+        evidenceText: "定位點：第 2 段第 5–6 行「to keep inflammation in check, preventing it from interfering with normal brain function.」",
+        vocab: [
+          { word: "keep sth. in check", kk: "/kip ɪn tʃɛk/", pos: "phr.", zh: "控制住…；抑制…", collocation: "keep inflation/inflammation in check 控制通膨/發炎" }
+        ]
+      },
+      {
+        id: 26, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 2, tag: "動詞與片語",
+        stem: "A balanced microbiome supports healthy brain function; however, when this delicate balance is disrupted, cognitive and emotional problems may (26) ______.",
+        stemZh: "平衡的微生物群能支持健康的大腦功能；然而，當這種脆弱的平衡被破壞時，認知和情感問題就可能隨之出現。",
+        options: [
+          { key: "G", text: "(G) arise", zh: "出現；發生；產生（不及物動詞）", reason: "正確答案：助動詞 may 後缺原形動詞，且句尾無受詞，需填不及物動詞。problems may arise 為標準搭配，意為「問題可能隨之產生/浮現」。" },
+          { key: "D", text: "(D) exchange", zh: "交換（及物動詞）", reason: "文法與語意錯誤：後無受詞。" },
+          { key: "H", text: "(H) enhance", zh: "提升（及物動詞）", reason: "文法與語意錯誤：後無受詞，且問題不會被提升。" },
+          { key: "E", text: "(E) present", zh: "呈現（及物動詞）/ 存在的（形容詞）", reason: "文法錯誤：若當形容詞前面需有 be 動詞（may be present）。" }
+        ],
+        ans: "G",
+        evidenceId: "ev-26",
+        evidenceText: "定位點：第 2 段最後一句「when this delicate balance is disrupted, cognitive and emotional problems may arise.」",
+        vocab: [
+          { word: "arise", kk: "/əˈraɪz/", pos: "v.", zh: "（問題、困難）出現，發生（三態：arise, arose, arisen）", collocation: "Emotional problems may arise." }
+        ]
+      },
+      {
+        id: 27, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 2, tag: "名詞辨析",
+        stem: "Human studies also suggest probiotics' potential for boosting memory and stabilizing mood, but they remain limited in scale and require further (27) ______.",
+        stemZh: "人體研究也顯示益生菌在增強記憶力和穩定情緒方面具有潛力，但這些研究目前的規模仍然有限，還需要進一步的調查研究。",
+        options: [
+          { key: "F", text: "(F) investigation", zh: "研究；調查（名詞）", reason: "正確答案：形容詞 further（進一步的）後需接名詞，因為目前人體研究規模有限（limited in scale），所以需要「進一步的科學調查研究（further investigation）」。" },
+          { key: "C", text: "(C) nutrition", zh: "營養", reason: "語意不符：研究不需要進一步的營養。" },
+          { key: "I", text: "(I) lead", zh: "引導", reason: "語意不符。" },
+          { key: "H", text: "(H) enhance", zh: "提升（動詞）", reason: "詞性錯誤：require further 後需接名詞。" }
+        ],
+        ans: "F",
+        evidenceId: "ev-27",
+        evidenceText: "定位點：第 3 段第 4–5 行「they remain limited in scale and require further investigation.」",
+        vocab: [
+          { word: "investigation", kk: "/ɪnˌvɛstəˈɡeʃən/", pos: "n.", zh: "調查；科學研究", collocation: "require further investigation 需要進一步研究" }
+        ]
+      },
+      {
+        id: 28, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 3, tag: "句構與文法",
+        stem: "In contrast, long-term antibiotic use, which can wipe out beneficial bacteria originally (28) ______ in the gut, has been linked to poorer cognitive performance and mental health issues.",
+        stemZh: "相反地，長期使用抗生素可能會消滅原本存在於腸道中的有益細菌，這與較差的認知表現和心理健康問題存在著關聯。",
+        options: [
+          { key: "E", text: "(E) present", zh: "存在的（形容詞後位修飾）", reason: "正確答案：bacteria (which are) originally present in the gut 為形容詞子句簡化而來的後位修飾結構，present in... 意為「存在於…之中的」。" },
+          { key: "B", text: "(B) hospitable", zh: "適合生存的；好客的", reason: "語意與搭配錯誤：hospitable 用來修飾環境（environment），不修飾細菌且不搭配 in the gut。" },
+          { key: "A", text: "(A) in check", zh: "受控制的", reason: "語意不符。" },
+          { key: "G", text: "(G) arise", zh: "出現（原形動詞）", reason: "文法錯誤：此子句已有動詞 can wipe out，不能直接放原形動詞 arise。" }
+        ],
+        ans: "E",
+        evidenceId: "ev-28",
+        evidenceText: "定位點：第 3 段第 5–6 行「wipe out beneficial bacteria originally present in the gut...」",
+        vocab: [
+          { word: "present", kk: "/ˈprɛzṇt/", pos: "adj.", zh: "存在的；出席的（作「存在的、在場的」解時常置於名詞後）", collocation: "bacteria originally present in the gut 原本存在於腸道中的細菌" }
+        ]
+      },
+      {
+        id: 29, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 1, tag: "動詞與片語",
+        stem: "To (29) ______ our cognitive and emotional well-being, we can nurture the gut microbiome through simple daily habits.",
+        stemZh: "為了提升我們的認知和情感健康，我們可以透過每天簡單的習慣來滋養腸道微生物群。",
+        options: [
+          { key: "H", text: "(H) enhance", zh: "提升；增進（及物動詞）", reason: "正確答案：句首 To + V 表目的，後接名詞受詞 our cognitive and emotional well-being（認知與情感健康福祉），故填及物動詞 enhance（提升、促進）。" },
+          { key: "D", text: "(D) exchange", zh: "交換", reason: "語意不符：不能說交換我們的健康。" },
+          { key: "G", text: "(G) arise", zh: "出現（不及物動詞）", reason: "文法錯誤：arise 不能接受詞 well-being。" },
+          { key: "I", text: "(I) lead", zh: "引導", reason: "語意不符。" }
+        ],
+        ans: "H",
+        evidenceId: "ev-29",
+        evidenceText: "定位點：第 4 段第 1 行「To enhance our cognitive and emotional well-being, we can nurture the gut microbiome...」",
+        vocab: [
+          { word: "enhance", kk: "/ɪnˈhæns/", pos: "v.", zh: "提升；增強；增進", collocation: "enhance well-being / cognitive function 提升健康福祉/認知功能" }
+        ]
+      },
+      {
+        id: 30, sec: "fill", passageKey: "fill_21_30", type: "single", difficulty: 2, tag: "形容詞與副詞",
+        stem: "Consuming fiber-rich and fermented foods, getting adequate sleep, and engaging in regular exercise all help create a(n) (30) ______ environment for beneficial gut bacteria.",
+        stemZh: "攝取富含纖維的食物和發酵食品、獲得充足的睡眠，以及進行規律的運動，都有助於為有益的腸道細菌創造一個適合生存的環境。",
+        options: [
+          { key: "B", text: "(B) hospitable", zh: "（環境）宜人的、適合生存的", reason: "正確答案：冠詞 a(n) 與名詞 environment 之間需填形容詞。hospitable 除了指對人「好客的」，在生物環境語境中指「有利於生長的、適合居住生存的（a hospitable environment for...）」。" },
+          { key: "E", text: "(E) present", zh: "當前的", reason: "語意不符：健康飲食與運動是為了創造「適合好菌生存的環境」，而非「目前的環境」。" },
+          { key: "A", text: "(A) in check", zh: "受控制的", reason: "詞性不合：介系詞片語不能放在冠詞與名詞中間。" },
+          { key: "C", text: "(C) nutrition", zh: "營養（名詞）", reason: "詞性不合。" }
+        ],
+        ans: "B",
+        evidenceId: "ev-30",
+        evidenceText: "定位點：第 4 段第 2–3 行「help create a(n) hospitable environment for beneficial gut bacteria.」",
+        vocab: [
+          { word: "hospitable", kk: "/ˈhɑspɪtəbḷ/", pos: "adj.", zh: "（環境）適合生存的；好客的", collocation: "create a hospitable environment for... 為…創造適居環境 | 反義: inhospitable" }
+        ]
+      },
+
+      // 四、篇章結構 (31-34)
+      {
+        id: 31, sec: "structure", passageKey: "structure_31_34", type: "single", difficulty: 1, tag: "語意連貫與轉折",
+        stem: "Psychologists interpret this as a form of the \"Peter Pan effect,\" where young adults cling to childhood artifacts to escape the responsibilities of maturity. (31) ______",
+        stemZh: "心理學家將其解釋為「彼得潘效應」的一種形式，意即年輕人依戀童年的物件以逃避長大成人所帶來的責任。(31) 然而，這種解釋只捕捉到了部分的事實。",
+        options: [
+          { key: "A", text: "(A) Loneliness is an equally pressing issue for Gen Z.", zh: "孤獨感對 Z 世代而言，同樣是一個迫在眉睫的問題。", reason: "位置不當：下一段（第3段）討論的是「經濟現實（economic realities）」，第4段才討論孤獨與社交。" },
+          { key: "B", text: "(B) Rather, this trend reflects an adaptive coping mechanism.", zh: "相反地，這一趨勢反映出了一種適應性的應對機制。", reason: "位置不當：Rather 用於直接反駁前句的否定句（not a sign of immaturity），應放在第 34 題。" },
+          { key: "C", text: "(C) This explanation, however, only captures part of the picture.", zh: "然而，這個解釋只捕捉到了部分的面貌。", reason: "正確答案：前句提出心理學家的解釋（interpret this as...），選項 (C) 的 This explanation 精準指代前句，且以 however 轉折指出「這只看到部分事實」，順利引出第 3 段「The economic realities facing Gen Z shed further light on this trend（經濟現實提供了進一步啟示）」。" },
+          { key: "D", text: "(D) As a result, many Gen Zers have abandoned traditional milestones like homeownership.", zh: "因此，許多 Z 世代已經放棄了像買房成家這類的傳統人生里程碑。", reason: "位置不當：第 2 段尚未提及經濟壓力與買房。" },
+          { key: "E", text: "(E) Gen Zers are defining traditional notions of success and social status on their own terms.", zh: "Z 世代正用他們自己的方式，重新定義傳統的成功與社會地位觀念。", reason: "干擾項：全文探討的是面對壓力與孤獨的心理調適，並未探討「重新定義成功與社會地位」。" }
+        ],
+        ans: "C",
+        evidenceId: "ev-31",
+        evidenceText: "定位點：第 2 段段尾與第 3 段段首「Psychologists interpret this as... (31) ... The economic realities facing Gen Z shed further light on this trend.」",
+        vocab: [
+          { word: "capture part of the picture", kk: "/ˈkæptʃɚ pɑrt əv ðə ˈpɪktʃɚ/", pos: "phr.", zh: "只捕捉到部分全貌/事實", collocation: "This explanation only captures part of the picture." }
+        ]
+      },
+      {
+        id: 32, sec: "structure", passageKey: "structure_31_34", type: "single", difficulty: 2, tag: "語意連貫與轉折",
+        stem: "Economic turmoil and skyrocketing costs of living have put immense pressure on them, while footage of war on social media deepens their sense of uncertainty and instability. (32) ______ Rather than saving for goals that now feel unattainable, they redirect their income toward small, manageable sources of happiness.",
+        stemZh: "經濟動盪和飆升的生活成本給他們帶來了巨大的壓力… (32) 因此，許多 Z 世代已經放棄了像買房這類的傳統里程碑。相較於為了現在看來遙不可及的目標而儲蓄，他們轉而將收入投向微小、可控的快樂泉源。",
+        options: [
+          { key: "A", text: "(A) Loneliness is an equally pressing issue for Gen Z.", zh: "孤獨感對 Z 世代而言，同樣是一個迫在眉睫的問題。", reason: "脈絡不合：前後句都在談經濟生活成本、儲蓄（saving）與收入配置（redirect their income）。" },
+          { key: "B", text: "(B) Rather, this trend reflects an adaptive coping mechanism.", zh: "相反地，這一趨勢反映出了一種適應性的應對機制。", reason: "脈絡不合。" },
+          { key: "C", text: "(C) This explanation, however, only captures part of the picture.", zh: "然而，這個解釋只捕捉到了部分的面貌。", reason: "已於第 31 題使用。" },
+          { key: "D", text: "(D) As a result, many Gen Zers have abandoned traditional milestones like homeownership.", zh: "因此，許多 Z 世代已經放棄了像買房成家這類的傳統人生里程碑。", reason: "正確答案：前句講「生活成本飆升帶來巨大壓力」，以 As a result（因此）帶出結果「放棄買房（homeownership）等傳統里程碑」，而「買房」正好就是後句所指的「goals that now feel unattainable（如今看來遙不可及的儲蓄目標）」。" },
+          { key: "E", text: "(E) Gen Zers are defining traditional notions of success and social status on their own terms.", zh: "Z 世代正用他們自己的方式，重新定義傳統的成功與社會地位觀念。", reason: "無法銜接後句的「Rather than saving for goals that now feel unattainable（相較於為了遙不可及的目標儲蓄）」。" }
+        ],
+        ans: "D",
+        evidenceId: "ev-32",
+        evidenceText: "定位點：第 3 段中段「skyrocketing costs of living... (32) Rather than saving for goals that now feel unattainable, they redirect their income...」",
+        vocab: [
+          { word: "milestone", kk: "/ˈmaɪlˌston/", pos: "n.", zh: "里程碑；重大人生階段", collocation: "traditional milestones like homeownership 買房等傳統人生里程碑" }
+        ]
+      },
+      {
+        id: 33, sec: "structure", passageKey: "structure_31_34", type: "single", difficulty: 3, tag: "細節與指代",
+        stem: "(33) ______ For many, buying and collecting plush toys offers unexpected relief from it. By joining online collector communities and attending immersive pop-up events, they transform solitary objects into shared social currency and gain a sense of belonging...",
+        stemZh: "(33) 孤獨感對 Z 世代來說是另一個同樣迫切的問題。對許多人而言，購買和收集毛絨玩具為此帶來了意想不到的慰藉。藉由加入線上收藏家社群…獲得歸屬感。",
+        options: [
+          { key: "A", text: "(A) Loneliness is an equally pressing issue for Gen Z.", zh: "孤獨感對 Z 世代而言，同樣是一個迫在眉睫的問題。", reason: "正確答案：本題關鍵破題點在於後句的代名詞「offers unexpected relief from it（為『它』帶來意想不到的緩解/慰藉）」，且後文都在講加入社群、獲得歸屬感（a sense of belonging），因此句首必須是單數負面名詞 Loneliness（孤獨感）作為 it 的先行詞！" },
+          { key: "B", text: "(B) Rather, this trend reflects an adaptive coping mechanism.", zh: "相反地，這一趨勢反映出了一種適應性的應對機制。", reason: "代名詞指代不合：無法對應後句的 relief from it。" },
+          { key: "C", text: "(C) This explanation, however, only captures part of the picture.", zh: "然而，這個解釋只捕捉到了部分的面貌。", reason: "已選用。" },
+          { key: "D", text: "(D) As a result, many Gen Zers have abandoned traditional milestones like homeownership.", zh: "因此，許多 Z 世代已經放棄了像買房成家這類的傳統人生里程碑。", reason: "已選用。" },
+          { key: "E", text: "(E) Gen Zers are defining traditional notions of success and social status on their own terms.", zh: "Z 世代正用他們自己的方式，重新定義傳統的成功與社會地位觀念。", reason: "代名詞指代不合：無單數負面名詞供後句 relief from it 指代。" }
+        ],
+        ans: "A",
+        evidenceId: "ev-33",
+        evidenceText: "定位點：第 4 段段首「(33) For many, buying and collecting plush toys offers unexpected relief from it... gain a sense of belonging...」",
+        vocab: [
+          { word: "pressing", kk: "/ˈprɛsɪŋ/", pos: "adj.", zh: "迫切的；緊迫的", collocation: "an equally pressing issue 同樣迫切的問題" },
+          { word: "social currency", kk: "/ˈsoʃəl ˈkɝənsɪ/", pos: "n.", zh: "社交貨幣（建立人際連結的共同話題媒介）", collocation: "shared social currency 共享的社交貨幣" }
+        ]
+      },
+      {
+        id: 34, sec: "structure", passageKey: "structure_31_34", type: "single", difficulty: 2, tag: "語意連貫與轉折",
+        stem: "The popularity of plushies among Gen Z is not a sign of immaturity. (34) ______ Faced with uncertainty and pressure, they are finding new ways to experience joy and connection.",
+        stemZh: "毛絨玩具在 Z 世代中的流行並不是不成熟的表現。(34) 相反地，這股潮流反映了一種適應性的應對機制。面對不確定性和壓力，他們正在尋找體驗快樂和連結的新方法。",
+        options: [
+          { key: "A", text: "(A) Loneliness is an equally pressing issue for Gen Z.", zh: "孤獨感對 Z 世代而言，同樣是一個迫在眉睫的問題。", reason: "已選用。" },
+          { key: "B", text: "(B) Rather, this trend reflects an adaptive coping mechanism.", zh: "相反地，這一趨勢反映出了一種適應性的應對機制。", reason: "正確答案：前句為否定句「is not a sign of immaturity（不是不成熟的表現）」，後接「Rather, ...（相反地，這是…）」構成標準的「not A; rather, B（不是 A，而是 B）」句型，且 adaptive coping mechanism（適應性應對機制）完美總結後文的「面對不確定性與壓力尋找新方法」。" },
+          { key: "C", text: "(C) This explanation, however, only captures part of the picture.", zh: "然而，這個解釋只捕捉到了部分的面貌。", reason: "已選用。" },
+          { key: "D", text: "(D) As a result, many Gen Zers have abandoned traditional milestones like homeownership.", zh: "因此，許多 Z 世代已經放棄了像買房成家這類的傳統人生里程碑。", reason: "已選用。" },
+          { key: "E", text: "(E) Gen Zers are defining traditional notions of success and social status on their own terms.", zh: "Z 世代正用他們自己的方式，重新定義傳統的成功與社會地位觀念。", reason: "與前後句談論的「不成熟 vs. 面對壓力的心理調適機制」無關。" }
+        ],
+        ans: "B",
+        evidenceId: "ev-34",
+        evidenceText: "定位點：第 5 段第 1–2 行「The popularity of plushies among Gen Z is not a sign of immaturity. (34) Faced with uncertainty and pressure...」",
+        vocab: [
+          { word: "coping mechanism", kk: "/ˈkopɪŋ ˈmɛkəˌnɪzəm/", pos: "n.", zh: "應對機制；心理調適機制", collocation: "an adaptive coping mechanism 適應性的應對機制" }
+        ]
+      },
+
+      // 五、閱讀測驗 題組一：恐狼與生技漂綠 (35-38)
+      {
+        id: 35, sec: "reading", passageKey: "reading_35_38", type: "single", difficulty: 2, tag: "主旨與推論",
+        stem: "What is the main purpose of the passage?",
+        stemZh: "本文的主要目的為何？",
+        options: [
+          { key: "A", text: "To voice concerns about a misleading biotech project.", zh: "表達對一項具誤導性的生物科技計畫的憂慮。", reason: "正確答案：全文針對 Colossal 公司的恐狼計畫進行批判，第 2 段指其 misleading（具誤導性）、conservation-washing（保育漂綠），第 4 段指出這會對真正的生物多樣性保育造成危險的注意力分散（dangerous distraction），故主旨為「對該誤導性生技計畫提出憂慮」。" },
+          { key: "B", text: "To criticize a policy on endangered species protection.", zh: "批評一項有關瀕危物種保護的政策。", reason: "以偏概全：第 4 段提及川普政府引用該公司說法作為削減保護的藉口，僅為單一佐證細節，非全文主旨。" },
+          { key: "C", text: "To urge the public to protest against a biotech company.", zh: "呼籲大眾抗議某一家生物科技公司。", reason: "過度推論：作者旨在提醒大眾認清事實並重視現存物種保育，並未號召群眾去抗議（protest against）該公司。" },
+          { key: "D", text: "To call for stricter restrictions on acts of conservation-washing.", zh: "呼籲對保育漂綠行為施加更嚴格的限制。", reason: "無中生有：文中並未討論立法或法規限制（restrictions）。" }
+        ],
+        ans: "A",
+        evidenceId: "ev-35",
+        evidenceText: "定位點：第 2 段末「Colossal's claim... is misleading」及第 4 段「This may create a dangerous distraction from proven solutions to the biodiversity crisis.」",
+        vocab: [
+          { word: "conservation-washing", kk: "/ˌkɑnsɚˈveʃən ˈwɑʃɪŋ/", pos: "n.", zh: "保育漂綠（假借生態保育之名進行商業行銷）", collocation: "a case of conservation-washing" },
+          { word: "misleading", kk: "/mɪsˈlidɪŋ/", pos: "adj.", zh: "誤導性的", collocation: "a misleading claim 誤導性的宣稱" }
+        ]
+      },
+      {
+        id: 36, sec: "reading", passageKey: "reading_35_38", type: "single", difficulty: 3, tag: "細節與指代",
+        stem: "What does \"those\" refer to in the second paragraph?",
+        stemZh: "第二段中的「those」指的是什麼？",
+        options: [
+          { key: "A", text: "Dire wolf DNA.", zh: "恐狼 DNA。", reason: "文法與指代錯誤：DNA 為不可數/單數概念，不用複數代名詞 those 指代，且科學家並非將整份 DNA 編輯進灰狼體內。" },
+          { key: "B", text: "Fossilized remains.", zh: "化石遺骸。", reason: "語意荒謬：化石遺骸不可能被編輯進灰狼的基因組（genomes）裡。" },
+          { key: "C", text: "Isolated genes.", zh: "被分離出的基因。", reason: "正確答案：前一句寫道「they isolated a handful of genes by identifying key genetic markers. They then edited those into the genomes of modern grey wolves.」，科學家先透過基因標記分離出「少數幾個基因（a handful of genes）」，接著再把「那些被分離出的基因（those）」編輯進現代灰狼的基因組中。" },
+          { key: "D", text: "Genetic markers.", zh: "基因標記。", reason: "常見誘答陷阱：雖然 genetic markers 距離 those 最近，但「基因標記」只是用來「辨識（identifying）」基因的工具，真正被分離出來並編輯進灰狼基因組的是 genes（基因）！" }
+        ],
+        ans: "C",
+        evidenceId: "ev-36",
+        evidenceText: "定位點：第 2 段第 4–5 行「After careful analysis, they isolated a handful of genes by identifying key genetic markers. They then edited those into the genomes of modern grey wolves.」",
+        vocab: [
+          { word: "isolate", kk: "/ˈaɪsḷˌet/", pos: "v.", zh: "分離；孤立；隔離", collocation: "isolate a handful of genes 分離出少數基因" },
+          { word: "genome", kk: "/ˈdʒinom/", pos: "n.", zh: "基因組；染色體組", collocation: "genome editing 基因組編輯" }
+        ]
+      },
+      {
+        id: 37, sec: "reading", passageKey: "reading_35_38", type: "single", difficulty: 2, tag: "主旨與推論",
+        stem: "Why does the author mention the examples of European startups in the third paragraph?",
+        stemZh: "作者為什麼在第三段提到歐洲新創公司的例子？",
+        options: [
+          { key: "A", text: "To indicate that interest in species revival is not limited to the U.S.", zh: "為了指出對「物種復育（滅絕物種復活）」的興趣並不僅限於美國。", reason: "張冠李戴：歐洲這兩家新創做的是「魚類辨識監測」與「土壤健康追蹤」，並非做「滅絕物種復活（species revival）」。" },
+          { key: "B", text: "To imply that Europe is a global leader in conservation innovation.", zh: "為了暗示歐洲是全球保育創新的領導者。", reason: "過度推論：文中僅用歐洲新創作為務實應用科技的正面對比，並未比較歐美誰是全球領導者。" },
+          { key: "C", text: "To illustrate some truly effective approaches to biodiversity restoration.", zh: "為了說明一些真正有效的生物多樣性復育方法。", reason: "正確答案：第 3 段舉出瑞士與德國新創以更務實（more grounded, practical ways）的方式運用科技後，總結道「This is where technology can genuinely support biodiversity restoration（這才是科技真正能支持生物多樣性復育的地方）」。" },
+          { key: "D", text: "To expose the flawed research design of Colossal Biosciences' projects.", zh: "為了揭露 Colossal Biosciences 計畫中有缺陷的研究設計。", reason: "語意偏差：作者批評的是該計畫的「保育價值與行銷誤導」，而非其實驗室的研究設計有缺陷。" }
+        ],
+        ans: "C",
+        evidenceId: "ev-37",
+        evidenceText: "定位點：第 3 段後半「in Europe, a group of startups is applying technology in more grounded, practical ways... This is where technology can genuinely support biodiversity restoration...」",
+        vocab: [
+          { word: "grounded", kk: "/ˈɡraʊndɪd/", pos: "adj.", zh: "務實的；腳踏實地的", collocation: "in more grounded, practical ways 以更務實的方式" }
+        ]
+      },
+      {
+        id: 38, sec: "reading", passageKey: "reading_35_38", type: "single", difficulty: 3, tag: "細節與指代",
+        stem: "According to the passage, which of the following is true about Colossal Biosciences?",
+        stemZh: "根據本文，下列何者關於 Colossal Biosciences 的敘述正確？",
+        options: [
+          { key: "A", text: "The dire wolf project came after its failed attempt at engineering a wooly mouse.", zh: "恐狼計畫是在其失敗的長毛鼠實驗之後進行的。", reason: "無中生有：第 3 段僅說在恐狼計畫前曾改造出長毛鼠（wooly mouse），並未說該實驗「失敗（failed attempt）」。" },
+          { key: "B", text: "It's the first company dedicated to the growing de-extinction movement in the US.", zh: "它是美國物種復活運動中第一家投入此領域的公司。", reason: "偷換概念：第 3 段稱其為「the leading company（龍頭/領導企業）」，而非「the first company（第一家公司）」。" },
+          { key: "C", text: "It used advanced genome-editing technology to bring three dire wolves back to life.", zh: "它利用先進基因編輯技術讓三隻恐狼真正復活。", reason: "與作者立場相反：第 2 段明確指出「what Colossal did is not genuine de-extinction... these pups are, at best, hybrids（這並非真正的物種復活，幼狼充其量只是混種）」。" },
+          { key: "D", text: "The dire wolves it created display some dire wolf traits, like a larger body and pale fur.", zh: "它創造出的恐狼具有一些恐狼特徵，例如較大的體型與淺色毛皮。", reason: "正確答案：完全符合第 2 段第 7 句「The pups exhibit some traits of dire wolves: broader shoulders, larger bodies and pale coats.」（pale coats = pale fur）。" }
+        ],
+        ans: "D",
+        evidenceId: "ev-38",
+        evidenceText: "定位點：第 2 段第 6–7 行「The pups exhibit some traits of dire wolves: broader shoulders, larger bodies and pale coats.」",
+        vocab: [
+          { word: "trait", kk: "/tret/", pos: "n.", zh: "特徵；特質", collocation: "exhibit/display genetic traits 展現遺傳特徵" }
+        ]
+      },
+
+      // 五、閱讀測驗 題組二：1602 女王信件與韋茅斯航行 (39-42)
+      {
+        id: 39, sec: "reading", passageKey: "reading_39_42", type: "single", difficulty: 2, tag: "細節與指代",
+        stem: "What question can the passage answer?",
+        stemZh: "本文可以回答下列哪個問題？",
+        options: [
+          { key: "A", text: "Why was the letter written in more than one language?", zh: "這封信為何以多種語言書寫？", reason: "文中未提及原因：第 1 段末僅陳述信件為英文並附有拉丁文、西班牙文與義大利文副本，未解釋原因。" },
+          { key: "B", text: "Why did Weymouth abandon the voyage and return to England?", zh: "韋茅斯為何放棄航行，返回英格蘭？", reason: "正確答案：第 2 段末明確回答「Ultimately, it was ill health that brought the exploration to a halt. On 26th July, with his crew increasingly unwell from the deprivations of the journey, Weymouth called off the voyage and headed for home.」（因船員健康惡化而中止航行返國）。" },
+          { key: "C", text: "How did Emperor Wanli resolve the internal power struggles?", zh: "萬曆皇帝如何解決內部的權力鬥爭？", reason: "與內文相反：第 3 段說權力鬥爭削弱了明朝，最終在 1644 年被滿人推翻，並未解決。" },
+          { key: "D", text: "How did the Crosse family acquire the letter?", zh: "克羅斯家族如何取得這封信？", reason: "文中未提及：第 4 段說這封信如何流落到農場至今是個謎（puzzled many），並未說明克羅斯家族如何取得。" }
+        ],
+        ans: "B",
+        evidenceId: "ev-39",
+        evidenceText: "定位點：第 2 段最後兩句「Ultimately, it was ill health that brought the exploration to a halt... Weymouth called off the voyage and headed for home...」",
+        vocab: [
+          { word: "call off", kk: "/kɔl ɔf/", pos: "phr.", zh: "取消；中止", collocation: "call off the voyage/meeting 取消航行/會議" },
+          { word: "bring... to a halt", kk: "/brɪŋ tə ə hɔlt/", pos: "phr.", zh: "使…停止/中止", collocation: "Ill health brought the exploration to a halt." }
+        ]
+      },
+      {
+        id: 40, sec: "reading", passageKey: "reading_39_42", type: "single", difficulty: 2, tag: "細節與指代",
+        stem: "According to the passage, where did Weymouth turn back on his 1602 voyage? (Refer to the map on the left pane)",
+        stemZh: "根據本文，韋茅斯在 1602 年的航程中，在何處折返？（請參照左側視窗的地圖 A、B、C、D 位置）",
+        options: [
+          { key: "A", text: "Location A (East of Greenland)", zh: "地點 A（格陵蘭東側海域）", reason: "方位不符：文章說他在格陵蘭南端遇到濃霧與冰層後，繼續往西進入巴芬島與溫加瓦半島之間。" },
+          { key: "B", text: "Location B (Between Greenland and Baffin Island)", zh: "地點 B（格陵蘭與巴芬島之間的戴維斯海峽北段）", reason: "方位不符：這是格陵蘭與巴芬島之間，而非巴芬島與溫加瓦半島之間。" },
+          { key: "C", text: "Location C (West of Baffin Island)", zh: "地點 C（巴芬島西側水域）", reason: "方位不符：他並未穿過海峽到達巴芬島西側。" },
+          { key: "D", text: "Location D (The narrow channel between Baffin Island and the Ungava Peninsula)", zh: "地點 D（巴芬島與溫加瓦半島之間的狹窄海峽）", reason: "正確答案：第 2 段明確指出「Weymouth pushed further into the narrow channel between Baffin Island and the Ungava Peninsula... He led the expedition deeper into the channel, but had to turn back before reaching its far end.」，對照地圖，介於 Baffin Island 與 the Ungava Peninsula 之間的狹窄水道正是標示 D 的位置！" }
+        ],
+        ans: "D",
+        evidenceId: "ev-40",
+        evidenceText: "定位點：第 2 段第 4–6 行「pushed further into the narrow channel between Baffin Island and the Ungava Peninsula... had to turn back before reaching its far end.」",
+        vocab: [
+          { word: "expedition", kk: "/ˌɛkspɪˈdɪʃən/", pos: "n.", zh: "探險隊；遠征", collocation: "lead an expedition 率領探險隊" }
+        ]
+      },
+      {
+        id: 41, sec: "reading", passageKey: "reading_39_42", type: "single", difficulty: 3, tag: "動詞與片語",
+        stem: "Which of the following idioms is closest in meaning to \"grown estranged from his role\" in the third paragraph?",
+        stemZh: "下列哪個慣用語與第三段「grown estranged from his role（與自己的皇帝角色漸行漸遠/疏離）」意思最接近？",
+        options: [
+          { key: "A", text: "Missed the mark.", zh: "未達目標；沒猜中。", reason: "片語語意不符：miss the mark 指未能達成預期目標或判斷失準。" },
+          { key: "B", text: "Sat on the fence.", zh: "騎牆觀望；保持中立不表態。", reason: "片語語意不符：sit on the fence 指在兩派爭論中猶豫不決、不選邊站。" },
+          { key: "C", text: "Felt out of place.", zh: "感到格格不入；覺得自己不屬於那裡。", reason: "正確答案：緊接在 grown estranged from his role 後面的那句話直接給出解釋：「Somehow he felt he no longer belonged on the throne（不知為何他覺得自己不再屬於這個皇位）」，「覺得不屬於某處」正是慣用語 feel out of place（感到格格不入）的定義！" },
+          { key: "D", text: "Beaten around the bush.", zh: "拐彎抹角；說話不直接。", reason: "片語語意不符：beat around the bush 指說話兜圈子、避談重點。" }
+        ],
+        ans: "C",
+        evidenceId: "ev-41",
+        evidenceText: "定位點：第 3 段第 2–3 行「Emperor Wanli had grown estranged from his role. Somehow he felt he no longer belonged on the throne...」",
+        vocab: [
+          { word: "out of place", kk: "/aʊt əv ples/", pos: "phr.", zh: "格格不入；不自在；放錯位置", collocation: "feel out of place 覺得格格不入（= feel one no longer belongs there）" }
+        ]
+      },
+      {
+        id: 42, sec: "reading", passageKey: "reading_39_42", type: "single", difficulty: 3, tag: "主旨與推論",
+        stem: "Which of the following statements is true, according to the passage?",
+        stemZh: "根據本文，下列哪項敘述是正確的？",
+        options: [
+          { key: "A", text: "The Crosse family eventually revealed how the letter ended up on a Lancashire farm.", zh: "克羅斯家族最終透露了這封信如何流落至蘭開夏郡農場。", reason: "與內文相反：第 4 段說「How the letter ended up there has puzzled many（至今仍讓許多人困惑不解）」。" },
+          { key: "B", text: "Arriving in China was no guarantee that the letter would reach its intended recipient.", zh: "抵達中國並不保證這封信能送到預定的收件人手中。", reason: "正確答案：第 3 段首句指出「had Weymouth made landfall in China, he might not have been able to deliver the letter to Emperor Wanli（即便韋茅斯成功登陸中國，他也未必能把信交到萬曆皇帝手中，因為萬曆皇帝怠政不上朝）」。" },
+          { key: "C", text: "The Queen wrote the letter, hoping to be the first to establish trade relations with China.", zh: "女王寫信是希望成為第一個與中國建立貿易關係的人。", reason: "過度推論/與內文不符：第 1 段說當時葡萄牙與荷蘭已經牢牢掌握東方貿易（Portuguese and Dutch held a strong grip on trade），英國並非第一個。" },
+          { key: "D", text: "Nearly 400 years after the expedition, the Queen's original letter finally made it to China.", zh: "探險結束近 400 年後，女王的原信件終於送達中國。", reason: "常見細節陷阱：第 4 段末寫的是「Then in 1984, a copy was finally delivered to China（1984 年送達中國的是一份『副本 a copy』，而非原信 original letter）」。" }
+        ],
+        ans: "B",
+        evidenceId: "ev-42",
+        evidenceText: "定位點：第 3 段第 1 行「had Weymouth made landfall in China, he might not have been able to deliver the letter to Emperor Wanli.」與第 4 段末「a copy was finally delivered to China」。",
+        vocab: [
+          { word: "recipient", kk: "/rɪˈsɪpɪənt/", pos: "n.", zh: "收件人；接受者", collocation: "intended recipient 預定的收件人" }
+        ]
+      },
+
+      // 五、閱讀測驗 題組三：猴麵包樹與授粉者 (43-46)
+      {
+        id: 43, sec: "reading", passageKey: "reading_43_46", type: "single", difficulty: 1, tag: "主旨與推論",
+        stem: "What is the third paragraph mainly about?",
+        stemZh: "第三段的主要內容是什麼？",
+        options: [
+          { key: "A", text: "The distribution of baobab trees across Africa.", zh: "猴麵包樹在非洲的分布情況。", reason: "以偏概全：提及西非、東非、南非是為了說明各地花朵針對不同授粉者的特徵演化，而非單純介紹地理分布。" },
+          { key: "B", text: "The adaptation of baobab flowers to their pollinators.", zh: "猴麵包樹花朵對其授粉者的演化適應。", reason: "正確答案：第 3 段主題句「To attract specific visitors, baobabs in different regions have developed distinct flowers.」，隨後分別說明西非（大花、長梗、硫磺味吸引倒掛大果蝠）、東非（緊實短梗吸引抓握小果蝠）、南部（甜香小花吸引飛蛾）的演化適應。" },
+          { key: "C", text: "The significance of baobab trees in African ecosystems.", zh: "猴麵包樹在非洲生態系統中的重要性。", reason: "段落錯置：這是第 1 段的內容。" },
+          { key: "D", text: "The threats from climate change to the survival of baobab trees.", zh: "氣候變遷對猴麵包樹生存的威脅。", reason: "段落錯置：這是第 4 段的內容。" }
+        ],
+        ans: "B",
+        evidenceId: "ev-43",
+        evidenceText: "定位點：第 3 段首句主題句「To attract specific visitors, baobabs in different regions have developed distinct flowers.」",
+        vocab: [
+          { word: "adaptation", kk: "/ˌædæpˈteʃən/", pos: "n.", zh: "適應；演化適應", collocation: "adaptation to pollinators 對授粉者的適應" }
+        ]
+      },
+      {
+        id: 44, sec: "reading", passageKey: "reading_43_46", type: "single", difficulty: 3, tag: "主旨與推論",
+        stem: "According to the passage, what would most likely happen if a baobab tree from southern Africa were planted in West Africa?",
+        stemZh: "根據文章，如果將一棵來自非洲南部的猴麵包樹種到西非，最可能會發生什麼事？",
+        options: [
+          { key: "A", text: "The baobab tree would fail to reproduce.", zh: "這種猴麵包樹將無法成功繁殖。", reason: "正確答案：高難度跨段落推論題！第 3 段指出南部猴麵包樹開的是「甜香、小花、極少花蜜（專供飛蛾授粉）」；而西非的授粉者是「喜歡硫磺味與大量花蜜的大型果蝠」。第 4 段指出「each baobab has locked its future to a single group of partners. After all, it takes thousands of years for the baobab to shape its floral traits.」，因此把南部的樹種到西非，它的花需要數千年才能改變特徵，短期內無法吸引西非果蝠，鳥蜂也不會幫忙授粉，將導致「無法繁殖（fail to reproduce）」！" },
+          { key: "B", text: "The baobab tree would attract more bats.", zh: "這種猴麵包樹會吸引更多蝙蝠。", reason: "推論錯誤：南部的花散發甜香且花蜜極少、花朵小，無法吸引西非的大型果蝠。" },
+          { key: "C", text: "The baobab flower would smell like sulfur.", zh: "這種猴麵包樹的花會聞起來像硫磺。", reason: "推論錯誤：第 4 段說明花卉特徵需要「數千年（thousands of years）」才能演化改變，單一棵樹移植過去不會立刻變成硫磺味。" },
+          { key: "D", text: "The baobab flower would produce more nectar.", zh: "這種猴麵包樹的花會產生更多花蜜。", reason: "推論錯誤：同 (C)，基因決定的花卉性狀需數千年演化。" }
+        ],
+        ans: "A",
+        evidenceId: "ev-44",
+        evidenceText: "定位點：第 3 段末「Further south... A sweet fragrance replaces sulfur to appeal to moths, while the flowers shrink...」與第 4 段「each baobab has locked its future to a single group of partners. After all, it takes thousands of years for the baobab to shape its floral traits.」",
+        vocab: [
+          { word: "reproduce", kk: "/ˌriprəˈdjus/", pos: "v.", zh: "繁殖；生殖；複製", collocation: "fail to reproduce 無法繁殖 | 名詞: reproduction" }
+        ]
+      },
+      {
+        id: 45, sec: "reading", passageKey: "reading_43_46", type: "single", difficulty: 2, tag: "細節與指代",
+        stem: "Which of the following statements is true?",
+        stemZh: "下列哪一項陳述是正確的？",
+        options: [
+          { key: "A", text: "Baobab flowers across different regions of Africa face downward.", zh: "非洲不同地區的猴麵包樹花朵都是向下朝向地面的。", reason: "正確答案：第 2 段明確指出「Across Africa... The white blossoms all hang down from the branches like lanterns（全非洲的猴麵包樹白色花朵『全都』像燈籠一樣從樹枝向下垂掛）」。" },
+          { key: "B", text: "Baobab flowers in West Africa have shorter stalks to support larger bats.", zh: "西非的猴麵包樹花朵擁有較短的花梗以支撐較大的蝙蝠。", reason: "細節相反：第 3 段說西非的花是「long stalks（長花梗）」，東非才是 shorter stalks。" },
+          { key: "C", text: "Baobab flowers remain in full bloom for over a day to maximize pollination.", zh: "猴麵包樹的花朵保持盛開超過一天的時間以極大化授粉機會。", reason: "細節相反：第 2 段說「its blossoms open at dusk and fade by dawn（黃昏開、黎明謝）」，壽命僅一個夜晚，不到一天。" },
+          { key: "D", text: "Bats in East Africa feed on nectar while hanging upside down from baobab flowers.", zh: "東非的蝙蝠在猴麵包樹花朵上採蜜時是呈現倒掛姿態的。", reason: "張冠李戴：第 3 段說東非的埃及果蝠是「grasping the flowers rather than hanging upside down（抓握花朵而非倒掛）」，倒掛進食的是西非果蝠。" }
+        ],
+        ans: "A",
+        evidenceId: "ev-45",
+        evidenceText: "定位點：第 2 段第 3 行「The white blossoms all hang down from the branches like lanterns, guiding their nocturnal pollinators to visit.」",
+        vocab: [
+          { word: "nocturnal", kk: "/nɑkˈtɝnḷ/", pos: "adj.", zh: "夜間的；夜行性的", collocation: "nocturnal pollinators 夜間授粉者" }
+        ]
+      },
+      {
+        id: 46, sec: "reading", passageKey: "reading_43_46", type: "single", difficulty: 2, tag: "主旨與推論",
+        stem: "How does the author conclude the passage in the last paragraph?",
+        stemZh: "作者在最後一段是如何為文章做結論的？",
+        options: [
+          { key: "A", text: "By providing a famous quote.", zh: "藉由提供著名的引言。", reason: "無中生有：結尾借用了《獅子王》中的角色名 Rafiki 與 Circle of Life 作比喻，並非引用名言佳句。" },
+          { key: "B", text: "By proposing practical solutions.", zh: "藉由提出實用的解決方案。", reason: "無中生有：作者僅呼籲應該保護夜間授粉生物，並未提出具體可行的實務解決方案。" },
+          { key: "C", text: "By giving an ecological warning.", zh: "藉由給出一個生態上的警告。", reason: "正確答案：最後一段指出這種單一夥伴共生關係極度脆弱（surprisingly fragile），若氣候變遷或棲地喪失導致蝙蝠與飛蛾消失，猴麵包樹的繁殖將完全停止、物種生存受威脅，屬於典型的「生態警訊（ecological warning）」。" },
+          { key: "D", text: "By summarizing research findings.", zh: "藉由總結研究結果。", reason: "不符內文：文中並未引述特定研究團隊的實驗數據。" }
+        ],
+        ans: "C",
+        evidenceId: "ev-46",
+        evidenceText: "定位點：第 4 段中後段「if climate change or habitat loss causes these bats and moths to disappear, the baobab's reproduction would halt entirely... the survival of the species would be threatened.」",
+        vocab: [
+          { word: "fragile", kk: "/ˈfrædʒḷ/", pos: "adj.", zh: "脆弱的；易碎的", collocation: "fragile alliances 脆弱的共生同盟" }
+        ]
+      },
+
+      // 第貳部分、混合題 (47-50)
+      {
+        id: 47, sec: "mixed", passageKey: "mixed_47_50", type: "text", difficulty: 1, tag: "句構與文法",
+        stem: "【填充題 47】請從文章中找出適當單詞，並視句型結構做適當的字形變化（每格限填一詞，2分）：\nThe exhibition Rapa Nui: Echoes of the Moai highlights how the resilient Rapa Nui, despite living in (47) ______ from the rest of the world, left behind a remarkable legacy.",
+        stemZh: "「拉帕努伊：摩艾的迴響」展覽凸顯出堅韌的拉帕努伊人，儘管過著與世隔絕（living in isolation from...）的生活，仍留下了非凡的文化遺產。",
+        ans: "isolation",
+        evidenceId: "ev-47",
+        evidenceText: "定位點：展覽前言第 1–2 行「...a civilization developed on one of the most isolated islands on Earth.」將形容詞 isolated 轉換為名詞 isolation，以符合介系詞片語 living in [N] from... 的語法結構。",
+        explanation: "【字形轉換解析】空格位於介系詞 in 之後、介系詞片語 from the rest of the world 之前，語法上必須填入「名詞」。搜尋前言第一句「one of the most isolated islands on Earth」，將形容詞 isolated（孤立的）去字尾轉為名詞 isolation（孤立、隔絕）。in isolation from... 意為「與…隔絕」。",
+        vocab: [
+          { word: "isolation", kk: "/ˌaɪsḷˈeʃən/", pos: "n.", zh: "孤立；隔絕", collocation: "live in isolation from the rest of the world 與世隔絕地生活" }
+        ]
+      },
+      {
+        id: 48, sec: "mixed", passageKey: "mixed_47_50", type: "text", difficulty: 2, tag: "句構與文法",
+        stem: "【填充題 48】請從文章中找出適當單詞，並視句型結構做適當的字形變化（每格限填一詞，2分）：\nTheir monumental Moai, ancestral artifacts, and sacred rituals reflect a once-(48) ______ civilization that reached its peak before the 19th-century crises.",
+        stemZh: "他們不朽的摩艾石像、祖先文物與神聖儀式，反映出一個曾經繁榮興盛（once-prosperous）、並在 19 世紀危機前達到巔峰的文明。",
+        ans: "prosperous",
+        evidenceId: "ev-48",
+        evidenceText: "定位點：A 展廳「prospered with limited resources」與 B 展廳「at the height of their prosperity」。將動詞 prosper 或名詞 prosperity 轉換為形容詞 prosperous，修飾後方的名詞 civilization。",
+        explanation: "【字形轉換解析】空格位於「冠詞 a + 副詞 once-」與「名詞 civilization」之間，必須填入「形容詞」。後文 that reached its peak（達到巔峰）直接對應 B 展廳的「at the height of their prosperity（在他們繁榮的頂峰）」以及 A 展廳的「prospered」。將名詞 prosperity 或動詞 prosper 轉換為形容詞 prosperous（繁榮興盛的）。",
+        vocab: [
+          { word: "prosperous", kk: "/ˈprɑspərəs/", pos: "adj.", zh: "繁榮的；興盛的", collocation: "a once-prosperous civilization 曾經繁榮一時的文明" }
+        ]
+      },
+      {
+        id: 49, sec: "mixed", passageKey: "mixed_47_50", type: "multi", difficulty: 1, tag: "細節與指代",
+        stem: "【多選題 49（4分）】A student group is filming a micro-documentary titled \"The Sacred Spirit of the Rapa Nui.\" They need more information on the following topics:\n(1) the texts of ancestral chants\n(2) the icons of sacred power\n(3) the selection of divine leaders\nWhich galleries can provide them with the information they need? (Choose 3 galleries)",
+        stemZh: "一個學生團隊正在拍攝微紀錄片《拉帕努伊的神聖精神》，他們需要以下三個主題的資訊：(1) 祖先吟唱讚歌的文本 (2) 神聖力量的象徵物 (3) 天選領袖的選拔。請問哪些展廳能提供所需資訊？",
+        options: [
+          { key: "A", text: "Gallery A: The Navel of the World", zh: "A展廳：介紹玻里尼西亞人航海定居、獨木舟與捕魚工具", reason: "未涵蓋上述三個宗教神聖精神主題。" },
+          { key: "B", text: "Gallery B: The Moai Workshop", zh: "B展廳：介紹火山採石場與石器雕刻工藝 toki", reason: "介紹的是石像雕刻技術，而非精神力量或領袖選拔。" },
+          { key: "C", text: "Gallery C: Guardians of Rapa Nui", zh: "C展廳：拉帕努伊的守護者（對應主題 2：神聖力量的象徵物）", reason: "正確選項之一：文中指出「each Moai carried mana — a sacred spiritual force that protected those before it」，摩艾石像即為承載神聖力量（mana）的象徵物（icons of sacred power）。" },
+          { key: "D", text: "Gallery D: Between Two Worlds", zh: "D展廳：兩個世界之間（對應主題 1：祖先吟唱讚歌的文本）", reason: "正確選項之一：文中指出「the Rongorongo tablets, which preserved sacred chants sung to connect with ancestors」，朗格朗格木板保存了祖先讚歌的文本（texts of ancestral chants）。" },
+          { key: "E", text: "Gallery E: The Birdman Cult", zh: "E展廳：鳥人崇拜（對應主題 3：天選領袖的選拔）", reason: "正確選項之一：文中指出鳥人儀式競賽奪得鳥蛋的贏家「will be recognized as the divinely chosen leader」，即天選領袖的選拔（selection of divine leaders）。" },
+          { key: "F", text: "Gallery F: Legacy of Resilience", zh: "F展廳：介紹 19 世紀人口與資源浩劫及當代文化復興", reason: "未涵蓋上述三個特定主題。" }
+        ],
+        ans: "CDE",
+        evidenceId: "ev-49-c",
+        evidenceText: "定位點：(1) 對應 D 展廳「Rongorongo tablets, which preserved sacred chants」；(2) 對應 C 展廳「each Moai carried mana — a sacred spiritual force」；(3) 對應 E 展廳「The winner will be recognized as the divinely chosen leader」。",
+        vocab: [
+          { word: "chant", kk: "/tʃænt/", pos: "n./v.", zh: "讚歌；吟唱", collocation: "sacred chants 神聖讚歌" },
+          { word: "divinely", kk: "/dɪˈvaɪnlɪ/", pos: "adv.", zh: "由神意地；天選地", collocation: "the divinely chosen leader 天選的領袖" }
+        ]
+      },
+      {
+        id: 50, sec: "mixed", passageKey: "mixed_47_50", type: "text", difficulty: 2, tag: "動詞與片語",
+        stem: "【簡答題 50（2分）】Which phrase in Gallery F is used to describe things that are \"rare or hard to find\"?",
+        stemZh: "在 F 展廳（Gallery F）中，哪一個片語（phrase）被用來形容事物「稀少或難以找到（rare or hard to find）」？",
+        ans: "few and far between",
+        evidenceId: "ev-50",
+        evidenceText: "定位點：F 展廳第 2 句「In the 19th century, resources were few and far between.」",
+        explanation: "【片語解析】在 F 展廳中，「In the 19th century, resources were few and far between.」裡的慣用片語 few and far between 字面為「數量少且彼此間隔很遠」，即形容「稀少、罕見、寥寥無幾（rare or hard to find）」。評分標準：完整寫出 few and far between 得 2 分，少寫 between 得 1 分。",
+        vocab: [
+          { word: "few and far between", kk: "/fju ænd fɑr bɪˈtwin/", pos: "idiom", zh: "稀少的；寥寥無幾的；罕見的", collocation: "Resources were few and far between." }
+        ]
+      }
+    ];
+
+    // ==========================================
+    // 4. 狀態管理與初始化
+    // ==========================================
+    let currentMode = 'practice'; // 'practice' | 'exam' | 'review'
+    let currentSection = 'all';
+    let examSubmitted = false;
+    let highlighterActive = false;
+
+    // 從 localStorage 載入使用者紀錄
+    let userState = JSON.parse(localStorage.getItem('gsat_115_e3_state')) || {
+      answers: {},       // { qId: 'A' or 'isolation' }
+      revealed: {},      // { qId: true/false }
+      bookmarks: [],     // [qId, ...]
+      notes: {}          // { qId: 'note text' }
+    };
+
+    function saveState() {
+      localStorage.setItem('gsat_115_e3_state', JSON.stringify(userState));
+      updateBookmarkBadge();
+      renderNavGrid();
+    }
+
+    function updateBookmarkBadge() {
+      document.getElementById('bookmark-count').innerText = userState.bookmarks.length;
+    }
+
+    // 將英文文字轉為可點擊查字典的 Token
+    function tokenizeText(text) {
+      if (!text) return '';
+      return text.replace(/\b([A-Za-z'-]{3,})\b/g, (match) => {
+        return `<span class="word-token" onclick="lookupWord(event, '${match.replace(/'/g, "\\'")}')">${match}</span>`;
+      });
+    }
+
+    // ==========================================
+    // 5. 渲染左側文章面板 (Left Passage Pane)
+    // ==========================================
+    let activePassageKey = 'vocab';
+    let showBilingual = true;
+
+    function renderPassage(passageKey, highlightEvId = null) {
+      activePassageKey = passageKey;
+      const p = PASSAGES[passageKey] || PASSAGES['vocab'];
+      const container = document.getElementById('passage-container');
+
+      let html = `
+        <div class="border-b border-slate-200 pb-3 mb-4 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">${p.type}</span>
+            <h2 class="font-bold text-base sm:text-lg text-slate-900 mt-1">${p.title}</h2>
+          </div>
+          <div class="flex items-center gap-2 no-print">
+            ${p.bilingual ? `
+              <button onclick="toggleBilingual()" class="px-2.5 py-1 rounded-lg text-xs font-medium border ${showBilingual ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white text-slate-700 border-slate-300'} transition">
+                <i class="fa-solid fa-language mr-1"></i>${showBilingual ? '隱藏中譯' : '雙語對照'}
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+
+      // 若有選項字庫 (文意選填 / 篇章結構)
+      if (p.wordBank) {
+        html += `
+          <div class="mb-4 p-3.5 bg-amber-50/80 border border-amber-200 rounded-xl text-xs sm:text-sm font-mono text-slate-800 whitespace-pre-line leading-relaxed">
+            <div class="font-bold text-amber-800 mb-1 font-sans"><i class="fa-solid fa-list-check mr-1"></i>題組選項字庫：</div>${p.wordBank}
+          </div>
+        `;
+      }
+
+      // 若有視覺地圖 (第40題航海圖 / 第47-50題復活節島展廳平面圖)
+      if (p.hasMap === 'weymouth') {
+        html += `
+          <div class="mb-5 bg-sky-50 border border-sky-200 rounded-xl p-4">
+            <div class="text-xs font-bold text-sky-900 mb-2 flex items-center justify-between">
+              <span><i class="fa-solid fa-compass mr-1"></i>第 40 題對應地圖：1602 年韋茅斯西北航道探索圖</span>
+              <span class="text-[11px] text-sky-700">（折返點 D：巴芬島與溫加瓦半島之間的狹窄海峽）</span>
+            </div>
+            <svg viewBox="0 0 500 240" class="w-full h-auto bg-white rounded-lg border border-sky-100 shadow-inner">
+              <!-- 海洋背景 -->
+              <rect width="500" height="240" fill="#e0f2fe"/>
+              <!-- Baffin Island -->
+              <path d="M120,20 L210,15 L255,95 L235,130 L175,115 L140,75 Z" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
+              <text x="165" y="75" font-size="13" font-weight="bold" fill="#1e293b">Baffin Island</text>
+              <!-- Greenland -->
+              <path d="M295,10 L420,10 L390,115 L335,125 L305,75 Z" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
+              <text x="325" y="65" font-size="13" font-weight="bold" fill="#1e293b">Greenland</text>
+              <!-- Ungava Peninsula -->
+              <path d="M110,155 L235,150 L265,230 L95,230 Z" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
+              <text x="135" y="195" font-size="12" font-weight="bold" fill="#1e293b">the Ungava Peninsula</text>
+              <text x="340" y="205" font-size="13" font-style="italic" fill="#0369a1">Atlantic Ocean</text>
+              <!-- 航線虛線 -->
+              <path d="M460,175 Q360,155 315,130 Q265,135 215,138" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-dasharray="5,4"/>
+              <!-- A, B, C, D 四個標記點 -->
+              <circle cx="415" cy="95" r="12" fill="#fff" stroke="#334155" stroke-width="2"/>
+              <text x="411" y="100" font-size="12" font-weight="bold">A</text>
+              <circle cx="275" cy="60" r="12" fill="#fff" stroke="#334155" stroke-width="2"/>
+              <text x="271" y="65" font-size="12" font-weight="bold">B</text>
+              <circle cx="115" cy="105" r="12" fill="#fff" stroke="#334155" stroke-width="2"/>
+              <text x="111" y="110" font-size="12" font-weight="bold">C</text>
+              <circle cx="215" cy="138" r="13" fill="#fef08a" stroke="#dc2626" stroke-width="2.5"/>
+              <text x="210" y="143" font-size="13" font-weight="bold" fill="#dc2626">D</text>
+            </svg>
+          </div>
+        `;
+      } else if (p.hasMap === 'moai') {
+        html += `
+          <div class="mb-5 bg-stone-100 border border-stone-300 rounded-xl p-4">
+            <div class="text-xs font-bold text-stone-800 mb-2">
+              <i class="fa-solid fa-map-location-dot mr-1"></i>展覽平面圖：Rapa Nui: Echoes of the Moai（六大展廳導覽圖）
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+              <div class="bg-white p-2.5 rounded border border-stone-300 shadow-sm">
+                <div class="font-bold text-indigo-700">E. The Birdman Cult</div>
+                <div class="text-[11px] text-stone-500 mt-0.5">鳥人崇拜與天選領袖</div>
+              </div>
+              <div class="bg-white p-2.5 rounded border border-stone-300 shadow-sm">
+                <div class="font-bold text-indigo-700">D. Between Two Worlds</div>
+                <div class="text-[11px] text-stone-500 mt-0.5">木雕與朗格朗格讚歌</div>
+              </div>
+              <div class="bg-white p-2.5 rounded border border-stone-300 shadow-sm">
+                <div class="font-bold text-indigo-700">C. Guardians of Rapa Nui</div>
+                <div class="text-[11px] text-stone-500 mt-0.5">摩艾石像與神聖瑪那</div>
+              </div>
+              <div class="bg-white p-2.5 rounded border border-stone-300 shadow-sm">
+                <div class="font-bold text-stone-700">F. Legacy of Resilience</div>
+                <div class="text-[11px] text-stone-500 mt-0.5">19世紀危機與文化復興</div>
+              </div>
+              <div class="col-span-2 bg-white p-2.5 rounded border border-stone-300 shadow-sm">
+                <div class="font-bold text-stone-700">B. The Moai Workshop & A. The Navel of the World</div>
+                <div class="text-[11px] text-stone-500 mt-0.5">火山採石場工藝 ＆ 玻里尼西亞航海起源</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // 渲染句子與時間軸朗讀 (Timestamp Audio + Bilingual)
+      if (p.audioSentences) {
+        html += `<div class="space-y-3">`;
+        p.audioSentences.forEach((s, idx) => {
+          const isHighlighted = highlightEvId && s.evId === highlightEvId;
+          html += `
+            <div id="${s.evId || 'sent-' + idx}" class="p-3 rounded-xl border transition ${isHighlighted ? 'evidence-highlight border-amber-400' : 'bg-slate-50/70 border-slate-200/80 hover:border-indigo-200'}">
+              <div class="flex items-start gap-2.5">
+                <button onclick="speakSentence('${s.en.replace(/'/g, "\\'").replace(/"/g, '&quot;')}')" class="mt-0.5 px-2 py-0.5 rounded bg-indigo-100 hover:bg-indigo-600 text-indigo-700 hover:text-white text-[11px] font-mono flex items-center gap-1 flex-shrink-0 transition no-print" title="點擊朗讀此句">
+                  <i class="fa-solid fa-play text-[9px]"></i>${s.time}
+                </button>
+                <div class="flex-1">
+                  <p class="text-sm sm:text-[15px] leading-relaxed text-slate-800">${tokenizeText(s.en)}</p>
+                  ${showBilingual ? `<p class="text-xs sm:text-sm text-slate-600 mt-1.5 pt-1.5 border-t border-slate-200/60 leading-relaxed">${s.zh}</p>` : ''}
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      } else if (p.paragraphs) {
+        html += `<div class="space-y-3">`;
+        p.paragraphs.forEach(para => {
+          html += `
+            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+              <p class="text-sm sm:text-[15px] leading-relaxed text-slate-800">${tokenizeText(para.en)}</p>
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 pt-2 border-t border-slate-200 leading-relaxed">${para.zh}</p>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+
+      // 長難句解構 (Sentence Structure Analysis)
+      if (p.sentenceAnalysis && p.sentenceAnalysis.length > 0) {
+        html += `
+          <div class="mt-6 pt-5 border-t border-slate-200">
+            <h3 class="font-bold text-sm text-indigo-900 flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-sitemap text-indigo-600"></i>
+              <span>本大題長難句結構拆解（Sentence Structure）</span>
+            </h3>
+            <div class="space-y-3">
+              ${p.sentenceAnalysis.map(sa => `
+                <div class="bg-indigo-50/60 border border-indigo-200/80 rounded-xl p-3.5 text-xs sm:text-sm">
+                  <div class="font-bold text-indigo-700 mb-1">${sa.qRef}</div>
+                  <div class="font-mono text-slate-800 bg-white p-2.5 rounded border border-indigo-100 mb-2 leading-relaxed">${sa.sentence}</div>
+                  <div class="text-slate-700 leading-relaxed">${sa.breakdown}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+
+      // 若有定位點高亮，自動滾動至該段落
+      if (highlightEvId) {
+        setTimeout(() => {
+          const el = document.getElementById(highlightEvId);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      }
+    }
+
+    function toggleBilingual() {
+      showBilingual = !showBilingual;
+      renderPassage(activePassageKey);
+    }
+
+    // ==========================================
+    // 6. 渲染右側題目與詳解卡片 (Right Questions Pane)
+    // ==========================================
+    function getFilteredQuestions() {
+      const diffFilter = document.getElementById('filter-difficulty').value;
+      const tagFilter = document.getElementById('filter-tag').value;
+
+      return QUESTIONS.filter(q => {
+        if (currentSection !== 'all' && q.sec !== currentSection) return false;
+        if (diffFilter !== 'all' && String(q.difficulty) !== diffFilter) return false;
+        if (tagFilter !== 'all' && q.tag !== tagFilter) return false;
+        return true;
+      });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questions-container');
+      
+      // 若切換到非選擇題專區
+      if (currentSection === 'writing') {
+        renderPassage('writing');
+        container.innerHTML = renderWritingSectionHTML();
+        return;
+      }
+
+      const list = getFilteredQuestions();
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-2xl p-8 text-center border border-slate-200">
+            <i class="fa-solid fa-filter-circle-xmark text-3xl text-slate-400 mb-2"></i>
+            <p class="text-slate-600 font-medium">沒有符合目前篩選條件的題目，請調整上方難度或考點篩選器。</p>
+          </div>
+        `;
+        return;
+      }
+
+      // 更新左側對應篇章為列表第一題的篇章
+      if (list[0] && list[0].passageKey !== activePassageKey) {
+        renderPassage(list[0].passageKey);
+      }
+
+      let html = list.map(q => renderSingleQuestionCard(q)).join('');
+
+      // 若是全部題目模式，底部附上第參部分非選擇題完整解析
+      if (currentSection === 'all') {
+        html += `<div class="pt-6 border-t-2 border-slate-300">${renderWritingSectionHTML()}</div>`;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function renderSingleQuestionCard(q) {
+      const userAns = userState.answers[q.id] || '';
+      const isBookmarked = userState.bookmarks.includes(q.id);
+      const stars = '★'.repeat(q.difficulty) + '☆'.repeat(3 - q.difficulty);
+      const diffLabel = q.difficulty === 1 ? '基礎/中偏易' : (q.difficulty === 2 ? '中等' : '中偏難/進階');
+
+      // 判斷是否展開詳解
+      let showExplanation = false;
+      if (currentMode === 'review') {
+        showExplanation = true;
+      } else if (currentMode === 'practice') {
+        showExplanation = !!userState.revealed[q.id];
+      } else if (currentMode === 'exam') {
+        showExplanation = examSubmitted;
+      }
+
+      // 判斷答對或答錯狀態
+      let isCorrect = false;
+      if (userAns) {
+        if (q.type === 'text') {
+          isCorrect = userAns.trim().toLowerCase() === q.ans.toLowerCase();
+        } else if (q.type === 'multi') {
+          const sortedUser = userAns.toUpperCase().replace(/[^A-F]/g, '').split('').sort().join('');
+          isCorrect = sortedUser === q.ans;
+        } else {
+          isCorrect = userAns === q.ans;
+        }
+      }
+
+      let statusBadge = '';
+      if (userAns && (currentMode !== 'exam' || examSubmitted)) {
+        statusBadge = isCorrect
+          ? `<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700"><i class="fa-solid fa-check mr-1"></i>答對</span>`
+          : `<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-700"><i class="fa-solid fa-xmark mr-1"></i>答錯 (正答: ${q.ans})</span>`;
+      }
+
+      // 選項或填充輸入區 HTML
+      let interactionHTML = '';
+      if (q.type === 'single') {
+        interactionHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-3">
+          ${q.options.map(opt => {
+            const selected = userAns === opt.key;
+            let btnStyle = 'border-slate-200 hover:border-indigo-400 bg-slate-50/60 text-slate-800';
+            if (selected) {
+              if (currentMode === 'exam' && !examSubmitted) {
+                btnStyle = 'border-indigo-600 bg-indigo-50 text-indigo-900 font-semibold ring-2 ring-indigo-500/20';
+              } else if (opt.key === q.ans) {
+                btnStyle = 'border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold';
+              } else {
+                btnStyle = 'border-rose-500 bg-rose-50 text-rose-900 font-semibold';
+              }
+            } else if (showExplanation && opt.key === q.ans) {
+              btnStyle = 'border-emerald-500 bg-emerald-50/70 text-emerald-900 font-semibold';
+            }
+            return `
+              <button onclick="answerQuestion(${q.id}, '${opt.key}', '${q.passageKey}')" class="text-left p-3 rounded-xl border transition flex items-start gap-2.5 ${btnStyle}">
+                <span class="w-6 h-6 rounded-full border border-current flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">${opt.key}</span>
+                <div class="flex-1 text-sm">
+                  <div>${tokenizeText(opt.text)}</div>
+                  ${showExplanation ? `<div class="text-xs text-slate-500 mt-0.5">${opt.zh}</div>` : ''}
+                </div>
+              </button>
+            `;
+          }).join('')}
+        </div>`;
+      } else if (q.type === 'text') {
+        interactionHTML = `
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <input type="text" id="input-q-${q.id}" value="${userAns}" placeholder="請輸入英文單詞或片語..." 
+              onkeydown="if(event.key==='Enter') submitTextAnswer(${q.id}, '${q.passageKey}')"
+              class="flex-1 min-w-[200px] px-3.5 py-2 rounded-xl border border-slate-300 focus:border-indigo-600 focus:outline-none text-sm font-mono">
+            <button onclick="submitTextAnswer(${q.id}, '${q.passageKey}')" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition">
+              送出作答
+            </button>
+          </div>
+        `;
+      } else if (q.type === 'multi') {
+        const currentSelected = userAns ? userAns.split('') : [];
+        interactionHTML = `<div class="space-y-2 mt-3">
+          ${q.options.map(opt => {
+            const isChecked = currentSelected.includes(opt.key);
+            return `
+              <label class="flex items-center gap-3 p-2.5 rounded-xl border ${isChecked ? 'border-indigo-500 bg-indigo-50/60' : 'border-slate-200'} cursor-pointer hover:bg-slate-50 text-sm">
+                <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleMultiOption(${q.id}, '${opt.key}', '${q.passageKey}')" class="rounded text-indigo-600 focus:ring-indigo-500">
+                <span class="font-bold text-indigo-900">(${opt.key})</span>
+                <span>${opt.text}</span>
+              </label>
+            `;
+          }).join('')}
+        </div>`;
+      }
+
+      // 詳解區塊 HTML (五大核心解析要素)
+      let explanationHTML = '';
+      if (showExplanation) {
+        explanationHTML = `
+          <div class="mt-4 pt-4 border-t border-slate-200 space-y-4 bg-slate-50/70 -mx-5 -mb-5 p-5 rounded-b-2xl">
+            <!-- 1. 正確答案與定位點 -->
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-xs">正確答案：${q.ans}</span>
+                <span class="text-xs text-slate-600">${q.evidenceText}</span>
+              </div>
+              ${q.evidenceId ? `
+                <button onclick="renderPassage('${q.passageKey}', '${q.evidenceId}')" class="px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 font-semibold text-xs flex items-center gap-1 transition no-print">
+                  <i class="fa-solid fa-crosshairs"></i>定位至左側原文
+                </button>
+              ` : ''}
+            </div>
+
+            <!-- 2. 題幹中譯對照 -->
+            <div class="text-xs sm:text-sm bg-white p-3.5 rounded-xl border border-slate-200">
+              <div class="font-bold text-slate-700 mb-1"><i class="fa-solid fa-language text-indigo-600 mr-1.5"></i>題幹與關鍵句中譯：</div>
+              <p class="text-slate-600 leading-relaxed">${q.stemZh}</p>
+            </div>
+
+            <!-- 3. 逐題解析與誘答分析 -->
+            <div class="bg-white p-3.5 rounded-xl border border-slate-200 text-xs sm:text-sm space-y-2">
+              <div class="font-bold text-slate-700 mb-1"><i class="fa-solid fa-magnifying-glass-chart text-indigo-600 mr-1.5"></i>逐題解析與誘答分析（Distractor Analysis）：</div>
+              ${q.options ? q.options.map(opt => {
+                const isAns = q.ans.includes(opt.key);
+                return `
+                  <div class="p-2 rounded-lg ${isAns ? 'bg-emerald-50/80 border border-emerald-200 text-emerald-950' : 'bg-slate-50 text-slate-700'}">
+                    <span class="font-bold">(${opt.key}) ${opt.text} 【${opt.zh}】：</span>
+                    <span>${opt.reason}</span>
+                  </div>
+                `;
+              }).join('') : `<p class="text-slate-700 leading-relaxed">${q.explanation}</p>`}
+            </div>
+
+            <!-- 4. 重點單字與片語卡 -->
+            ${q.vocab && q.vocab.length > 0 ? `
+              <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                <div class="font-bold text-xs sm:text-sm text-slate-700 mb-2"><i class="fa-solid fa-spell-check text-indigo-600 mr-1.5"></i>重點詞彙與搭配詞卡（Vocabulary & Collocations）：</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  ${q.vocab.map(v => `
+                    <div class="p-2.5 rounded-lg bg-indigo-50/50 border border-indigo-100 flex items-start justify-between gap-2">
+                      <div class="text-xs">
+                        <div class="font-bold text-indigo-950">${v.word} <span class="font-mono font-normal text-slate-500">${v.kk}</span> <span class="text-[11px] bg-indigo-100 text-indigo-800 px-1 rounded">${v.pos}</span></div>
+                        <div class="text-slate-700 font-medium mt-0.5">${v.zh}</div>
+                        <div class="text-[11px] text-slate-500 mt-0.5">${v.collocation}</div>
+                      </div>
+                      <button onclick="speakWord('${v.word.replace(/'/g, "\\'")}')" class="w-6 h-6 rounded-full bg-indigo-100 hover:bg-indigo-600 text-indigo-700 hover:text-white flex items-center justify-center flex-shrink-0 transition no-print">
+                        <i class="fa-solid fa-volume-high text-[10px]"></i>
+                      </button>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- 5. 個人重點筆記區 -->
+            <div class="bg-white p-3 rounded-xl border border-slate-200 no-print">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-slate-600"><i class="fa-solid fa-pen-clip text-amber-500 mr-1"></i>個人訂正筆記（自動儲存）：</span>
+              </div>
+              <textarea onchange="saveNote(${q.id}, this.value)" placeholder="在此記錄本題常錯陷阱、背誦口訣或延伸單字..." class="w-full text-xs p-2 rounded-lg border border-slate-200 focus:border-indigo-500 focus:outline-none bg-slate-50" rows="2">${userState.notes[q.id] || ''}</textarea>
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <div id="question-card-${q.id}" onclick="switchPassageIfNeeded('${q.passageKey}')" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 transition hover:border-slate-300">
+          <!-- 題頭：題號、考點標籤、難易度、收藏與展開按鈕 -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-xl bg-slate-900 text-white font-bold text-sm flex items-center justify-center">Q${q.id}</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 font-medium text-xs border border-indigo-200/60">${q.tag}</span>
+              <span class="text-xs text-amber-500 font-bold" title="難度：${diffLabel}">${stars} <span class="text-slate-400 font-normal text-[11px]">(${diffLabel})</span></span>
+              ${statusBadge}
+            </div>
+            <div class="flex items-center gap-1.5 no-print">
+              <button onclick="event.stopPropagation(); toggleBookmark(${q.id})" class="px-2.5 py-1 rounded-lg border text-xs font-medium transition ${isBookmarked ? 'bg-amber-50 border-amber-300 text-amber-600' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}">
+                <i class="fa-${isBookmarked ? 'solid' : 'regular'} fa-star mr-1"></i>${isBookmarked ? '已收藏' : '收藏'}
+              </button>
+              ${currentMode !== 'exam' || examSubmitted ? `
+                <button onclick="event.stopPropagation(); toggleExplanation(${q.id}, '${q.passageKey}')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium transition">
+                  <i class="fa-solid fa-chevron-${showExplanation ? 'up' : 'down'} mr-1"></i>${showExplanation ? '收合解析' : '顯示解析'}
+                </button>
+              ` : ''}
+            </div>
+          </div>
+
+          <!-- 題幹 -->
+          <div class="mt-3 text-slate-800 text-sm sm:text-base leading-relaxed font-medium whitespace-pre-line">${tokenizeText(q.stem)}</div>
+
+          <!-- 選項或作答輸入 -->
+          ${interactionHTML}
+
+          <!-- 詳解折疊面板 -->
+          ${explanationHTML}
+        </div>
+      `;
+    }
+
+    // 第參部分、非選擇題（中譯英 & 英文作文）完整詳解 HTML
+    function renderWritingSectionHTML() {
+      return `
+        <div class="space-y-6">
+          <!-- 一、中譯英 -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">第參部分、非選擇題</span>
+                <h3 class="font-bold text-lg text-slate-900 mt-1">一、中譯英（占 8 分，每題 4 分）</h3>
+              </div>
+              <span class="text-xs text-slate-500">評分標準：每個錯誤扣 0.5 分，扣完為止</span>
+            </div>
+
+            <div class="space-y-4">
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                <div class="font-bold text-slate-800 text-sm">1. 曾在外語教學中佔有重要地位的文法，如今已不再受到多數學習者的重視。</div>
+                <div class="p-3 bg-white rounded-lg border border-emerald-200 text-sm font-mono text-emerald-950">
+                  Grammar, <span class="underline decoration-indigo-500">which (once) played an important role/part</span> in foreign language teaching, <span class="underline decoration-emerald-500">is no longer valued / emphasized by</span> most language learners now.
+                </div>
+                <div class="text-xs text-slate-600 leading-relaxed">
+                  <strong>考點與替換解析：</strong>
+                  ① 非限定關係子句修飾 Grammar：<code>which once played an important role in...</code> 或 <code>which used to play an important part in...</code>。<br>
+                  ② 「不再受到…重視」：<code>is no longer valued / emphasized / considered important by...</code> 或主動用法 <code>no longer receives much attention from the majority of language learners now</code>。
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+                <div class="font-bold text-slate-800 text-sm">2. 事實上，能正確使用文法確實可以幫助我們有效溝通並避免不必要的誤解。</div>
+                <div class="p-3 bg-white rounded-lg border border-emerald-200 text-sm font-mono text-emerald-950">
+                  <span class="underline decoration-indigo-500">In fact</span>, <span class="underline decoration-amber-500">being able to use grammar correctly</span> can <span class="underline decoration-emerald-500">indeed</span> help us (to) communicate effectively and avoid unnecessary misunderstandings.
+                </div>
+                <div class="text-xs text-slate-600 leading-relaxed">
+                  <strong>考點與替換解析：</strong>
+                  ① 「事實上」：<code>In fact</code> / <code>As a matter of fact</code> / <code>Actually</code>。<br>
+                  ② 動名詞片語作主詞：「能正確使用文法」譯為 <code>being able to use grammar correctly / accurately</code>。<br>
+                  ③ 「確實可以幫助」：<code>can indeed / truly / certainly help us...</code>；「避免不必要的誤解」：<code>avoid / prevent unnecessary / needless misunderstandings</code>。
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 二、英文作文 -->
+          <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div class="border-b border-slate-200 pb-3 mb-4">
+              <span class="text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-100 text-indigo-800">看圖寫作與經驗論述</span>
+              <h3 class="font-bold text-lg text-slate-900 mt-1">二、英文作文（占 20 分）— 個人報告（圖 A）vs. 小組報告（圖 B）</h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1">提示要求：第一段描述並比較圖 A（獨自查資料並一人上台報告）與圖 B（小組討論分工並共同上台報告）各自的優點與挑戰；第二段根據個人經驗說明哪一種最有幫助並解釋原因。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- 範文一：偏好小組報告 -->
+              <div class="p-4 rounded-xl bg-indigo-50/50 border border-indigo-200 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm text-indigo-900"><i class="fa-solid fa-users mr-1.5"></i>滿分範文（一）：立場選擇「小組報告 (Group Presentation)」</span>
+                  <button onclick="speakSentence(document.getElementById('essay-1').innerText)" class="px-2 py-0.5 rounded bg-indigo-600 text-white text-xs no-print"><i class="fa-solid fa-volume-high mr-1"></i>朗讀範文</button>
+                </div>
+                <div id="essay-1" class="text-xs sm:text-sm text-slate-800 leading-relaxed space-y-2 bg-white p-3.5 rounded-lg border border-indigo-100">
+                  <p>${tokenizeText("Students are given many opportunities to make presentations in school, and the ways they do so can be quite different. In Picture A, a student prepares and delivers a presentation individually. She studies the topic, organizes the materials, and speaks in front of the class on her own. This type of presentation helps students become more independent and responsible because they must complete every stage of the task by themselves. It also strengthens research and public-speaking skills. However, it can be stressful since all the pressure falls on one person. In contrast, Picture B shows a group presentation. Several students work together, discuss ideas, and share the responsibility of preparing and presenting. This format allows students to learn teamwork and communication skills while benefiting from one another's strengths. On the other hand, group members may sometimes disagree on ideas or contribute unequally, making cooperation a challenge.")}</p>
+                  <p>${tokenizeText("Among these two forms of presentation, group presentations have been the most helpful to me. Last year, my classmates and I were assigned to give a presentation on renewable energy. At first, I thought the task would be easy, but I soon realized that working with others required patience and effective communication. We divided the work according to our strengths, held several discussions after school, and helped one another improve our parts. During the process, I learned how to express my opinions clearly, listen to different viewpoints, and solve problems through cooperation. Although individual presentations can improve confidence and independence, group presentations have taught me skills that are difficult to learn alone. Since teamwork is essential in both university and future careers, I believe that group presentations have contributed the most to my personal growth and learning.")}</p>
+                </div>
+              </div>
+
+              <!-- 範文二：偏好個人報告 -->
+              <div class="p-4 rounded-xl bg-amber-50/50 border border-amber-200 space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="font-bold text-sm text-amber-900"><i class="fa-solid fa-user-check mr-1.5"></i>滿分範文（二）：立場選擇「個人報告 (Solo Presentation)」</span>
+                  <button onclick="speakSentence(document.getElementById('essay-2').innerText)" class="px-2 py-0.5 rounded bg-amber-600 text-white text-xs no-print"><i class="fa-solid fa-volume-high mr-1"></i>朗讀範文</button>
+                </div>
+                <div id="essay-2" class="text-xs sm:text-sm text-slate-800 leading-relaxed space-y-2 bg-white p-3.5 rounded-lg border border-amber-100">
+                  <p>${tokenizeText("In school, the ability to present one's ideas clearly and confidently is regarded as one of the most essential skills a student can develop. The two pictures illustrate contrasting forms of student presentations commonly seen in school settings. In Picture A, a single student stands before a projected screen, delivering a report independently to her seated classmates. Picture B, however, depicts a more collaborative scenario: students work together at a table during the preparation stage, and later a group of them jointly presents to an audience. These two formats each carry distinct advantages and challenges. A solo presentation demands that the speaker master all aspects of the content alone, which cultivates strong self-discipline, independent research ability, and the confidence to hold an audience's attention without support. The drawback, however, is that the entire burden falls on one person, making anxiety difficult to manage. Group presentations, by contrast, allow members to divide responsibilities and rely on one another, reducing individual stress and encouraging teamwork. The challenge, though, lies in coordinating schedules, reconciling conflicting ideas, and ensuring equal contribution from every member.")}</p>
+                  <p>${tokenizeText("Based on my own experience, I find solo presentations more helpful for my personal growth. In my junior year, I was assigned an individual report on climate change for my geography class. Because there was no one else to fall back on, I was forced to research extensively, organize my arguments carefully, and rehearse my delivery repeatedly until I felt truly prepared. The process was demanding, yet it taught me something no group project ever had: that I was capable of standing alone and speaking with conviction. Each time I successfully completed a solo presentation, my self-confidence grew noticeably. For me, it is precisely this kind of independent challenge that transforms a nervous student into a composed and articulate speaker.")}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 7. 互動邏輯：作答、切換模式、導覽列、字典與語音
+    // ==========================================
+    function switchPassageIfNeeded(passageKey) {
+      if (passageKey && passageKey !== activePassageKey) {
+        renderPassage(passageKey);
+      }
+    }
+
+    function answerQuestion(qId, optKey, passageKey) {
+      if (currentMode === 'exam' && examSubmitted) return;
+      userState.answers[qId] = optKey;
+      if (currentMode === 'practice') {
+        userState.revealed[qId] = true;
+        // 若答錯自動加入錯題本收藏
+        const q = QUESTIONS.find(x => x.id === qId);
+        if (q && optKey !== q.ans && !userState.bookmarks.includes(qId)) {
+          userState.bookmarks.push(qId);
+        }
+      }
+      saveState();
+      switchPassageIfNeeded(passageKey);
+      renderQuestions();
+    }
+
+    function submitTextAnswer(qId, passageKey) {
+      const input = document.getElementById(`input-q-${qId}`);
+      if (!input) return;
+      const val = input.value.trim();
+      if (!val) return;
+      userState.answers[qId] = val;
+      if (currentMode === 'practice') {
+        userState.revealed[qId] = true;
+      }
+      saveState();
+      switchPassageIfNeeded(passageKey);
+      renderQuestions();
+    }
+
+    function toggleMultiOption(qId, optKey, passageKey) {
+      let cur = userState.answers[qId] ? userState.answers[qId].split('') : [];
+      if (cur.includes(optKey)) {
+        cur = cur.filter(k => k !== optKey);
+      } else {
+        cur.push(optKey);
+      }
+      userState.answers[qId] = cur.sort().join('');
+      if (currentMode === 'practice' && cur.length >= 3) {
+        userState.revealed[qId] = true;
+      }
+      saveState();
+      switchPassageIfNeeded(passageKey);
+      renderQuestions();
+    }
+
+    function toggleExplanation(qId, passageKey) {
+      userState.revealed[qId] = !userState.revealed[qId];
+      saveState();
+      switchPassageIfNeeded(passageKey);
+      renderQuestions();
+    }
+
+    function toggleBookmark(qId) {
+      const idx = userState.bookmarks.indexOf(qId);
+      if (idx > -1) {
+        userState.bookmarks.splice(idx, 1);
+      } else {
+        userState.bookmarks.push(qId);
+      }
+      saveState();
+      renderQuestions();
+    }
+
+    function saveNote(qId, val) {
+      userState.notes[qId] = val;
+      saveState();
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      examSubmitted = false;
+      ['practice', 'exam', 'review'].forEach(m => {
+        const btn = document.getElementById(`mode-${m}`);
+        if (m === mode) {
+          btn.className = "px-3 py-1.5 rounded-md font-medium transition bg-indigo-600 text-white";
+        } else {
+          btn.className = "px-3 py-1.5 rounded-md font-medium transition text-slate-300 hover:text-white";
+        }
+      });
+      const submitBtn = document.getElementById('submit-exam-btn');
+      if (mode === 'exam') {
+        submitBtn.classList.remove('hidden');
+      } else {
+        submitBtn.classList.add('hidden');
+      }
+      renderQuestions();
+      renderNavGrid();
+    }
+
+    function submitExam() {
+      examSubmitted = true;
+      openModal('analyticsModal');
+      renderQuestions();
+      renderNavGrid();
+    }
+
+    function selectSection(sec) {
+      currentSection = sec;
+      document.querySelectorAll('.sec-tab').forEach(btn => {
+        if (btn.dataset.sec === sec) {
+          btn.className = "sec-tab px-3 py-1 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 font-medium whitespace-nowrap";
+        } else {
+          btn.className = "sec-tab px-3 py-1 rounded hover:bg-slate-700 text-slate-300 whitespace-nowrap";
+        }
+      });
+      renderQuestions();
+    }
+
+    function applyFilters() {
+      renderQuestions();
+    }
+
+    // 渲染左側 1-50 題號導覽列
+    function renderNavGrid() {
+      const container = document.getElementById('nav-grid-container');
+      const groups = [
+        { label: "一、詞彙題 (1-10)", range: [1, 10] },
+        { label: "二、綜合測驗 (11-20)", range: [11, 20] },
+        { label: "三、文意選填 (21-30)", range: [21, 30] },
+        { label: "四、篇章結構 (31-34)", range: [31, 34] },
+        { label: "五、閱讀測驗 (35-46)", range: [35, 46] },
+        { label: "第貳部分、混合題 (47-50)", range: [47, 50] }
+      ];
+
+      container.innerHTML = groups.map(g => {
+        let btns = '';
+        for (let i = g.range[0]; i <= g.range[1]; i++) {
+          const q = QUESTIONS.find(x => x.id === i);
+          const ans = userState.answers[i];
+          const bookmarked = userState.bookmarks.includes(i);
+          let colorClass = 'bg-slate-100 text-slate-700 hover:bg-indigo-100';
+
+          if (ans) {
+            if (currentMode === 'exam' && !examSubmitted) {
+              colorClass = 'bg-indigo-600 text-white';
+            } else {
+              const correct = q.type === 'text'
+                ? ans.trim().toLowerCase() === q.ans.toLowerCase()
+                : ans === q.ans;
+              colorClass = correct ? 'bg-emerald-500 text-white' : 'bg-rose-500 text-white';
+            }
+          }
+          const ringClass = bookmarked ? 'ring-2 ring-amber-400 ring-offset-1' : '';
+
+          btns += `
+            <button onclick="jumpToQuestion(${i})" class="h-8 rounded-lg font-bold text-xs transition ${colorClass} ${ringClass}">
+              ${i}
+            </button>
+          `;
+        }
+        return `
+          <div>
+            <div class="text-[11px] font-semibold text-slate-500 mb-1.5">${g.label}</div>
+            <div class="grid grid-cols-5 gap-1.5">${btns}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function jumpToQuestion(qId) {
+      const q = QUESTIONS.find(x => x.id === qId);
+      if (!q) return;
+      if (currentSection !== 'all' && currentSection !== q.sec) {
+        selectSection('all');
+      }
+      renderPassage(q.passageKey, q.evidenceId || null);
+      setTimeout(() => {
+        const card = document.getElementById(`question-card-${qId}`);
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 60);
+    }
+
+    function toggleSidebar() {
+      const sb = document.getElementById('quiz-nav-sidebar');
+      const openBtn = document.getElementById('sidebar-open-btn');
+      if (sb.classList.contains('hidden')) {
+        sb.classList.remove('hidden');
+        openBtn.classList.add('hidden');
+      } else {
+        sb.classList.add('hidden');
+        openBtn.classList.remove('hidden');
+      }
+    }
+
+    // 點擊查單字與語音合成 (Web Speech API)
+    function lookupWord(event, rawWord) {
+      event.stopPropagation();
+      const clean = rawWord.toLowerCase().replace(/[^a-z-]/g, '');
+      const pop = document.getElementById('dict-popover');
+      
+      // 搜尋內建詞庫或字根比對
+      let entry = DICT_DB[clean] || DICT_DB[clean.replace(/s$|ed$|ing$/, '')];
+      
+      // 若不在核心大詞庫，從所有題目的 vocab 中搜尋
+      if (!entry) {
+        for (const q of QUESTIONS) {
+          if (q.vocab) {
+            const found = q.vocab.find(v => v.word.toLowerCase() === clean || v.word.toLowerCase().startsWith(clean));
+            if (found) {
+              entry = { kk: found.kk, pos: found.pos, def: found.zh, extra: found.collocation };
+              break;
+            }
+          }
+        }
+      }
+
+      document.getElementById('dict-word').innerText = rawWord;
+      if (entry) {
+        document.getElementById('dict-pos').innerText = entry.pos;
+        document.getElementById('dict-kk').innerText = entry.kk;
+        document.getElementById('dict-def').innerText = entry.def;
+        document.getElementById('dict-extra').innerText = entry.extra;
+      } else {
+        document.getElementById('dict-pos').innerText = 'Word';
+        document.getElementById('dict-kk').innerText = '點擊喇叭圖示聽取發音';
+        document.getElementById('dict-def').innerText = '高中學測核心實詞，可結合段落雙語中譯對照理解上下文語意。';
+        document.getElementById('dict-extra').innerText = '支援即時英語語音合成朗讀';
+      }
+
+      const x = Math.min(event.clientX, window.innerWidth - 300);
+      const y = Math.min(event.clientY + 14, window.innerHeight - 190);
+      pop.style.left = `${Math.max(12, x)}px`;
+      pop.style.top = `${Math.max(12, y)}px`;
+      pop.classList.remove('hidden');
+      speakWord(rawWord);
+    }
+
+    function closeDict() {
+      document.getElementById('dict-popover').classList.add('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+      const pop = document.getElementById('dict-popover');
+      if (!pop.contains(e.target) && !e.target.classList.contains('word-token')) {
+        closeDict();
+      }
+    });
+
+    function speakWord(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.92;
+      window.speechSynthesis.speak(u);
+    }
+
+    function speakSentence(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.95;
+      window.speechSynthesis.speak(u);
+    }
+
+    // 螢光筆劃重點功能 (Highlighting)
+    function toggleHighlighter() {
+      highlighterActive = !highlighterActive;
+      const btn = document.getElementById('btn-highlighter');
+      if (highlighterActive) {
+        btn.className = "px-2.5 py-1.5 rounded-lg bg-emerald-600 text-white border border-emerald-500 flex items-center gap-1.5 transition";
+        btn.innerHTML = `<i class="fa-solid fa-highlighter"></i><span class="hidden md:inline">螢光筆: 開啟中</span>`;
+      } else {
+        btn.className = "px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 flex items-center gap-1.5 transition";
+        btn.innerHTML = `<i class="fa-solid fa-highlighter text-emerald-400"></i><span class="hidden md:inline">螢光筆: 關閉</span>`;
+      }
+    }
+
+    document.addEventListener('mouseup', () => {
+      if (!highlighterActive) return;
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed || sel.toString().trim().length < 2) return;
+      try {
+        const range = sel.getRangeAt(0);
+        const mark = document.createElement('mark');
+        mark.className = 'user-mark';
+        mark.title = '點擊可取消螢光筆標記';
+        mark.onclick = function(e) {
+          e.stopPropagation();
+          const parent = this.parentNode;
+          while (this.firstChild) parent.insertBefore(this.firstChild, this);
+          parent.removeChild(this);
+        };
+        range.surroundContents(mark);
+        sel.removeAllRanges();
+      } catch (err) {
+        // 跨節點選取時忽略
+      }
+    });
+
+    // ==========================================
+    // 8. 錯題本、學習統計儀表板與友善列印
+    // ==========================================
+    function openModal(id) {
+      if (id === 'bookmarksModal') renderBookmarksModal();
+      if (id === 'analyticsModal') renderAnalyticsModal();
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function renderBookmarksModal() {
+      const container = document.getElementById('bookmarks-list');
+      if (userState.bookmarks.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-500">
+            <i class="fa-regular fa-bookmark text-4xl mb-3 text-slate-300"></i>
+            <p>目前還沒有收藏或錯題紀錄。在題目右上角點擊「收藏」或刷題答錯時會自動歸入此處！</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = userState.bookmarks.sort((a,b) => a - b).map(qId => {
+        const q = QUESTIONS.find(x => x.id === qId);
+        return `
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded bg-slate-900 text-white text-xs font-bold">第 ${q.id} 題</span>
+                <span class="text-xs font-semibold text-indigo-700">${q.tag}</span>
+                <span class="text-xs text-emerald-700 font-bold">正答：${q.ans}</span>
+              </div>
+              <p class="text-sm text-slate-800 font-medium">${q.stem}</p>
+              <p class="text-xs text-slate-500">${q.stemZh}</p>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <button onclick="closeModal('bookmarksModal'); jumpToQuestion(${q.id})" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-medium">前往複習</button>
+              <button onclick="toggleBookmark(${q.id}); renderBookmarksModal()" class="px-2.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 hover:bg-rose-50 hover:text-rose-600 text-xs">移除</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAnalyticsModal() {
+      const container = document.getElementById('analytics-content');
+      const secStats = [
+        { key: 'vocab', name: '一、詞彙題 (1-10)', total: 10, ptsPerQ: 1 },
+        { key: 'cloze', name: '二、綜合測驗 (11-20)', total: 10, ptsPerQ: 1 },
+        { key: 'fill', name: '三、文意選填 (21-30)', total: 10, ptsPerQ: 1 },
+        { key: 'structure', name: '四、篇章結構 (31-34)', total: 4, ptsPerQ: 2 },
+        { key: 'reading', name: '五、閱讀測驗 (35-46)', total: 12, ptsPerQ: 2 },
+        { key: 'mixed', name: '第貳部分、混合題 (47-50)', total: 4, ptsPerQ: 2.5 }
+      ];
+
+      let totalAnswered = 0;
+      let totalCorrect = 0;
+      let totalScore = 0;
+
+      const rowsHTML = secStats.map(s => {
+        const qs = QUESTIONS.filter(q => q.sec === s.key);
+        let ansCount = 0;
+        let corCount = 0;
+        qs.forEach(q => {
+          const u = userState.answers[q.id];
+          if (u) {
+            ansCount++;
+            totalAnswered++;
+            const isC = q.type === 'text' ? u.trim().toLowerCase() === q.ans.toLowerCase() : u === q.ans;
+            if (isC) {
+              corCount++;
+              totalCorrect++;
+              totalScore += (q.id === 49 ? 4 : (q.id >= 47 ? 2 : s.ptsPerQ));
+            }
+          }
+        });
+        const rate = ansCount > 0 ? Math.round((corCount / qs.length) * 100) : 0;
+        return `
+          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+            <div class="flex items-center justify-between text-sm font-bold text-slate-800 mb-1.5">
+              <span>${s.name}</span>
+              <span class="text-indigo-600">答對 ${corCount} / ${qs.length} 題 (${rate}%)</span>
+            </div>
+            <div class="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+              <div class="h-full bg-indigo-600 transition-all" style="width: ${rate}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const overallAccuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+
+      container.innerHTML = `
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-200 text-center">
+            <div class="text-xs font-bold text-indigo-600 uppercase">目前已作答題數</div>
+            <div class="text-3xl font-extrabold text-indigo-950 mt-1">${totalAnswered} <span class="text-base font-normal text-slate-500">/ 50 題</span></div>
+          </div>
+          <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-center">
+            <div class="text-xs font-bold text-emerald-600 uppercase">已作答正確率</div>
+            <div class="text-3xl font-extrabold text-emerald-950 mt-1">${overallAccuracy}%</div>
+          </div>
+          <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-center">
+            <div class="text-xs font-bold text-amber-700 uppercase">選擇＋混合題累計得分</div>
+            <div class="text-3xl font-extrabold text-amber-950 mt-1">${totalScore} <span class="text-base font-normal text-slate-500">/ 72 分</span></div>
+          </div>
+        </div>
+        <h4 class="font-bold text-sm text-slate-700 mb-3">各大題型得分率診斷分析：</h4>
+        <div class="space-y-3 mb-6">${rowsHTML}</div>
+        <div class="flex justify-end">
+          <button onclick="resetAllProgress()" class="px-4 py-2 rounded-xl border border-rose-300 text-rose-600 hover:bg-rose-50 text-xs font-bold transition">
+            <i class="fa-solid fa-rotate-left mr-1"></i>清空所有作答紀錄重新練習
+          </button>
+        </div>
+      `;
+    }
+
+    function resetAllProgress() {
+      userState.answers = {};
+      userState.revealed = {};
+      saveState();
+      renderAnalyticsModal();
+      renderQuestions();
+    }
+
+    function executePrint(type) {
+      closeModal('printModal');
+      if (type === 'blank') {
+        setMode('exam');
+      } else {
+        setMode('review');
+      }
+      selectSection('all');
+      setTimeout(() => {
+        window.print();
+      }, 300);
+    }
+
+    // 初始化啟動
+    window.addEventListener('DOMContentLoaded', () => {
+      updateBookmarkBadge();
+      renderNavGrid();
+      renderPassage('vocab');
+      renderQuestions();
+    });
+  </script>
+</body></html>
